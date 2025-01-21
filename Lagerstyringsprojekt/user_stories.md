@@ -40,6 +40,10 @@ As a user, I need to be able to update my profile information to ensure its accu
 As a user, I need to be able to book equipment via the website. 
 
  ### Acceptance criteria
+ * User is able to access the device page and enter DeviceType they need
+ * User has access to input fields containing relevant information: startDate and endDate
+ * User is able to see a list of available devices
+ * User is able to pick one and send Book Request, waiting for confirmation from an Admin
 
 ## Story - Send Extend Request
 
@@ -161,5 +165,5 @@ As a user, I need to be able to send request to extend a current borrow.
 
  * Admin is able to access Activity admin page
  * Admin is able to create a Borrow Activity(stating date is now) without needing a Confirmation
- * Admin is able to enter info: lenders's username and return date, the POST to db
+ * Admin is able to enter info: lenders's username and return date, then POST to db
    
