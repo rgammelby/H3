@@ -14,7 +14,7 @@ Vi har endnu ikke bestemt et framework for projektets frontend. Vi har flere for
 
 # Databasen
 
-Vi har arbejdet sammen om at skitsere og reviewe et databasedesign. Hvorvidt vi skriver i MSSQL eller MySQL er endnu ikke bestemt.
+Vi har arbejdet sammen om at skitsere og reviewe et [databasedesign](https://github.com/rgammelby/H3/blob/sascha-lagerstyring/Lagerstyringsprojekt/db.md). Hvorvidt vi skriver i MSSQL eller MySQL er endnu ikke bestemt.
 
 Databasen vil indeholde en del triggers, som skriver logs til den samlede logtabel. Derudover har vi planlagt en større mængde Stored Procedures, som vil stå for samtlige processer. 
 
