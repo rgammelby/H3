@@ -25,3 +25,9 @@ Der vil blive udarbejdet et ERD diagram til databasen.
 # Server
 
 Vi opsætter ikke en fysisk server, så vores projekt vil blive hostet på en eller flere af vores personlige maskiner. 
+
+# Basic Site Functionality
+
+Vi har udarbejdet en række User Stories m. Acceptance Criteria for at fastslå nødvendig funktionalitet for hjemmesiden.
+
+Du kan læse vores User Stories [hér](https://github.com/rgammelby/H3/blob/sascha-lagerstyring/Lagerstyringsprojekt/user_stories.md).
