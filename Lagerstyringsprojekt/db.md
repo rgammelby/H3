@@ -8,37 +8,38 @@ Dette er et overblik over vores nuværende databaseskitse. Alle er velkomne til 
 
 DeviceType-tabellen dækker over specifikke typer af devices. Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
 
-|id|name|type|qty|image|lifecycle_id|booking_id
-|---|---|---|---|---|---|---|
-|#seq|ThinkVision 9000|monitor|#|base64|asdf|fdsqa|
+|id|name|type|qty|image|
+|---|---|---|---|---|
+|#seq|ThinkVision 9000|monitor|#|base64|
 
 ### SingleDevice
 
 SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der findes 3 stk. Lenovo Whatever keyboards, vil hver af dem have en entry i denne tabel. Deres `type` kalder ud til DeviceType-tabellen. Deres `location` kalder ud til den samlede `Location`-tabel. `lifecycle`- og `booking`-ID'erne er unikke for hvert enkelte enhed.
 
-|id|type|status|location|qr|image|lending_period|activity|
-|---|---|---|---|---|---|---|---|
-|#seq|device_type_id|status_type_id|location_id|idk|image_id|1 week from current date?|active/inactive|
+|id|name|type|description|status|location|qr|image|activity|
+|---|---|---|---|---|---|---|---|---|
+|#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|image_id|active/inactive|  
 
 # StatusType
 
 |id|status_type|
 |---|---|
-|#seq|Loaned|
-||Available|
+|#seq|Available|
 ||Reserved|
-||Processing|
 ||Not returned|
 ||Borrowed|
+||Unavailable|
+||Archived|
 
-# Activity
-|id|activity|
-|---|---|
-|#seq|Book|
-||Borrow|
-||Return|
-||Extend|
-||Cancel|
+# ActivityType
+
+|id|device_id|activity_type|start_date|end_date|created_at|notes|lifecycle_id|booking_id|
+|---|---|---|---|---|---|---|---|---|
+|#seq|Book||||||||
+||Borrow||||||||
+||Return||||||||
+||Extend||||||||
+||Cancel||||||||
 
 ### User
 
