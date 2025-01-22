@@ -16,9 +16,9 @@ DeviceType-tabellen dækker over specifikke typer af devices. Den vil indeholde 
 
 SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der findes 3 stk. Lenovo Whatever keyboards, vil hver af dem have en entry i denne tabel. Deres `type` kalder ud til DeviceType-tabellen. Deres `location` kalder ud til den samlede `Location`-tabel. `lifecycle`- og `booking`-ID'erne er unikke for hvert enkelte enhed.
 
-|id|name|type|description|status|location|qr|image|activity|
-|---|---|---|---|---|---|---|---|---|
-|#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|image_id|active/inactive|  
+|id|name|type|description|status|location|qr|
+|---|---|---|---|---|---|---|
+|#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|  
 
 # StatusType
 
@@ -31,15 +31,23 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 ||Unavailable|
 ||Archived|
 
-# ActivityType
+## ActivityHistory
 
 |id|device_id|activity_type|start_date|end_date|created_at|notes|lifecycle_id|booking_id|
 |---|---|---|---|---|---|---|---|---|
-|#seq|Book||||||||
-||Borrow||||||||
-||Return||||||||
-||Extend||||||||
-||Cancel||||||||
+|#seq|213|1|i dag|om en uge|22-01-2025 09:15|Booket til afhentning i dag|li-cy-123|b-1234|
+
+## ActivityType
+
+|id|activity_type|
+|---|---|
+|1|Book|
+||Borrow|
+||Return|
+||Extend|
+||Cancel|
+
+
 
 ### User
 
