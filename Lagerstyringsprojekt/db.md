@@ -16,9 +16,9 @@ DeviceType-tabellen dækker over specifikke typer af devices. Den vil indeholde 
 
 SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der findes 3 stk. Lenovo Whatever keyboards, vil hver af dem have en entry i denne tabel. Deres `type` kalder ud til DeviceType-tabellen. Deres `location` kalder ud til den samlede `Location`-tabel. `lifecycle`- og `booking`-ID'erne er unikke for hvert enkelte enhed.
 
-|id|type|status|location|qr|image|lending_period|
-|---|---|---|---|---|---|---|
-|#seq|device_type_id|status_type_id|location_id|idk|image_id|1 week from current date?|
+|id|type|status|location|qr|image|lending_period|activity|
+|---|---|---|---|---|---|---|---|
+|#seq|device_type_id|status_type_id|location_id|idk|image_id|1 week from current date?|active/inactive|
 
 # StatusType
 
@@ -40,13 +40,13 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 ||Extend|
 ||Cancel|
 
-### Lender
+### User
 
-Lender-tabellen er en oversigt over brugere i systemet, som har mulighed for at booke/låne devices. 
+User-tabellen er en oversigt over brugere i systemet, som har mulighed for at booke/låne devices. 
 
-|id|first_name|last_name|email|telephone|
-|---|---|---|---|---|
-|#seq|anne|petersen|ap@mail.dk|1234 5678|
+|id|first_name|last_name|email|telephone|activity|type|
+|---|---|---|---|---|---|---|
+|#seq|anne|petersen|ap@mail.dk|1234 5678|active/inactive|user/admin|
 
 ### SingleDeviceLender
 
