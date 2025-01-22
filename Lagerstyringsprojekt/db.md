@@ -47,7 +47,11 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 ||Extend|
 ||Cancel|
 
+OVERVEJ: Om vi skal introducere nye ActivityTypes;
+* Extend Overdue;
+* Return Overdue.
 
+Extend ActivityType.end_date
 
 ### User
 
