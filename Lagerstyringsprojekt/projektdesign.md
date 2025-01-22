@@ -31,3 +31,5 @@ Vi opsætter ikke en fysisk server, så vores projekt vil blive hostet på en el
 Vi har udarbejdet en række User Stories m. Acceptance Criteria for at fastslå nødvendig funktionalitet for hjemmesiden.
 
 Du kan læse vores User Stories [hér](https://github.com/rgammelby/H3/blob/sascha-lagerstyring/Lagerstyringsprojekt/user_stories.md).
+
+Hér er også en oversigt over de [endpoints](https://github.com/rgammelby/H3/blob/sascha-lagerstyring/Lagerstyringsprojekt/endpoints.md), vi regner med at have brug for på siden.
