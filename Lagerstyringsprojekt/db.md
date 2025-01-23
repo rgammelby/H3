@@ -4,13 +4,14 @@ Dette er et overblik over vores nuværende databaseskitse. Alle er velkomne til 
 
 ## Tabeller
 
-### DeviceType
+### DeviceOverview
 
-DeviceType-tabellen dækker over specifikke typer af devices. Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
+DeviceOverview-tabellen dækker over alle typer af devices og dynamicaly opdaterer device antal ved hjælpe af triggers (after e.g. BorrowActivity and ReturnActivity, or DeviceStatus changed to Archived)
+Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
 
-|id|name|type|qty|image|
-|---|---|---|---|---|
-|#seq|ThinkVision 9000|monitor|#|base64|
+|id|deviceType|model|availableCount|totalCount|admin|image|lastOrdered|
+|---|---|---|---|---|---|---|---|
+|#seq|3|ThinkVision 9000|42|90|admin1|base64|25/1/2025|
 
 ### SingleDevice
 
@@ -19,6 +20,23 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 |id|name|type|description|status|location|qr|
 |---|---|---|---|---|---|---|
 |#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|  
+
+## DeviceType
+
+**|id|typeName|**
+|---|---|
+|#seq|laptop|
+||desktop|
+||microfon set|
+||monitor|
+||server|
+||router|
+||switch|
+||webCam|
+||headset|
+||keyboard|
+||mousse|
+||...|
 
 # StatusType
 
@@ -88,6 +106,23 @@ Location-tabellen er en tabel som samler rum- og skabsdesigneringer.
 
 |id|room_id|cupboard_id|
 |---|---|---|
+
+
+## RequestType
+
+|id|request_type|
+|---|---|
+|0|Pending|
+||Approved|
+||Denied|
+
+### Request
+
+Request-tabellen indeholder alle user requests, der kræver admin godkendelse (Book, Extend)
+? more info needed for single request? For create  Book or Extend Activity?
+
+|id|request_type|userId|deviceId|adminID|startDate|endDate|createdAt|
+|---|---|---|---|---|---|---|---|
 
 ### Log
 
