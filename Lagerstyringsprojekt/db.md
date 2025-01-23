@@ -64,6 +64,7 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 ||Return|
 ||Extend|
 ||Cancel|
+||Delay|
 
 OVERVEJ: Om vi skal introducere nye ActivityTypes;
 * Extend Overdue;
