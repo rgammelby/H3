@@ -123,7 +123,7 @@ Request-tabellen indeholder alle user requests, der kræver admin godkendelse (B
 
 |id|request_status|request_type|userId|deviceId|adminID|startDate|endDate|createdAt|
 |---|---|---|---|---|---|---|---|---|
-|123|1|book/extend|456|545|1|25/1-2025|6/2-2025|23/1-2025|
+|123|1|book/extend|456|545|-|25/1-2025|6/2-2025|23/1-2025|
 
 ### Log
 
