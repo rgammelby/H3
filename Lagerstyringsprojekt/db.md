@@ -108,9 +108,9 @@ Location-tabellen er en tabel som samler rum- og skabsdesigneringer.
 |---|---|---|
 
 
-## RequestType
+## RequestStatus
 
-|id|request_type|
+|id|request_status|
 |---|---|
 |0|Pending|
 ||Approved|
@@ -121,8 +121,9 @@ Location-tabellen er en tabel som samler rum- og skabsdesigneringer.
 Request-tabellen indeholder alle user requests, der kræver admin godkendelse (Book, Extend)
 ? more info needed for single request? For create  Book or Extend Activity?
 
-|id|request_type|userId|deviceId|adminID|startDate|endDate|createdAt|
-|---|---|---|---|---|---|---|---|
+|id|request_status|request_type|userId|deviceId|adminID|startDate|endDate|createdAt|
+|---|---|---|---|---|---|---|---|---|
+|123|1|book/extend|456|545|1|25/1-2025|6/2-2025|23/1-2025|
 
 ### Log
 
