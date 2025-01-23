@@ -23,7 +23,7 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 
 ## DeviceType
 
-**|id|typeName|**
+|id|typeName|
 |---|---|
 |#seq|laptop|
 ||desktop|
