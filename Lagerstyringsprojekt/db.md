@@ -76,7 +76,7 @@ Extend ActivityType.end_date
 
 User-tabellen er en oversigt over brugere i systemet, som har mulighed for at booke/låne devices. 
 
-|id|first_name|last_name|email|telephone|activity|type|
+|id|first_name|last_name|email|telephone|is_active|type|
 |---|---|---|---|---|---|---|
 |#seq|anne|petersen|ap@mail.dk|1234 5678|active/inactive|user/admin|
 
