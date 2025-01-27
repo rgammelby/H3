@@ -262,15 +262,10 @@ CREATE PROCEDURE CreateActivity
     @start_date DATETIME,
     @end_date DATETIME,
     @created_on DATETIME,
-    @notes VARCHAR(MAX)    
+    @notes VARCHAR(MAX),
+	@lifecycle_id VARCHAR(MAX)
 AS
 BEGIN
-    -- Declare variables
-    DECLARE @lifecycle_id INT;
-
-    -- Assign lifecycle_id using a function
-    SET @lifecycle_id = GenerateLifecycleId();
-
     -- Insert logic
     INSERT INTO Activity (
         device_id,
@@ -294,25 +289,7 @@ END;
 GO
 -- PROCEDURE END
 
-
--- Drops the procedure if it already exists
-IF OBJECT_ID('GetActivityByLifecycleAndDeviceID', 'P') IS NOT NULL
-    DROP PROCEDURE GetActivityByLifecycleAndDeviceID;
-GO
-
--- Creates the procedure
-CREATE PROCEDURE GetActivityByLifecycleAndDeviceID
-	@lifecycle_id INT,
-    @device_id INT
-AS
-BEGIN
-    -- Retrieves all entries from the ActivityHistory table
-    SELECT * FROM Activity
-    WHERE lifecycle_id = @lifecycle_id
-    AND device_id = @device_id;
-END;
-GO
-
+-- PROCEDURE BEGIN
 -- Drops the procedure if it already exists
 IF OBJECT_ID('GetAllActivities', 'P') IS NOT NULL
     DROP PROCEDURE GetAllActivities;
@@ -326,6 +303,7 @@ BEGIN
     SELECT * FROM Activity;
 END;
 GO
+-- PROCEDURE END
 
 -- PROCEDURE BEGIN
 -- Drops the procedure if it already exists
@@ -382,12 +360,12 @@ GO
 
 -- PROCEDURE BEGIN
 -- Drops the procedure if it already exists
-IF OBJECT_ID('CreateDeviceType', 'P') IS NOT NULL
-    DROP PROCEDURE CreateDeviceType;
+IF OBJECT_ID('CreateDevice', 'P') IS NOT NULL
+    DROP PROCEDURE CreateDevice;
 GO
 
 -- Creates the procedure
-CREATE PROCEDURE CreateDeviceType
+CREATE PROCEDURE CreateDevice
 	-- @parameter type
 	@device_name VARCHAR(256),
 	@device_type VARCHAR(64),
@@ -431,6 +409,29 @@ END;
 GO
 -- PROCEDEURE END
 
+-- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('CreateDeviceType', 'P') IS NOT NULL
+    DROP PROCEDURE CreateDeviceType;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE CreateDeviceType
+	-- @parameter type
+	@device_type VARCHAR(64)
+AS
+BEGIN
+    -- Logic
+	INSERT INTO Device(
+		name
+	)
+	VALUES(
+		device_type
+	);
+END;
+GO
+-- PROCEDEURE END
+
 -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE  
 
 -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE 
@@ -464,7 +465,7 @@ BEGIN
         @created_on = created_on,
         @notes = notes
     FROM 
-        GetActivityByLifecycleAndDeviceID(@lifecycle_id, @device_id);
+        GetLifecycle(@lifecycle_id);
 
     -- Update the end_date and activity_type
     SET @end_date = DATEADD(WEEK, 1, @end_date); -- Add 1 week to end_date
@@ -482,20 +483,35 @@ GO
 -- PROCEDURE END
 
 -- PROCEDURE BEGIN
+-- hvis vi har activity status i en separat UserActivity table
 -- Drops the procedure if it already exists
-IF OBJECT_ID('DeleteSingleDevice', 'P') IS NOT NULL
-    DROP PROCEDURE DeleteSingleDevice;
+IF OBJECT_ID('DisableDevice', 'P') IS NOT NULL
+    DROP PROCEDURE DisableDevice;
 GO
 
 -- Creates the procedure
-CREATE PROCEDURE DeleteSingleDevice
-	-- @parameter type
-	@single_device_id INT
+CREATE PROCEDURE DisableDevice
+    @single_device_id INT
 AS
 BEGIN
-    -- Logic
-	DELETE FROM SingleDevice
-	WHERE id = @single_device_id;
+    -- Check if the user's activity status is already "disabled"
+    IF EXISTS (
+        SELECT 1 
+        FROM SingleDevice d
+        WHERE d.id = @single_device_id AND is_archived = false;
+    )
+    BEGIN
+        -- If the user is already disabled, return a message
+        PRINT 'Device is already inactive. ';
+        RETURN;
+    END;
+
+    -- Update the user's activity status to "disabled"
+    UPDATE SingleDevice
+    SET is_archived = true
+    WHERE id = @single_device_id;
+
+    PRINT 'User has been disabled successfully.';
 END;
 GO
 -- PROCEDURE END
@@ -510,7 +526,7 @@ CREATE PROCEDURE CreateSingleDevice
     @device_type VARCHAR(12),
     @device_status VARCHAR(12),
     @device_location VARCHAR(64),
-    @device_description VARCHAR(256),
+    @device_description VARCHAR(MAX),
     @device_qr VARCHAR(MAX) -- Placeholder for QR, change as needed later
 AS
 BEGIN
@@ -549,6 +565,7 @@ GO
 -- PROCEDURE BEGIN
 CREATE PROCEDURE GetFilteredDevices
     @filter VARCHAR(12) -- Parameter to filter devices by type
+	-- @filter INT  -- assuming device_type passed as ID from Device table
 AS
 BEGIN
     -- Selects all entries from SingleDevice where the type matches the filter
@@ -597,4 +614,28 @@ END;
 GO
 -- PROCEDEURE END
 
+-- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('GetDeviceByName', 'P') IS NOT NULL
+    DROP PROCEDURE GetDeviceByName;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE GetDeviceByName
+	-- @parameter type
+	@device_name VARCHAR(64)
+AS
+BEGIN
+    -- Logic
+	SELECT sd.*
+	FROM SingleDevice sd
+	INNER JOIN Device d on sd.device_id = d.id
+	WHERE d.name = @device_name;
+END;
+GO
+-- PROCEDURE END
+
+
 -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE 
+
+-- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES
