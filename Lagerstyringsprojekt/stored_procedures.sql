@@ -2,6 +2,8 @@
 
 USE Lagerstyring;
 
+-- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE -- TEMPLATE 
+
 -- PROCEDURE BEGIN
 -- Drops the procedure if it already exists
 IF OBJECT_ID('proc_name', 'P') IS NOT NULL
@@ -18,97 +20,7 @@ END;
 GO
 -- PROCEDURE END
 
--- PROCEDURE BEGIN
--- hvis vi har activity status i en separat UserActivity table
--- Drops the procedure if it already exists
-IF OBJECT_ID('DisableUser', 'P') IS NOT NULL
-    DROP PROCEDURE DisableUser;
-GO
-
--- Creates the procedure
-CREATE PROCEDURE DisableUser
-    @user_id INT
-AS
-BEGIN
-    -- Check if the user's activity status is already "disabled"
-    IF EXISTS (
-        SELECT 1 
-        FROM [User] u
-        INNER JOIN UserActivity ua ON u.active_status = ua.id
-        WHERE u.id = @user_id AND ua.name = 'disabled'
-    )
-    BEGIN
-        -- If the user is already disabled, return a message
-        PRINT 'User is already disabled.';
-        RETURN;
-    END;
-
-    -- Update the user's activity status to "disabled"
-    UPDATE [User]
-    SET active_status = (
-        SELECT id FROM UserActivity WHERE name = 'disabled'
-    )
-    WHERE id = @user_id;
-
-    PRINT 'User has been disabled successfully.';
-END;
-GO
--- PROCEDURE END
-
--- PROCEDURE BEGIN
--- hvis vi beholder admin/user som en string value i user-tabellen
--- Drops the procedure if it already exists
-IF OBJECT_ID('DisableUser', 'P') IS NOT NULL
-    DROP PROCEDURE DisableUser;
-GO
-
--- Creates the procedure
-CREATE PROCEDURE DisableUser
-    @user_id INT
-AS
-BEGIN
-    -- Check if the user's activity status is already "disabled"
-    IF EXISTS (
-        SELECT 1 
-        FROM [User]
-        WHERE id = @user_id AND activity = 'disabled'
-    )
-    BEGIN
-        -- If the user is already disabled, return a message
-        PRINT 'User is already disabled.';
-        RETURN;
-    END;
-
-    -- Update the user's activity status to "disabled"
-    UPDATE [User]
-    SET activity = 'disabled'
-    WHERE id = @user_id;
-
-    PRINT 'User has been disabled successfully.';
-END;
-GO
--- PROCEDURE END
-
-
-
--- PROCEDURE BEGIN
--- Drops the procedure if it already exists
-IF OBJECT_ID('GetLifecycle', 'P') IS NOT NULL
-    DROP PROCEDURE GetLifecycle;
-GO
-
--- Creates the procedure
-CREATE PROCEDURE GetLifecycle
-	-- @parameter type
-	@lifecycle_id VARCHAR(64)
-AS
-BEGIN
-    -- Logic
-	SELECT * FROM ActivityHistory
-	WHERE lifecycle_id = @lifecycle_id;
-END;
-GO
--- PROCEDURE END
+-- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER 
 
 -- PROCEDURE BEGIN
 -- Drops the procedure if it already exists
@@ -198,7 +110,7 @@ CREATE PROCEDURE CreateUser
     @user_last_name VARCHAR(64),
     @user_email VARCHAR(64),
     @user_telephone VARCHAR(20),
-    @user_active INT,  -- vi er nok nødt til også at have tabeller for user active level (Active/Inactive)
+    @user_active INT,  -- vi er nok nÃ¸dt til ogsÃ¥ at have tabeller for user active level (Active/Inactive)
     @user_type INT      -- og for user_type; (User/Admin)
 AS
 BEGIN
@@ -261,23 +173,183 @@ GO
 -- PROCEDURE END
 
 -- PROCEDURE BEGIN
+-- hvis vi har activity status i en separat UserActivity table
 -- Drops the procedure if it already exists
-IF OBJECT_ID('DeleteSingleDevice', 'P') IS NOT NULL
-    DROP PROCEDURE DeleteSingleDevice;
+IF OBJECT_ID('DisableUser', 'P') IS NOT NULL
+    DROP PROCEDURE DisableUser;
 GO
 
 -- Creates the procedure
-CREATE PROCEDURE DeleteSingleDevice
-	-- @parameter type
-	@single_device_id INT
+CREATE PROCEDURE DisableUser
+    @user_id INT
 AS
 BEGIN
-    -- Logic
-	DELETE FROM SingleDevice
-	WHERE id = @single_device_id;
+    -- Check if the user's activity status is already "disabled"
+    IF EXISTS (
+        SELECT 1 
+        FROM [User] u
+        INNER JOIN UserActivity ua ON u.active_status = ua.id
+        WHERE u.id = @user_id AND ua.name = 'disabled'
+    )
+    BEGIN
+        -- If the user is already disabled, return a message
+        PRINT 'User is already disabled.';
+        RETURN;
+    END;
+
+    -- Update the user's activity status to "disabled"
+    UPDATE [User]
+    SET active_status = (
+        SELECT id FROM UserActivity WHERE name = 'disabled'
+    )
+    WHERE id = @user_id;
+
+    PRINT 'User has been disabled successfully.';
 END;
 GO
 -- PROCEDURE END
+
+-- PROCEDURE BEGIN
+-- hvis vi beholder admin/user som en string value i user-tabellen
+-- Drops the procedure if it already exists
+IF OBJECT_ID('DisableUser', 'P') IS NOT NULL
+    DROP PROCEDURE DisableUser;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE DisableUser
+    @user_id INT
+AS
+BEGIN
+    -- Check if the user's activity status is already "disabled"
+    IF EXISTS (
+        SELECT 1 
+        FROM [User]
+        WHERE id = @user_id AND activity = 'disabled'
+    )
+    BEGIN
+        -- If the user is already disabled, return a message
+        PRINT 'User is already disabled.';
+        RETURN;
+    END;
+
+    -- Update the user's activity status to "disabled"
+    UPDATE [User]
+    SET activity = 'disabled'
+    WHERE id = @user_id;
+
+    PRINT 'User has been disabled successfully.';
+END;
+GO
+-- PROCEDURE END
+
+-- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER -- USER 
+
+-- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY 
+
+-- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('CreateActivity', 'P') IS NOT NULL
+    DROP PROCEDURE CreateActivity;
+GO
+
+-- PROCEDURE BEGIN
+-- Creates the procedure
+CREATE PROCEDURE CreateActivity
+    -- @parameter type
+    @device_id INT,
+    @user_id INT,
+    @start_date DATETIME,
+    @end_date DATETIME,
+    @created_on DATETIME,
+    @notes VARCHAR(MAX)    
+AS
+BEGIN
+    -- Declare variables
+    DECLARE @lifecycle_id INT;
+
+    -- Assign lifecycle_id using a function
+    SET @lifecycle_id = GenerateLifecycleId();
+
+    -- Insert logic
+    INSERT INTO Activity (
+        device_id,
+        user_id,
+        start_date,
+        end_date,
+        created_on,
+        notes,
+        lifecycle_id
+    )
+    VALUES (
+        @device_id,
+        @user_id,
+        @start_date,
+        @end_date,
+        CURRENT_TIMESTAMP,
+        @notes,
+        @lifecycle_id
+    );
+END;
+GO
+-- PROCEDURE END
+
+
+-- Drops the procedure if it already exists
+IF OBJECT_ID('GetActivityByLifecycleAndDeviceID', 'P') IS NOT NULL
+    DROP PROCEDURE GetActivityByLifecycleAndDeviceID;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE GetActivityByLifecycleAndDeviceID
+	@lifecycle_id INT,
+    @device_id INT
+AS
+BEGIN
+    -- Retrieves all entries from the ActivityHistory table
+    SELECT * FROM Activity
+    WHERE lifecycle_id = @lifecycle_id
+    AND device_id = @device_id;
+END;
+GO
+
+-- Drops the procedure if it already exists
+IF OBJECT_ID('GetAllActivities', 'P') IS NOT NULL
+    DROP PROCEDURE GetAllActivities;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE GetAllActivities
+AS
+BEGIN
+    -- Retrieves all entries from the ActivityHistory table
+    SELECT * FROM Activity;
+END;
+GO
+
+-- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('GetLifecycle', 'P') IS NOT NULL
+    DROP PROCEDURE GetLifecycle;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE GetLifecycle
+	-- @parameter type
+	@lifecycle_id VARCHAR(64)
+AS
+BEGIN
+    -- Logic
+	SELECT * FROM Activity
+	WHERE lifecycle_id = @lifecycle_id;
+END;
+GO
+-- PROCEDURE END
+
+
+-- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY -- ACTIVITY 
+
+-- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE 
 
 -- PROCEDURE BEGIN
 IF OBJECT_ID('UpdateDeviceType', 'P') IS NOT NULL
@@ -343,7 +415,97 @@ GO
 -- PROCEDURE END
 
 -- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('GetAllDevices', 'P') IS NOT NULL
+    DROP PROCEDURE GetAllDevices;
+GO
+
 -- Creates the procedure
+CREATE PROCEDURE GetAllDevices
+	-- @parameter type
+AS
+BEGIN
+    -- Logic
+	SELECT * FROM Device;
+END;
+GO
+-- PROCEDEURE END
+
+-- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE -- DEVICE TYPE  
+
+-- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE 
+
+-- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('ExtendLoan', 'P') IS NOT NULL
+    DROP PROCEDURE ExtendLoan;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE ExtendLoan
+    -- @parameter type
+    @lifecycle_id INT,
+    @device_id INT,
+    @activity_type INT
+AS
+BEGIN
+    -- Declare variables to hold the activity details
+    DECLARE @user_id INT,
+            @start_date DATETIME,
+            @end_date DATETIME,
+            @created_on DATETIME,
+            @notes VARCHAR(MAX);
+
+    -- Retrieve the activity details
+    SELECT 
+        @user_id = user_id,
+        @start_date = start_date,
+        @end_date = end_date,
+        @created_on = created_on,
+        @notes = notes
+    FROM 
+        GetActivityByLifecycleAndDeviceID(@lifecycle_id, @device_id);
+
+    -- Update the end_date and activity_type
+    SET @end_date = DATEADD(WEEK, 1, @end_date); -- Add 1 week to end_date
+
+    -- Call CreateActivity with updated values
+    EXEC CreateActivity 
+        @device_id = @device_id,
+        @user_id = @user_id,
+        @start_date = @start_date,
+        @end_date = @end_date,
+        @created_on = CURRENT_TIMESTAMP, -- Use the current timestamp
+        @notes = @notes;
+END;
+GO
+-- PROCEDURE END
+
+-- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('DeleteSingleDevice', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteSingleDevice;
+GO
+
+-- Creates the procedure
+CREATE PROCEDURE DeleteSingleDevice
+	-- @parameter type
+	@single_device_id INT
+AS
+BEGIN
+    -- Logic
+	DELETE FROM SingleDevice
+	WHERE id = @single_device_id;
+END;
+GO
+-- PROCEDURE END
+
+-- PROCEDURE BEGIN
+-- Drops the procedure if it already exists
+IF OBJECT_ID('CreateSingleDevice', 'P') IS NOT NULL
+    DROP PROCEDURE CreateSingleDevice;
+GO
+
 CREATE PROCEDURE CreateSingleDevice
     @device_type VARCHAR(12),
     @device_status VARCHAR(12),
@@ -377,8 +539,6 @@ BEGIN
 END;
 GO
 -- PROCEDURE END
-
-
 
 -- PROCEDURE BEGIN
 -- Drops the procedure if it already exists
@@ -419,270 +579,22 @@ END;
 GO
 -- PROCEDURE END
 
+-- PROCEDURE BEGIN
 -- Drops the procedure if it already exists
-IF OBJECT_ID('GetAllDevices', 'P') IS NOT NULL
-    DROP PROCEDURE GetAllDevices;
+IF OBJECT_ID('GetAllSingleDevices', 'P') IS NOT NULL
+    DROP PROCEDURE GetAllSingleDevices;
 GO
 
 -- Creates the procedure
-CREATE PROCEDURE GetAllDevices
+CREATE PROCEDURE GetAllSingleDevices
 	-- @parameter type
 AS
 BEGIN
     -- Logic
-	SELECT * FROM Device;
+	SELECT * FROM SingleDevice
+    WHERE is_archived = false;
 END;
 GO
+-- PROCEDEURE END
 
-
--- Drops the procedure if it already exists
-IF OBJECT_ID('GetAllActivities', 'P') IS NOT NULL
-    DROP PROCEDURE GetAllActivities;
-GO
-
--- Creates the procedure
-CREATE PROCEDURE GetAllActivities
-AS
-BEGIN
-    -- Retrieves all entries from the ActivityHistory table
-    SELECT * FROM ActivityHistory;
-END;
-GO
-
-
-DROP PROCEDURE IF EXISTS proc_name;
-
-DELIMITER //
-CREATE PROCEDURE proc_name(OUT (return) row_name TYPE)
-BEGIN
-	-- LOGIC
-END//
-DELIMITER;
--- Generate a random number
-DROP PROCEDURE IF EXISTS GenerateOrderNumber;
-
-DELIMITER //
-CREATE PROCEDURE GenerateOrderNumber(OUT orderNumber INT)
-BEGIN
-	DECLARE randomNumber INT;
-
-	REPEAT
-        SET randomNumber = (100000 + RAND() * 900000);
-    UNTIL NOT EXISTS (SELECT 1 FROM Purchase WHERE order_number = randomNumber) END REPEAT;
-    
-    SET orderNumber = randomNumber;
-END//
-DELIMITER ;
-
--- Creates a new order and generates an order number
-DROP PROCEDURE IF EXISTS CreateNewOrder;
-
-DELIMITER //
-CREATE PROCEDURE CreateNewOrder (IN customerUsername VARCHAR(64))
-BEGIN
-	DECLARE orderNumber INT;
-	CALL GenerateOrderNumber(orderNumber);
-    SELECT orderNumber;
-    INSERT INTO Purchase
-    VALUES (DEFAULT, orderNumber, (SELECT customer_id FROM Customer WHERE username LIKE CONCAT('%', customerUsername, '%')));
-    
-END //
-DELIMITER ;
-
--- Fetches logs made in a span of dates 
-DROP PROCEDURE IF EXISTS GetLogsBetweenDates;
-
-DELIMITER //
-CREATE PROCEDURE GetLogsBetweenDates (
-    IN firstDay INT, 
-    IN firstMonth INT, 
-    IN firstYear VARCHAR(4), 
-    IN lastDay INT, 
-    IN lastMonth INT, 
-    IN lastYear VARCHAR(4)
-)
-
-BEGIN
-    IF firstYear = '' THEN SET firstYear = YEAR(CURDATE()); END IF;
-    IF lastYear = '' THEN SET lastYear = YEAR(CURDATE()); END IF;
-    SELECT log_id as 'Log no.', change_type, table_name, id_key as Id, log_time as 'Time and Date' 
-    FROM bogreden_log
-    WHERE log_time BETWEEN CONCAT(firstYear, '-', firstMonth, '-', firstDay)
-    AND CONCAT(lastYear, '-', lastMonth, '-', lastDay)
-    ORDER BY log_time;
-END //
-DELIMITER ;
-
--- Get books by author
-DROP PROCEDURE IF EXISTS GetBooksByAuthor;
-
-DELIMITER //
-CREATE PROCEDURE GetBooksByAuthor (IN authorName VARCHAR(50))
-BEGIN 
-	SELECT DISTINCT b.title AS Title, b.price AS 'Price (kr.)', CONCAT(a.first_name, a.last_name) AS Author 
-    FROM Book b
-    JOIN Author a 
-    ON b.author = a.author_id
-    WHERE b.author IN (SELECT author_id FROM Author WHERE first_name LIKE CONCAT('%', authorName, '%') OR last_name LIKE CONCAT('%', authorName, '%') ORDER BY last_name ASC);
-END //
-DELIMITER ;
-
--- Get author of book
-DROP PROCEDURE IF EXISTS GetAuthorByBookTitle;
-
-DELIMITER //
-CREATE PROCEDURE GetAuthorByBookTitle (IN bookTitle VARCHAR(256)) 
-BEGIN
-	SELECT b.title AS Title, concat(a.first_name, a.last_name) AS Author
-    FROM Author a
-    JOIN Book b ON a.author_id = b.author
-    WHERE b.title LIKE CONCAT('%', bookTitle, '%');
-END //
-DELIMITER ;
-
--- Get customer info by customer
-DROP PROCEDURE IF EXISTS GetCustomerInfoByCustomerName;
-
-DELIMITER //
-CREATE PROCEDURE GetCustomerInfoByUsername (IN customerUsername VARCHAR(50))
-BEGIN
-	SELECT CONCAT(c.first_name, c.last_name) AS Name, c.email AS 'E-mail', c.road_and_number AS Address, a.postcode AS 'Postcode', a.city AS City
-    FROM Customer c
-    JOIN Address a ON c.address = a.address_id
-    WHERE c.username = customerUsername;
-END //
-DELIMITER ;
-
--- Get orders by customer
-DROP PROCEDURE IF EXISTS GetOrdersByCustomerUsername;
-
-DELIMITER //
-CREATE PROCEDURE GetOrdersByCustomer (IN customerUsername VARCHAR(50))
-BEGIN
-	SELECT p.order_number, b.title, c.name FROM BookOrder o
-    JOIN Purchase p ON o.order_number = p.order_id
-    JOIN Customer c ON p.customer = c.customer_id
-    JOIN Book b ON o.book = b.book_id
-    WHERE c.username = customerUsername;
-END //
-DELIMITER ;
-
--- Get book info by book
-DROP PROCEDURE IF EXISTS GetBookInfoByBookTitle;
-
-DELIMITER //
-CREATE PROCEDURE GetBookInfoByBookTitle (IN bookTitle VARCHAR(256))
-BEGIN
-	SELECT b.title AS Title, CONCAT(a.first_name, a.last_name) AS Author, b.price AS 'Price (kr.)', g.name AS Genre
-    FROM Book b
-    JOIN Author a ON b.author = a.author_id
-    JOIN Genre g ON b.genre = g.genre_id
-    WHERE title LIKE CONCAT('%', bookTitle, '%');
-END //
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS CreateNewUser;
-
-DELIMITER //
-CREATE PROCEDURE CreateNewUser (
-	IN customerUsername VARCHAR(64),
-    IN customerPassword VARCHAR(64),
-    IN customerFirstName VARCHAR(50), 
-    IN customerLastName VARCHAR(50),
-    IN customerMail VARCHAR(50), 
-    IN customerAddress VARCHAR(50), 
-    IN addressIdFromPostcode SMALLINT
-)
-BEGIN
-	INSERT INTO Customer
-    VALUES (DEFAULT, customerUsername, SHA2(customerPassword, 256), CONCAT(customerFirstName, ' '), customerLastName, customerMail, customerAddress, (SELECT address_id FROM Address WHERE postcode = addressIdFromPostcode));
-END //
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS CreateNewAuthor;
-
-DELIMITER //
-CREATE PROCEDURE CreateNewAuthor (IN authorName VARCHAR(50), IN authorLastName varchar(50))
-BEGIN
-	DECLARE existingAuthor INT;
-	SELECT author_id FROM Author WHERE first_name LIKE CONCAT('%', authorName, '%') AND last_name LIKE CONCAT('%', authorLastName, '%') INTO existingAuthor;
-    
-    IF existingAuthor IS NULL THEN
-		INSERT INTO Author
-		VALUES (DEFAULT, CONCAT(authorName, ' '), authorLastName);
-	
-    ELSE SELECT "This author already exists in the database. " AS Error;
-    END IF;
-END //
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS CreateNewGenre;
-
-DELIMITER //
-CREATE PROCEDURE CreateNewGenre (IN genreName VARCHAR(50))
-BEGIN
-	DECLARE existingGenre INT;
-    SELECT genre_id FROM Genre WHERE name = genreName INTO existingGenre;
-    IF existingGenre IS NULL THEN
-		INSERT INTO Genre
-		VALUES (DEFAULT, genreName);
-        
-	ELSE SELECT "This genre already exists in the database. " AS Error;
-    END IF;
-END //
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS CreateNewBook;
-
-DELIMITER //
-CREATE PROCEDURE CreateNewBook (
-    IN bookTitle VARCHAR(256), 
-    IN bookAuthor VARCHAR(50), 
-    IN bookAuthorLastName VARCHAR(50),
-    IN bookPrice SMALLINT, 
-    IN bookGenre VARCHAR(50)
-)
-BEGIN
-	-- Declare author and genre ids to ensure the book gets created even if the author or genre is not currently in the database
-	DECLARE authorId SMALLINT;
-    DECLARE genreId SMALLINT;
-    DECLARE existingBookTitle SMALLINT;
-    
-    -- Checks validity of author and genre in procedure call
-    SELECT author_id INTO authorId FROM Author WHERE first_name LIKE CONCAT('%', bookAuthor, '%') OR last_name LIKE CONCAT('%', bookAuthorLastName, '%');
-    SELECT genre_id INTO genreId FROM Genre WHERE name LIKE CONCAT('%', bookGenre, '%');
-    SELECT book_id INTO existingBookTitle FROM Book WHERE title = bookTitle;
-    
-    IF existingBookTitle IS NULL THEN
-		-- If author or genre from procedure call does not exist, create record for that author or genre
-		IF authorId IS NULL THEN
-			CALL CreateNewAuthor(bookAuthor, bookAuthorLastName);
-			SELECT LAST_INSERT_ID() INTO authorId;
-		END IF;
-    
-		IF genreId IS NULL THEN
-			CALL CreateNewGenre(bookGenre);
-			SELECT LAST_INSERT_ID() INTO genreId;
-		END IF;
-        
-	INSERT INTO Book
-    VALUES (DEFAULT, bookTitle, authorId, bookPrice, genreId);
-    
-    ELSE SELECT "This book already exists in the database. " AS Error;
-    END IF;
-    
-END //
-DELIMITER ;
-
--- Assigns a product to a specific order number using a pre-generated order number from Purchase and the Book(book_id) - call for each book purchased
-DROP PROCEDURE IF EXISTS CreateNewBookOrder;
-
-DELIMITER //
-CREATE PROCEDURE CreateNewBookOrder (IN orderNumber SMALLINT, IN orderedBook SMALLINT)
-BEGIN
-	INSERT INTO BookOrder
-    VALUES (DEFAULT, orderNumber, (SELECT book_id FROM Book WHERE title LIKE CONCAT('%', orderedBook, '%')));
-END //
-DELIMITER ; 
-
--- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES -- STORED PROCEDURES
+-- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE -- SINGLE DEVICE 
