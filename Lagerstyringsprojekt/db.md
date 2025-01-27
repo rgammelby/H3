@@ -4,13 +4,14 @@ Dette er et overblik over vores nuværende databaseskitse. Alle er velkomne til 
 
 ## Tabeller
 
-### DeviceType
+### DeviceOverview
 
-DeviceType-tabellen dækker over specifikke typer af devices. Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
+DeviceOverview-tabellen dækker over alle typer af devices og dynamicaly opdaterer device antal ved hjælpe af triggers (after e.g. BorrowActivity and ReturnActivity, or DeviceStatus changed to Archived)
+Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
 
-|id|name|type|qty|image|
-|---|---|---|---|---|
-|#seq|ThinkVision 9000|monitor|#|base64|
+|id|deviceType|model|availableCount|totalCount|admin|image|lastOrdered|
+|---|---|---|---|---|---|---|---|
+|#seq|3|ThinkVision 9000|42|90|admin1|base64|25/1/2025|
 
 ### SingleDevice
 
@@ -19,6 +20,23 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 |id|name|type|description|status|location|qr|
 |---|---|---|---|---|---|---|
 |#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|  
+
+## DeviceType
+
+|id|typeName|
+|---|---|
+|#seq|laptop|
+||desktop|
+||microfon set|
+||monitor|
+||server|
+||router|
+||switch|
+||webCam|
+||headset|
+||keyboard|
+||mousse|
+||...|
 
 # StatusType
 
@@ -46,6 +64,7 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 ||Return|
 ||Extend|
 ||Cancel|
+||Delay|
 
 OVERVEJ: Om vi skal introducere nye ActivityTypes;
 * Extend Overdue;
@@ -57,7 +76,7 @@ Extend ActivityType.end_date
 
 User-tabellen er en oversigt over brugere i systemet, som har mulighed for at booke/låne devices. 
 
-|id|first_name|last_name|email|telephone|activity|type|
+|id|first_name|last_name|email|telephone|is_active|type|
 |---|---|---|---|---|---|---|
 |#seq|anne|petersen|ap@mail.dk|1234 5678|active/inactive|user/admin|
 
@@ -88,6 +107,24 @@ Location-tabellen er en tabel som samler rum- og skabsdesigneringer.
 
 |id|room_id|cupboard_id|
 |---|---|---|
+
+
+## RequestStatus
+
+|id|request_status|
+|---|---|
+|0|Pending|
+||Approved|
+||Denied|
+
+### Request
+
+Request-tabellen indeholder alle user requests, der kræver admin godkendelse (Book, Extend)
+? more info needed for single request? For create  Book or Extend Activity?
+
+|id|request_status|request_type|userId|deviceId|adminID|startDate|endDate|createdAt|processedAt|note|
+|---|---|---|---|---|---|---|---|---|---|---|
+|123|1|book/extend|456|545|-|25/1-2025|6/2-2025|23/1-2025|-|-|
 
 ### Log
 
