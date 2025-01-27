@@ -9,7 +9,7 @@ Dette er et overblik over vores nuværende databaseskitse. Alle er velkomne til 
 DeviceOverview-tabellen dækker over alle typer af devices og dynamicaly opdaterer device antal ved hjælpe af triggers (after e.g. BorrowActivity and ReturnActivity, or DeviceStatus changed to Archived)
 Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
 
-|id|deviceType|model|availableCount|totalCount|admin|image|lastOrdered|
+|id|deviceType|model|available_qty|qty|admin|image|last_ordered|
 |---|---|---|---|---|---|---|---|
 |#seq|3|ThinkVision 9000|42|90|admin1|base64|25/1/2025|
 
@@ -17,9 +17,9 @@ Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver a
 
 SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der findes 3 stk. Lenovo Whatever keyboards, vil hver af dem have en entry i denne tabel. Deres `type` kalder ud til DeviceType-tabellen. Deres `location` kalder ud til den samlede `Location`-tabel. `lifecycle`- og `booking`-ID'erne er unikke for hvert enkelte enhed.
 
-|id|name|type|description|status|location|qr|
-|---|---|---|---|---|---|---|
-|#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|  
+|id|name|type|description|status|location|qr|is_archived|
+|---|---|---|---|---|---|---|---|
+|#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|true/false|
 
 ## DeviceType
 
@@ -49,21 +49,19 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 ||Unavailable|
 ||Archived|
 
-## ActivityHistory
+## Activity
 
-|id|device_id|activity_type|start_date|end_date|created_at|notes|lifecycle_id|booking_id|
+|id|device_id|activity_type|user_id|start_date|end_date|created_at|notes|lifecycle_id|
 |---|---|---|---|---|---|---|---|---|
-|#seq|213|1|i dag|om en uge|22-01-2025 09:15|Booket til afhentning i dag|li-cy-123|b-1234|
+|#seq|213|1|userid||i dag|om en uge|22-01-2025 09:15|Booket til afhentning i dag|li-cy-123|
 
 ## ActivityType
 
 |id|activity_type|
 |---|---|
-|1|Book|
-||Borrow|
+|#seq|Borrow|
 ||Return|
 ||Extend|
-||Cancel|
 ||Delay|
 
 OVERVEJ: Om vi skal introducere nye ActivityTypes;
@@ -113,7 +111,7 @@ Location-tabellen er en tabel som samler rum- og skabsdesigneringer.
 
 |id|request_status|
 |---|---|
-|0|Pending|
+|#seq|Pending|
 ||Approved|
 ||Denied|
 
@@ -130,5 +128,5 @@ Request-tabellen indeholder alle user requests, der kræver admin godkendelse (B
 
 Log-tabellen indeholder logs, og vil løbende bliver opdateret/fyldt, i takt med at programmets processer bliver brugt.
 
-|id|log_type|log_message|
-|---|---|---|
+|id|log_type|log_message|timestamp?|
+|---|---|---|---|
