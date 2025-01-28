@@ -9,9 +9,9 @@ Dette er et overblik over vores nuværende databaseskitse. Alle er velkomne til 
 DeviceOverview-tabellen dækker over alle typer af devices og dynamicaly opdaterer device antal ved hjælpe af triggers (after e.g. BorrowActivity and ReturnActivity, or DeviceStatus changed to Archived)
 Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
 
-|id|deviceType|model|available_qty|qty|admin|image|last_ordered|
-|---|---|---|---|---|---|---|---|
-|#seq|3|ThinkVision 9000|42|90|admin1|base64|25/1/2025|
+|id|device_type|model|available_qty|qty|image|last_ordered|
+|---|---|---|---|---|---|---|
+|#seq|3|ThinkVision 9000|42|90|base64|25/1/2025|
 
 ### SingleDevice
 
@@ -23,7 +23,7 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 
 ## DeviceType
 
-|id|typeName|
+|id|type_name|
 |---|---|
 |#seq|laptop|
 ||desktop|
@@ -43,11 +43,9 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 |id|status_type|
 |---|---|
 |#seq|Available|
-||Reserved|
-||Not returned|
+||Overdue|
 ||Borrowed|
 ||Unavailable|
-||Archived|
 
 ## Activity
 
@@ -62,7 +60,7 @@ SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der fi
 |#seq|Borrow|
 ||Return|
 ||Extend|
-||Delay|
+||Late|
 
 OVERVEJ: Om vi skal introducere nye ActivityTypes;
 * Extend Overdue;
@@ -77,13 +75,6 @@ User-tabellen er en oversigt over brugere i systemet, som har mulighed for at bo
 |id|first_name|last_name|email|telephone|is_active|type|
 |---|---|---|---|---|---|---|
 |#seq|anne|petersen|ap@mail.dk|1234 5678|active/inactive|user/admin|
-
-### SingleDeviceLender
-
-SingleDeviceLender er en samletabel, som agerer samlet oversigt over hvilke brugere har booket/lånt hvilke devices.
-
-|id|device_id|lender_id|
-|---|---|---|
 
 ### LocationRoom
 
@@ -105,24 +96,6 @@ Location-tabellen er en tabel som samler rum- og skabsdesigneringer.
 
 |id|room_id|cupboard_id|
 |---|---|---|
-
-
-## RequestStatus
-
-|id|request_status|
-|---|---|
-|#seq|Pending|
-||Approved|
-||Denied|
-
-### Request
-
-Request-tabellen indeholder alle user requests, der kræver admin godkendelse (Book, Extend)
-? more info needed for single request? For create  Book or Extend Activity?
-
-|id|request_status|request_type|userId|deviceId|adminID|startDate|endDate|createdAt|processedAt|note|
-|---|---|---|---|---|---|---|---|---|---|---|
-|123|1|book/extend|456|545|-|25/1-2025|6/2-2025|23/1-2025|-|-|
 
 ### Log
 
