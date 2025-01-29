@@ -18,8 +18,9 @@ BEGIN
         available_qty = available_qty - 1
     FROM DeviceOverview
     INNER JOIN Inserted i ON 
-        DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
-        AND DeviceOverview.device_type = i.type -- Match the device_type
+        -- DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
+        -- AND DeviceOverview.device_type = i.type -- Match the device_type
+        DeviceOverview.id = i.deviceOverview_id -- Match by deviceOverview_id
     WHERE i.is_archived = 1 -- Check if SingleDevice is archived
       AND qty > 0          -- Ensure qty doesn't go below zero
       AND available_qty > 0; -- Ensure available_qty doesn't go below zero
@@ -43,8 +44,9 @@ BEGIN
         available_qty = available_qty + 1
         FROM DeviceOverview
         INNER JOIN Inserted i ON 
-            DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
-            AND DeviceOverview.device_type = i.type -- Match the device_type
+            -- DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
+            -- AND DeviceOverview.device_type = i.type -- Match the device_type
+            DeviceOverview.id = i.deviceOverview_id -- Match by deviceOverview_id
         INNER JOIN Deleted d ON d.id = i.id
         WHERE d.status != 1  -- Previous status was not Available (1)
         AND i.status = 1 -- Current status is Available (1)
@@ -55,8 +57,9 @@ BEGIN
         available_qty = available_qty - 1
         FROM DeviceOverview
         INNER JOIN Inserted i ON
-            DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
-            AND DeviceOverview.device_type = i.type -- Match the device_type
+            -- DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
+            -- AND DeviceOverview.device_type = i.type -- Match the device_type
+            DeviceOverview.id = i.deviceOverview_id
         INNER JOIN Deleted d ON d.id = i.id
         WHERE d.status = 1  -- Previous status was Available (1)
         AND i.status != 1; -- Current status is not Available (1)
@@ -88,11 +91,12 @@ BEGIN
         SELECT 
             'LowStockNotification',  -- Log type
             CONCAT('Low stock alert: Device ID = ', i.id, 
-                   ', Model = ', i.model, 
+                   ', Model = ', dv.model, -- 'dv' represents DeviceOverview, fetching model
                    ', Available Qty = ', i.available_qty), -- Log message
             GETDATE() -- Timestamp
         FROM Inserted i
         INNER JOIN Deleted d ON i.id = d.id
+        INNER JOIN DeviceOverview dv ON dv.id = i.id -- Fetch model using `dv`
         WHERE i.available_qty < 10
           AND d.available_qty >= 10;
 
@@ -120,6 +124,7 @@ BEGIN
                 'New user added: ID = ', i.id, 
                 ', Email = ', i.email, -- Email is mandatory, so always included
                 ', Type = ', i.type,   -- Type is mandatory, so always included
+                ', Salt = ', i.salt, -- Log salt for debugging security
                 CASE 
                     WHEN i.first_name IS NOT NULL THEN CONCAT(', First Name = ', i.first_name) 
                 ELSE ', First Name = NULL'
@@ -258,7 +263,7 @@ END;
 GO
 
 
------------------------------Log INSERT and UPDATE operations on SibgleDevice table-----------------------------
+-----------------------------Log INSERT and UPDATE operations on SingleDevice table-----------------------------
 CREATE TRIGGER trgLogSingleDevice
 ON SingleDevice
 AFTER INSERT, UPDATE
@@ -274,8 +279,7 @@ BEGIN
             'Insert',
             CONCAT(
                 'New single device added: ID = ', i.id,
-                ', Name = ', i.name,
-                ', Type = ', i.type,
+                ', Device Overview ID = ', i.deviceOverview_id, --  Updated column
                 CASE 
                     WHEN i.description IS NOT NULL THEN CONCAT(', Description = ', i.description)
                     ELSE ', Description = NULL'
@@ -304,11 +308,7 @@ BEGIN
             CONCAT(
                 'Single device updated: ID = ', i.id,
                 CASE 
-                    WHEN d.name <> i.name THEN CONCAT(', Name changed from ', d.name, ' to ', i.name)
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.type <> i.type THEN CONCAT(', Type changed from ', d.type, ' to ', i.type)
+                    WHEN d.deviceOverview_id <> i.deviceOverview_id THEN CONCAT(', Device Overview changed from ', d.deviceOverview_id, ' to ', i.deviceOverview_id) 
                     ELSE ''
                 END,
                 CASE 
@@ -337,8 +337,7 @@ BEGIN
         INNER JOIN Deleted d ON i.id = d.id
         WHERE 
             -- Log only if at least one field has changed
-            d.name <> i.name OR
-            d.type <> i.type OR
+            d.deviceOverview_id <> i.deviceOverview_id OR
             d.description <> i.description OR
             d.status <> i.status OR
             d.location <> i.location OR
