@@ -24,13 +24,16 @@ Enter a name for the job, e.g., CheckOverdueDevices.
 Add a new step.  
 Set the type to Transact-SQL script (T-SQL).  
 Write the query to check overdue devices:   
+
+ |1 Available|2 Overdue|3 Borrowed|4 Unavailable
+
 >-- Update overdue devices  
 UPDATE sd  
-SET status = 'Overdue' -- Change to Overdue status  
+SET status = 2 -- Change to Overdue status  
 FROM SingleDevice sd  
 INNER JOIN Activity a ON sd.id = a.device_id  
 WHERE   
-    sd.status = 'Borrowed'  
+    sd.status = 3  
     AND CAST(a.end_date AS DATE) = CAST(GETDATE() - 1 AS DATE);  
 
 ## 5. Schedule the Job:
