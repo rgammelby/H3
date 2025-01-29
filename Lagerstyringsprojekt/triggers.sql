@@ -1,9 +1,9 @@
 USE Lagerstyring;
+GO
 
 ---------------------------------qty and available-qty in DeviceOverview table-------------------------------------------------
 
 -- ---------------------------Update qty and available_qty in DeviceOverview when a SingleDevice is Archived---------------------------
-
 CREATE TRIGGER trgUpdateQtyAndAvailable_qtyWhenSingleDeviceIsArchived
 ON SingleDevice
 AFTER UPDATE
@@ -55,13 +55,13 @@ BEGIN
     UPDATE DeviceOverview
     SET
         available_qty = available_qty - 1
-        FROM DeviceOverview
-        INNER JOIN Inserted i ON
+    FROM DeviceOverview
+    INNER JOIN Inserted i ON
             -- DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
             -- AND DeviceOverview.device_type = i.type -- Match the device_type
-            DeviceOverview.id = i.deviceOverview_id
-        INNER JOIN Deleted d ON d.id = i.id
-        WHERE d.status = 1  -- Previous status was Available (1)
+        DeviceOverview.id = i.deviceOverview_id
+    INNER JOIN Deleted d ON d.id = i.id
+    WHERE d.status = 1  -- Previous status was Available (1)
         AND i.status != 1; -- Current status is not Available (1)
 END;
 GO
@@ -91,7 +91,7 @@ BEGIN
         SELECT 
             'LowStockNotification',  -- Log type
             CONCAT('Low stock alert: Device ID = ', i.id, 
-                   ', Model = ', dv.model, -- 'dv' represents DeviceOverview, fetching model
+                   ', Model = ', dv.model, 
                    ', Available Qty = ', i.available_qty), -- Log message
             GETDATE() -- Timestamp
         FROM Inserted i
@@ -104,7 +104,7 @@ BEGIN
         PRINT 'Low stock alert logged. Check the Log table for details.';
     END;
 END;
-
+GO
 ------------------------------Log INSERT and UPDATE operations on User table----------------------------
 
 CREATE TRIGGER trgLogUser
