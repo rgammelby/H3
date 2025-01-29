@@ -166,7 +166,7 @@ BEGIN
                 CASE 
                     WHEN d.last_name <> i.last_name THEN CONCAT(', Last Name changed from ', d.last_name, ' to ', i.last_name) 
                     ELSE ''
-                END
+                END,
                 CASE 
                     WHEN d.type <> i.type THEN CONCAT(', Type changed from ', d.type, ' to ', i.type) 
                     ELSE ''
@@ -181,7 +181,6 @@ GO
 
 
 -----------------------------Log INSERT and UPDATE operations on DeviceOverview table-----------------------------
-
 CREATE TRIGGER trgLogDeviceOverview
 ON DeviceOverview
 AFTER INSERT, UPDATE
@@ -201,14 +200,8 @@ BEGIN
                 ', Model = ', i.model,
                 ', Available Qty = ', COALESCE(CAST(i.available_qty AS NVARCHAR), '0'),
                 ', Qty = ', COALESCE(CAST(i.qty AS NVARCHAR), '0'),
-                CASE 
-                    WHEN i.image IS NOT NULL THEN CONCAT(', Image Provided') 
-                    ELSE ', No Image'
-                END,
-                CASE 
-                    WHEN i.last_ordered IS NOT NULL THEN CONCAT(', Last Ordered = ', CONVERT(NVARCHAR, i.last_ordered, 120)) 
-                    ELSE ', Last Ordered = NULL'
-                END
+                ', ', CASE WHEN i.image IS NOT NULL THEN 'Image Provided' ELSE 'No Image' END,
+                ', ', CASE WHEN i.last_ordered IS NOT NULL THEN CONCAT('Last Ordered = ', CONVERT(NVARCHAR, i.last_ordered, 120)) ELSE 'Last Ordered = NULL' END
             ),
             GETDATE()
         FROM Inserted i;
@@ -222,30 +215,14 @@ BEGIN
             'Update',
             CONCAT(
                 'Device updated: ID = ', i.id,
-                CASE 
-                    WHEN d.device_type <> i.device_type THEN CONCAT(', Device Type changed from ', d.device_type, ' to ', i.device_type) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.model <> i.model THEN CONCAT(', Model changed from ', d.model, ' to ', i.model) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.available_qty <> i.available_qty THEN CONCAT(', Available Qty changed from ', d.available_qty, ' to ', i.available_qty) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.qty <> i.qty THEN CONCAT(', Qty changed from ', d.qty, ' to ', i.qty) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.image <> i.image THEN CONCAT(', Image updated') 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.last_ordered <> i.last_ordered THEN CONCAT(', Last Ordered changed from ', CONVERT(NVARCHAR, d.last_ordered, 120), ' to ', CONVERT(NVARCHAR, i.last_ordered, 120)) 
-                    ELSE ''
-                END
+                COALESCE(NULLIF(CONCAT(', Device Type changed from ', d.device_type, ' to ', i.device_type), ', Device Type changed from  to '), ''),
+                COALESCE(NULLIF(CONCAT(', Model changed from ', d.model, ' to ', i.model), ', Model changed from  to '), ''),
+                COALESCE(NULLIF(CONCAT(', Available Qty changed from ', CAST(d.available_qty AS NVARCHAR), ' to ', CAST(i.available_qty AS NVARCHAR)), ', Available Qty changed from  to '), ''),
+                COALESCE(NULLIF(CONCAT(', Qty changed from ', CAST(d.qty AS NVARCHAR), ' to ', CAST(i.qty AS NVARCHAR)), ', Qty changed from  to '), ''),
+                COALESCE(NULLIF(', Image updated', ''), CASE WHEN d.image <> i.image THEN ', Image updated' ELSE '' END),
+                COALESCE(NULLIF(CONCAT(', Last Ordered changed from ', COALESCE(CONVERT(NVARCHAR, d.last_ordered, 120), 'NULL'), 
+                                         ' to ', COALESCE(CONVERT(NVARCHAR, i.last_ordered, 120), 'NULL')), 
+                                ', Last Ordered changed from NULL to NULL'), '')
             ),
             GETDATE()
         FROM Inserted i
@@ -261,7 +238,6 @@ BEGIN
     END;
 END;
 GO
-
 
 -----------------------------Log INSERT and UPDATE operations on SingleDevice table-----------------------------
 CREATE TRIGGER trgLogSingleDevice
