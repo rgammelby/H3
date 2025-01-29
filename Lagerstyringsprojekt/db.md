@@ -17,9 +17,9 @@ Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver a
 
 SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der findes 3 stk. Lenovo Whatever keyboards, vil hver af dem have en entry i denne tabel. Deres `type` kalder ud til DeviceType-tabellen. Deres `location` kalder ud til den samlede `Location`-tabel. `lifecycle`- og `booking`-ID'erne er unikke for hvert enkelte enhed.
 
-|id|name|type|description|status|location|qr|is_archived|
-|---|---|---|---|---|---|---|---|
-|#seq|name|device_type_id|blalbalbla|status_type_id|location_id|idk|true/false|
+|id|deviceOverview_id|description|status|location|qr|is_archived|
+|---||---|---|---|---|---|
+|#seq|deviceOverview_id|blalbalbla|status_type_id|location_id|idk|true/false|
 
 ## DeviceType
 
@@ -72,9 +72,9 @@ Extend ActivityType.end_date
 
 User-tabellen er en oversigt over brugere i systemet, som har mulighed for at booke/låne devices. 
 
-|id|first_name|last_name|email|telephone|is_active|type|
-|---|---|---|---|---|---|---|
-|#seq|anne|petersen|ap@mail.dk|1234 5678|active/inactive|user/admin|
+|id|first_name|last_name|email|telephone|is_active|type|salt|hashedpwd|
+|---|---|---|---|---|---|---|---|---|
+|#seq|anne|petersen|ap@mail.dk|1234 5678|active/inactive|user/admin|salt|hashedpwd|
 
 ### LocationRoom
 
