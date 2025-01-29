@@ -18,7 +18,7 @@ Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver a
 SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der findes 3 stk. Lenovo Whatever keyboards, vil hver af dem have en entry i denne tabel. Deres `type` kalder ud til DeviceType-tabellen. Deres `location` kalder ud til den samlede `Location`-tabel. `lifecycle`- og `booking`-ID'erne er unikke for hvert enkelte enhed.
 
 |id|deviceOverview_id|description|status|location|qr|is_archived|
-|---||---|---|---|---|---|
+|---|---|---|---|---|---|---|
 |#seq|deviceOverview_id|blalbalbla|status_type_id|location_id|idk|true/false|
 
 ## DeviceType
