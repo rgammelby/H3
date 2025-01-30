@@ -147,6 +147,13 @@ VALUES
 (2, 1, 6, 'fdk',  0),    -- Available HP Laptop in Room B
 (2, 1, 6, 'fdgdgdf', 0),    -- Available HP Laptop in Room B
 (2, 1, 5, 'fdgdgdf', 0);    -- Available HP Laptop in Room B
+-- insert monitors: 
+INSERT INTO SingleDevice (deviceOverview_id, status, location, description, is_archived)
+VALUES 
+(7, 1, 3, 'fgdf',  0),  
+(7, 1, 3, 'fgdgs',  0),  
+(7, 1, 7, 'fdk',  0)   
+
 
 -- Get all info about SingleDevices
 SELECT 
@@ -155,6 +162,7 @@ SELECT
     sd.qr AS QRCode, 
     sd.is_archived AS Archived, 
     do.model AS DeviceModel, 
+	dt.type_name AS DeviceType,  -- Added Device type_name
     st.status_type AS Status, 
     l.room_id AS Room, 
 	r.designation AS RoomName,
@@ -162,10 +170,12 @@ SELECT
 	c.designation AS CupboardName
 FROM SingleDevice sd
 JOIN DeviceOverview do ON sd.deviceOverview_id = do.id
+JOIN DeviceType dt ON do.device_type = dt.id  -- Joining DeviceType to get type_name
 JOIN StatusType st ON sd.status = st.id
 JOIN Location l ON sd.location = l.id
 JOIN LocationRoom r ON l.room_id = r.id
 JOIN LocationCupboard c ON l.cupboard_id = c.id;
+
 
 
 
