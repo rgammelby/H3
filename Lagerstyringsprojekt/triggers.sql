@@ -1,10 +1,10 @@
-USE Lagerstyring;
-GO
 
 ---------------------------------qty and available-qty in DeviceOverview table-------------------------------------------------
 
 -- ---------------------------Update qty and available_qty in DeviceOverview when a SingleDevice is Archived---------------------------
-CREATE TRIGGER trgUpdateQtyAndAvailable_qtyWhenSingleDeviceIsArchived
+USE [Lagerstyring]
+GO
+    CREATE TRIGGER trgUpdateQtyAndAvailable_qtyWhenSingleDeviceIsArchived
 ON SingleDevice
 AFTER UPDATE
 AS
@@ -25,12 +25,12 @@ BEGIN
       AND qty > 0          -- Ensure qty doesn't go below zero
       AND available_qty > 0; -- Ensure available_qty doesn't go below zero
 END;
-GO
 
 
 -- |1 Available|2 Overdue|3 Borrowed|4 Unavailable
 -------------------------------------trgUpdateAvailable_qtyUponSingleDeviceStatusChange---------------------------
-
+USE [Lagerstyring]
+GO
 CREATE TRIGGER trgUpdateAvailable_qtyUponSingleDeviceStatusChange
 ON SingleDevice
 AFTER UPDATE
@@ -64,11 +64,11 @@ BEGIN
     WHERE d.status = 1  -- Previous status was Available (1)
         AND i.status != 1; -- Current status is not Available (1)
 END;
-GO
 
 
 ---------------------------------## Sending and Logging Low stock Notification --------------------------------------
-
+USE [Lagerstyring]
+GO
 CREATE TRIGGER trgLowStockLogAndNotification
 ON DeviceOverview
 AFTER UPDATE
@@ -104,221 +104,229 @@ BEGIN
         PRINT 'Low stock alert logged. Check the Log table for details.';
     END;
 END;
-GO
+
 ------------------------------Log INSERT and UPDATE operations on User table----------------------------
 
-CREATE TRIGGER trgLogUser
-ON [User]
+USE [Lagerstyring]
+GO
+/****** Object:  Trigger [dbo].[trgLogUser]    Script Date: 30-01-2025 11:35:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER   TRIGGER [dbo].[trgLogUser]
+ON [dbo].[User]
 AFTER INSERT, UPDATE
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Handle INSERT
+    -- Handle INSERT (New User Added)
     IF EXISTS (SELECT 1 FROM Inserted) AND NOT EXISTS (SELECT 1 FROM Deleted)
     BEGIN
         INSERT INTO Log (log_type, log_message, timestamp)
         SELECT 
             'Insert',
             CONCAT(
-                'New user added: ID = ', i.id, 
-                ', Email = ', i.email, -- Email is mandatory, so always included
-                ', Type = ', i.type,   -- Type is mandatory, so always included
-                ', Salt = ', i.salt, -- Log salt for debugging security
-                CASE 
-                    WHEN i.first_name IS NOT NULL THEN CONCAT(', First Name = ', i.first_name) 
-                ELSE ', First Name = NULL'
-                END,
-                CASE 
-                    WHEN i.last_name IS NOT NULL THEN CONCAT(', Last Name = ', i.last_name) 
-                    ELSE ', Last Name = NULL'
-                END,
-                CASE 
-                    WHEN i.telephone IS NOT NULL THEN CONCAT(', Telephone = ', i.telephone) 
-                    ELSE ', Telephone = NULL'
-                END
+                'New user added: ID = ', CAST(i.id AS NVARCHAR(36)), 
+                ', Email = ', i.email, 
+                ', Type = ', i.type,
+                COALESCE(NULLIF(', First Name = ' + i.first_name, ', First Name = '), ''),
+                COALESCE(NULLIF(', Last Name = ' + i.last_name, ', Last Name = '), ''),
+                COALESCE(NULLIF(', Telephone = ' + i.telephone, ', Telephone = '), '')
             ),
             GETDATE()
         FROM Inserted i;
-    END
+    END;
 
-    -- Handle UPDATE
+    -- Handle UPDATE (Only Log True Changes)
     IF EXISTS (SELECT 1 FROM Inserted) AND EXISTS (SELECT 1 FROM Deleted)
     BEGIN
-        INSERT INTO Log (log_type, log_message, timestamp)
+        DECLARE @LogMessage NVARCHAR(MAX);
+
         SELECT 
-            'Update',
-            CONCAT(
-                'User updated: ID = ', i.id, -- ID is static and included for context
-                ', Email = ', i.email,       -- Email is static and included for context
-                CASE 
-                    WHEN d.telephone <> i.telephone THEN CONCAT(', Telephone changed from ', d.telephone, ' to ', i.telephone) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.is_active <> i.is_active THEN CONCAT(', Active Status changed from ', d.is_active, ' to ', i.is_active) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.first_name <> i.first_name THEN CONCAT(', First Name changed from ', d.first_name, ' to ', i.first_name) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.last_name <> i.last_name THEN CONCAT(', Last Name changed from ', d.last_name, ' to ', i.last_name) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.type <> i.type THEN CONCAT(', Type changed from ', d.type, ' to ', i.type) 
-                    ELSE ''
-                END
-            ),
-            GETDATE()
+            @LogMessage = CONCAT(
+                'User updated: ID = ', CAST(i.id AS NVARCHAR(36)), 
+                ', Email = ', i.email,
+
+                CASE WHEN d.telephone <> i.telephone THEN 
+                    CONCAT(', Telephone changed from ', COALESCE(d.telephone, 'NULL'), ' to ', COALESCE(i.telephone, 'NULL'))
+                ELSE '' END,
+
+                CASE WHEN d.is_active <> i.is_active THEN 
+                    CONCAT(', Active Status changed from ', d.is_active, ' to ', i.is_active) 
+                ELSE '' END,
+
+                CASE WHEN d.first_name <> i.first_name THEN 
+                    CONCAT(', First Name changed from ', COALESCE(d.first_name, 'NULL'), ' to ', COALESCE(i.first_name, 'NULL')) 
+                ELSE '' END,
+
+                CASE WHEN d.last_name <> i.last_name THEN 
+                    CONCAT(', Last Name changed from ', COALESCE(d.last_name, 'NULL'), ' to ', COALESCE(i.last_name, 'NULL')) 
+                ELSE '' END,
+
+                CASE WHEN d.type <> i.type THEN 
+                    CONCAT(', Type changed from ', d.type, ' to ', i.type) 
+                ELSE '' END
+            )
         FROM Inserted i
         INNER JOIN Deleted d ON i.id = d.id;
-    END
+
+        -- Only insert the log if something actually changed
+        IF LEN(@LogMessage) > LEN('User updated: ID = ' + CAST((SELECT TOP 1 id FROM Inserted) AS NVARCHAR(36)) + ', Email = ' + (SELECT TOP 1 email FROM Inserted))
+        BEGIN
+            INSERT INTO Log (log_type, log_message, timestamp)
+            VALUES ('Update', @LogMessage, GETDATE());
+        END
+    END;
 END;
-GO
 
 
 -----------------------------Log INSERT and UPDATE operations on DeviceOverview table-----------------------------
-CREATE TRIGGER trgLogDeviceOverview
+USE [Lagerstyring]
+GO
+CREATE OR ALTER TRIGGER trgLogDeviceOverview
 ON DeviceOverview
 AFTER INSERT, UPDATE
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Handle INSERT
+    -- Handle INSERT (New DeviceOverview Added)
     IF EXISTS (SELECT 1 FROM Inserted) AND NOT EXISTS (SELECT 1 FROM Deleted)
     BEGIN
         INSERT INTO Log (log_type, log_message, timestamp)
         SELECT 
             'Insert',
             CONCAT(
-                'New DeviceOverview added: ID = ', i.id,
+                'New DeviceOverview added: ID = ', CAST(i.id AS NVARCHAR(36)),
                 ', Device Type = ', i.device_type,
                 ', Model = ', i.model,
                 ', Available Qty = ', COALESCE(CAST(i.available_qty AS NVARCHAR), '0'),
                 ', Qty = ', COALESCE(CAST(i.qty AS NVARCHAR), '0'),
-                ', ', CASE WHEN i.image IS NOT NULL THEN 'Image Provided' ELSE 'No Image' END,
-                ', ', CASE WHEN i.last_ordered IS NOT NULL THEN CONCAT('Last Ordered = ', CONVERT(NVARCHAR, i.last_ordered, 120)) ELSE 'Last Ordered = NULL' END
+                CASE WHEN i.image IS NOT NULL THEN ', Image Provided' ELSE ', No Image' END,
+                CASE WHEN i.last_ordered IS NOT NULL THEN CONCAT(', Last Ordered = ', CONVERT(NVARCHAR, i.last_ordered, 120)) ELSE ', Last Ordered = NULL' END
             ),
             GETDATE()
         FROM Inserted i;
     END;
 
-    -- Handle UPDATE
+    -- Handle UPDATE (Only Log True Changes)
     IF EXISTS (SELECT 1 FROM Inserted) AND EXISTS (SELECT 1 FROM Deleted)
     BEGIN
-        INSERT INTO Log (log_type, log_message, timestamp)
+        DECLARE @LogMessage NVARCHAR(MAX);
+
         SELECT 
-            'Update',
-            CONCAT(
-                'Device updated: ID = ', i.id,
-                COALESCE(NULLIF(CONCAT(', Device Type changed from ', d.device_type, ' to ', i.device_type), ', Device Type changed from  to '), ''),
-                COALESCE(NULLIF(CONCAT(', Model changed from ', d.model, ' to ', i.model), ', Model changed from  to '), ''),
-                COALESCE(NULLIF(CONCAT(', Available Qty changed from ', CAST(d.available_qty AS NVARCHAR), ' to ', CAST(i.available_qty AS NVARCHAR)), ', Available Qty changed from  to '), ''),
-                COALESCE(NULLIF(CONCAT(', Qty changed from ', CAST(d.qty AS NVARCHAR), ' to ', CAST(i.qty AS NVARCHAR)), ', Qty changed from  to '), ''),
-                COALESCE(NULLIF(', Image updated', ''), CASE WHEN d.image <> i.image THEN ', Image updated' ELSE '' END),
-                COALESCE(NULLIF(CONCAT(', Last Ordered changed from ', COALESCE(CONVERT(NVARCHAR, d.last_ordered, 120), 'NULL'), 
-                                         ' to ', COALESCE(CONVERT(NVARCHAR, i.last_ordered, 120), 'NULL')), 
-                                ', Last Ordered changed from NULL to NULL'), '')
-            ),
-            GETDATE()
+            @LogMessage = CONCAT(
+                'Device updated: ID = ', CAST(i.id AS NVARCHAR(36)),
+
+                CASE WHEN d.device_type <> i.device_type THEN 
+                    CONCAT(', Device Type changed from ', d.device_type, ' to ', i.device_type) 
+                ELSE '' END,
+
+                CASE WHEN d.model <> i.model THEN 
+                    CONCAT(', Model changed from ', d.model, ' to ', i.model) 
+                ELSE '' END,
+
+                CASE WHEN d.available_qty <> i.available_qty THEN 
+                    CONCAT(', Available Qty changed from ', CAST(d.available_qty AS NVARCHAR), ' to ', CAST(i.available_qty AS NVARCHAR)) 
+                ELSE '' END,
+
+                CASE WHEN d.qty <> i.qty THEN 
+                    CONCAT(', Qty changed from ', CAST(d.qty AS NVARCHAR), ' to ', CAST(i.qty AS NVARCHAR)) 
+                ELSE '' END,
+
+                CASE WHEN d.image <> i.image THEN ', Image updated' ELSE '' END,
+
+                CASE WHEN d.last_ordered <> i.last_ordered THEN 
+                    CONCAT(', Last Ordered changed from ', COALESCE(CONVERT(NVARCHAR, d.last_ordered, 120), 'NULL'),
+                                             ' to ', COALESCE(CONVERT(NVARCHAR, i.last_ordered, 120), 'NULL')) 
+                ELSE '' END
+            )
         FROM Inserted i
-        INNER JOIN Deleted d ON i.id = d.id
-        WHERE 
-            -- Log only if at least one field has changed
-            d.device_type <> i.device_type OR
-            d.model <> i.model OR
-            d.available_qty <> i.available_qty OR
-            d.qty <> i.qty OR
-            d.image <> i.image OR
-            d.last_ordered <> i.last_ordered;
+        INNER JOIN Deleted d ON i.id = d.id;
+
+        -- Only insert the log if something actually changed
+        IF LEN(@LogMessage) > LEN('Device updated: ID = ' + CAST((SELECT TOP 1 id FROM Inserted) AS NVARCHAR(36)))
+        BEGIN
+            INSERT INTO Log (log_type, log_message, timestamp)
+            VALUES ('Update', @LogMessage, GETDATE());
+        END
     END;
 END;
-GO
+
 
 -----------------------------Log INSERT and UPDATE operations on SingleDevice table-----------------------------
-CREATE TRIGGER trgLogSingleDevice
+USE [Lagerstyring]
+GO
+CREATE OR ALTER TRIGGER trgLogSingleDevice
 ON SingleDevice
 AFTER INSERT, UPDATE
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Handle INSERT
+    -- Handle INSERT (New Single Device Added)
     IF EXISTS (SELECT 1 FROM Inserted) AND NOT EXISTS (SELECT 1 FROM Deleted)
     BEGIN
         INSERT INTO Log (log_type, log_message, timestamp)
         SELECT 
             'Insert',
             CONCAT(
-                'New single device added: ID = ', i.id,
-                ', Device Overview ID = ', i.deviceOverview_id, --  Updated column
-                CASE 
-                    WHEN i.description IS NOT NULL THEN CONCAT(', Description = ', i.description)
-                    ELSE ', Description = NULL'
-                END,
+                'New single device added: ID = ', CAST(i.id AS NVARCHAR(36)),
+                ', Device Overview ID = ', CAST(i.deviceOverview_id AS NVARCHAR(36)), 
+                COALESCE(NULLIF(', Description = ' + i.description, ', Description = '), ''),
                 ', Status = ', i.status,
-                CASE 
-                    WHEN i.location IS NOT NULL THEN CONCAT(', Location = ', i.location)
-                    ELSE ', Location = NULL'
-                END,
-                CASE 
-                    WHEN i.qr IS NOT NULL THEN CONCAT(', QR = ', i.qr)
-                    ELSE ', QR = NULL'
-                END,
-                ', Is Archived = ', COALESCE(CAST(i.is_archived AS NVARCHAR), '0') -- Defaults to '0' (false)
+                COALESCE(NULLIF(', Location = ' + i.location, ', Location = '), ''),
+                COALESCE(NULLIF(', QR = ' + i.qr, ', QR = '), ''),
+                ', Is Archived = ', COALESCE(CAST(i.is_archived AS NVARCHAR), '0')
             ),
             GETDATE()
         FROM Inserted i;
     END;
 
-    -- Handle UPDATE
+    -- Handle UPDATE (Only Log True Changes)
     IF EXISTS (SELECT 1 FROM Inserted) AND EXISTS (SELECT 1 FROM Deleted)
     BEGIN
-        INSERT INTO Log (log_type, log_message, timestamp)
+        DECLARE @LogMessage NVARCHAR(MAX);
+
         SELECT 
-            'Update',
-            CONCAT(
-                'Single device updated: ID = ', i.id,
-                CASE 
-                    WHEN d.deviceOverview_id <> i.deviceOverview_id THEN CONCAT(', Device Overview changed from ', d.deviceOverview_id, ' to ', i.deviceOverview_id) 
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.description <> i.description THEN CONCAT(', Description changed from ', d.description, ' to ', i.description)
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.status <> i.status THEN CONCAT(', Status changed from ', d.status, ' to ', i.status)
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.location <> i.location THEN CONCAT(', Location changed from ', d.location, ' to ', i.location)
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.qr <> i.qr THEN CONCAT(', QR changed from ', d.qr, ' to ', i.qr)
-                    ELSE ''
-                END,
-                CASE 
-                    WHEN d.is_archived <> i.is_archived THEN CONCAT(', Is Archived changed from ', CAST(d.is_archived AS NVARCHAR), ' to ', CAST(i.is_archived AS NVARCHAR))
-                    ELSE ''
-                END
-            ),
-            GETDATE()
+            @LogMessage = CONCAT(
+                'Single device updated: ID = ', CAST(i.id AS NVARCHAR(36)),
+
+                CASE WHEN d.deviceOverview_id <> i.deviceOverview_id THEN 
+                    CONCAT(', Device Overview changed from ', CAST(d.deviceOverview_id AS NVARCHAR(36)), ' to ', CAST(i.deviceOverview_id AS NVARCHAR(36))) 
+                ELSE '' END,
+
+                CASE WHEN d.description <> i.description THEN 
+                    CONCAT(', Description changed from ', COALESCE(d.description, 'NULL'), ' to ', COALESCE(i.description, 'NULL')) 
+                ELSE '' END,
+
+                CASE WHEN d.status <> i.status THEN 
+                    CONCAT(', Status changed from ', d.status, ' to ', i.status) 
+                ELSE '' END,
+
+                CASE WHEN d.location <> i.location THEN 
+                    CONCAT(', Location changed from ', COALESCE(d.location, 'NULL'), ' to ', COALESCE(i.location, 'NULL')) 
+                ELSE '' END,
+
+                CASE WHEN d.qr <> i.qr THEN 
+                    CONCAT(', QR changed from ', COALESCE(d.qr, 'NULL'), ' to ', COALESCE(i.qr, 'NULL')) 
+                ELSE '' END,
+
+                CASE WHEN d.is_archived <> i.is_archived THEN 
+                    CONCAT(', Is Archived changed from ', CAST(d.is_archived AS NVARCHAR), ' to ', CAST(i.is_archived AS NVARCHAR)) 
+                ELSE '' END
+            )
         FROM Inserted i
-        INNER JOIN Deleted d ON i.id = d.id
-        WHERE 
-            -- Log only if at least one field has changed
-            d.deviceOverview_id <> i.deviceOverview_id OR
-            d.description <> i.description OR
-            d.status <> i.status OR
-            d.location <> i.location OR
-            d.qr <> i.qr OR
-            d.is_archived <> i.is_archived;
+        INNER JOIN Deleted d ON i.id = d.id;
+
+        -- Only insert the log if something actually changed
+        IF LEN(@LogMessage) > LEN('Single device updated: ID = ' + CAST((SELECT TOP 1 id FROM Inserted) AS NVARCHAR(36)))
+        BEGIN
+            INSERT INTO Log (log_type, log_message, timestamp)
+            VALUES ('Update', @LogMessage, GETDATE());
+        END
     END;
 END;
 GO
