@@ -1,0 +1,6 @@
+@LagerSystemApi_HostAddress = http://localhost:5105
+
+GET {{LagerSystemApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
