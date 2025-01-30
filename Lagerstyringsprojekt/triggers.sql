@@ -14,16 +14,13 @@ BEGIN
     -- Decrement qty and available_qty in DeviceOverview when SingleDevice is archived
     UPDATE DeviceOverview
     SET 
-        qty = qty - 1,
-        available_qty = available_qty - 1
+        -- qty can be 0 after updating
+        qty = CASE WHEN qty > 0 THEN qty - 1 ELSE 0 END,
+        available_qty = CASE WHEN available_qty > 0 THEN available_qty - 1 ELSE 0 END
     FROM DeviceOverview
     INNER JOIN Inserted i ON 
-        -- DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
-        -- AND DeviceOverview.device_type = i.type -- Match the device_type
         DeviceOverview.id = i.deviceOverview_id -- Match by deviceOverview_id
     WHERE i.is_archived = 1 -- Check if SingleDevice is archived
-      AND qty > 0          -- Ensure qty doesn't go below zero
-      AND available_qty > 0; -- Ensure available_qty doesn't go below zero
 END;
 
 
@@ -42,27 +39,25 @@ BEGIN
     UPDATE DeviceOverview
     SET
         available_qty = available_qty + 1
-        FROM DeviceOverview
-        INNER JOIN Inserted i ON 
-            -- DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
-            -- AND DeviceOverview.device_type = i.type -- Match the device_type
+    FROM DeviceOverview
+    INNER JOIN Inserted i ON 
             DeviceOverview.id = i.deviceOverview_id -- Match by deviceOverview_id
-        INNER JOIN Deleted d ON d.id = i.id
-        WHERE d.status != 1  -- Previous status was not Available (1)
-        AND i.status = 1 -- Current status is Available (1)
+    INNER JOIN Deleted d ON d.id = i.id
+    WHERE d.status != 1  -- Previous status was not Available (1)
+    AND i.status = 1 -- Current status is Available (1)
 
     -- Decrement available_qty when status changes from 1 Available to any other status
     UPDATE DeviceOverview
     SET
-        available_qty = available_qty - 1
+        available_qty =  CASE 
+                           WHEN available_qty > 0 THEN available_qty - 1 
+                           ELSE 0 
+                        END  -- Prevent going below 0
     FROM DeviceOverview
-    INNER JOIN Inserted i ON
-            -- DeviceOverview.model = i.name -- Match the model in DeviceOverview with the name in SingleDevice
-            -- AND DeviceOverview.device_type = i.type -- Match the device_type
-        DeviceOverview.id = i.deviceOverview_id
+    INNER JOIN Inserted i ON DeviceOverview.id = i.deviceOverview_id
     INNER JOIN Deleted d ON d.id = i.id
     WHERE d.status = 1  -- Previous status was Available (1)
-        AND i.status != 1; -- Current status is not Available (1)
+    AND i.status != 1; -- Current status is not Available (1)
 END;
 
 
@@ -96,7 +91,7 @@ BEGIN
             GETDATE() -- Timestamp
         FROM Inserted i
         INNER JOIN Deleted d ON i.id = d.id
-        INNER JOIN DeviceOverview dv ON dv.id = i.id -- Fetch model using `dv`
+        INNER JOIN DeviceOverview dv ON dv.id = i.id 
         WHERE i.available_qty < 10
           AND d.available_qty >= 10;
 
@@ -277,7 +272,7 @@ BEGIN
                 ', Device Overview ID = ', CAST(i.deviceOverview_id AS NVARCHAR(36)), 
                 COALESCE(NULLIF(', Description = ' + i.description, ', Description = '), ''),
                 ', Status = ', i.status,
-                COALESCE(NULLIF(', Location = ' + i.location, ', Location = '), ''),
+                COALESCE(NULLIF(', Location = ' + CAST(i.location AS NVARCHAR), ', Location = '), ''),
                 COALESCE(NULLIF(', QR = ' + i.qr, ', QR = '), ''),
                 ', Is Archived = ', COALESCE(CAST(i.is_archived AS NVARCHAR), '0')
             ),
