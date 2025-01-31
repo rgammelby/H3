@@ -9,7 +9,7 @@ namespace LagerSystemApi.Controllers
     {
         Task<DeviceDTO[]> GetAll();
         Task<DeviceDTO> Get(int id);
-        Task Add(DeviceDTO device);
+        Task Add(AddSingleDeviceDTO device);
         Task Update(UpdateDeviceDTO device);
         Task Deactivate(int id);
 
@@ -36,7 +36,7 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPost("AddDevice")]
-        public async Task Add(DeviceDTO device)
+        public async Task Add(AddSingleDeviceDTO device)
         {
             await _deviceService.AddDevice(device);
         }

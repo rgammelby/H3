@@ -12,8 +12,8 @@ namespace LagerSystemApi.Services
         /*
         Task<ActivityDTO[]> SearchByType(string type);
         */
-        void AddActivity(ActivityDTO activity);
-        void UpdateActivity(UpdateActivityDTO activity);
+        Task AddActivity(ActivityDTO activity);
+        Task UpdateActivity(UpdateActivityDTO activity);
     }
     public class ActivityService : IActivityService
     {
@@ -53,18 +53,18 @@ namespace LagerSystemApi.Services
             return _activity.SearchByTypes(key);
         }
         */
-        public void AddActivity(ActivityDTO activity)
+        public async Task AddActivity(ActivityDTO activity)
         {
             if (activity != null && !HasNullFields(activity))
             {
-                _activity.Add(activity);
+                await _activity.Add(activity);
             }
         }
-        public void UpdateActivity(UpdateActivityDTO activity)
+        public async Task UpdateActivity(UpdateActivityDTO activity)
         {
             if (activity != null && !HasNullFields(activity))
             {
-                _activity.Update(activity);
+                await _activity.Update(activity);
             }
         }
 
@@ -74,24 +74,23 @@ namespace LagerSystemApi.Services
 
         private bool HasNullFields(ActivityDTO activity)
         {
-            return activity.notes == null ||
-                   activity.activity_type == null ||
-                   activity.end_date == null ||
-                   activity.created_at == null ||
-                   activity.device_id == null ||
-                   activity.start_date == null ||
-                   activity.lifecycle_id == null;
+            return string.IsNullOrEmpty(activity.notes) ||
+                   activity.activity_type == 0 ||
+                   activity.user_id == 0 ||
+                   activity.end_date == default(DateTime) ||
+                   activity.device_id == 0 ||
+                   activity.start_date == default(DateTime) ||
+                   activity.lifecycle_id == 0;
         }
 
         private bool HasNullFields(UpdateActivityDTO activity)
         {
-            return activity.notes == null ||
-                   activity.activity_type == null ||
-                   activity.end_date == null ||
-                   activity.created_at == null ||
-                   activity.device_id == null ||
-                   activity.start_date == null ||
-                   activity.lifecycle_id == null;
+            return string.IsNullOrEmpty(activity.notes) ||
+                   activity.activity_type == 0 ||
+                   activity.end_date == default(DateTime) ||
+                   activity.device_id == 0 ||
+                   activity.start_date == default(DateTime) ||
+                   activity.lifecycle_id == 0;
         }
     }
 }

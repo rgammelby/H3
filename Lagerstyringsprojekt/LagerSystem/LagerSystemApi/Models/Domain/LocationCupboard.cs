@@ -1,5 +1,8 @@
-﻿namespace LagerSystemApi.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LagerSystemApi.Models.Domain
 {
+    [Table("LocationCupboard")]
     public class LocationCupboard
     {
         public int id { get; set; }

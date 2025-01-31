@@ -1,4 +1,6 @@
 using LagerSystemApi.Data;
+using LagerSystemApi.Repository;
+using LagerSystemApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace LagerSystemApi
@@ -16,7 +18,21 @@ namespace LagerSystemApi
 
             // Register DbContext with SQL Server
             builder.Services.AddDbContext<LagerSystemDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+           .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
+
+
+            // Registers all repositories with an instance of DBcontext
+            builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+            builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+            builder.Services.AddScoped<ILogRepository, LogRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            // Registers all services with an instance of their repositories
+            builder.Services.AddScoped<IActivityService, ActivityService>();
+            builder.Services.AddScoped<IDeviceService, DeviceService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ILogService, LogService>();
 
             var app = builder.Build();
 

@@ -1,8 +1,12 @@
-﻿namespace LagerSystemApi.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LagerSystemApi.Models.Domain
 {
+    [Table("Activity")]
     public class Activity
     {
         public int id { get; set; }
+        public int user_id { get; set; }
         public int device_id { get; set; }
         public int activity_type { get; set; }
         public DateTime start_date { get; set; }

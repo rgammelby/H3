@@ -1,4 +1,5 @@
 ﻿using LagerSystemApi.Models.DTO;
+using LagerSystemApi.Repository;
 
 namespace LagerSystemApi.Services
 {
@@ -13,29 +14,35 @@ namespace LagerSystemApi.Services
     }
     public class UserService: IUserService
     {
+        IUserRepository _user;
+        public UserService(IUserRepository repo)
+        {
+            _user = repo;
+        }
         public Task<LoggedInDTO> LogIn(UserLogInDTO user)
         {
             return null;
         }
-        public Task<UserDTO> Get(int id)
+        public async Task<UserDTO> Get(int id)
         {
-            return null;
+            return await _user.Get(id);
         }
-        public Task<UserDTO[]> GetAll()
+        public async Task<UserDTO[]> GetAll()
         {
-            return null;
+            return await _user.GetAll();
         }
-        public Task AddUser(UserDTO user)
+        public async Task AddUser(UserDTO user)
         {
-            return null;
+
+            await _user.Add(user);
         }
-        public Task UpdateUser(UpdateUserDTO user)
+        public async Task UpdateUser(UpdateUserDTO user)
         {
-            return null;
+            await _user.Update(user);
         }
-        public Task Disable(int id)
+        public async Task Disable(int id)
         {
-            return null;
+            await _user.Disable(id);
         }
     }
 }

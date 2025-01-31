@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1tTyuvsl/bsul3CWaCYXJCSpv5A6nHnYaALmZAcJt++RUE0o9RO9oDdUAq+fuIzBoSdfpA4iRuLug0XAxJTzPw==",
+  "dgSpecHash": "prLbqwu4tUnXvfIzKyE68EslXpeW3dL2LUsnbOQVmWc7smDyL3Vkq1z1hhNROSDU6aSshdobAAgeOXxVLG1hNg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
+  "projectFilePath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zbcrvsa\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\zbcrvsa\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

@@ -1,30 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\",
+  "WorkspaceRootPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagersystem\\lagersystemapi\\repository\\devicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:repository\\devicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\repository\\activityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:repository\\activityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagersystem\\lagersystemapi\\lagersystemapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:lagersystemapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\services\\activityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:services\\activityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagersystem\\lagersystemapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagersystem\\lagersystemapi\\services\\logservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:services\\logservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\repository\\logrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:repository\\logrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\controllers\\logcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\logcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\services\\deviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:services\\deviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,8 +21,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 238,
-          "SelectedChildIndex": 4,
+          "DockedHeight": 219,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,90 +42,49 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DeviceRepository.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Repository\\DeviceRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\DeviceRepository.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Repository\\DeviceRepository.cs",
-              "RelativeToolTip": "Repository\\DeviceRepository.cs",
-              "ViewState": "AQIAADUAAAAAAAAAAAAswEMAAAAcAAAA",
+              "DocumentIndex": 2,
+              "Title": "DeviceService.cs",
+              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services\\DeviceService.cs",
+              "RelativeDocumentMoniker": "Services\\DeviceService.cs",
+              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services\\DeviceService.cs",
+              "RelativeToolTip": "Services\\DeviceService.cs",
+              "ViewState": "AQIAACAAAAAAAAAAAAAUwDIAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-30T08:34:36.85Z",
+              "WhenOpened": "2025-01-31T08:30:59.955Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LagerSystemApi",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
-              "RelativeDocumentMoniker": "LagerSystemApi.csproj",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
-              "RelativeToolTip": "LagerSystemApi.csproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-01-30T08:34:20.462Z",
+              "Title": "ActivityService.cs",
+              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services\\ActivityService.cs",
+              "RelativeDocumentMoniker": "Services\\ActivityService.cs",
+              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services\\ActivityService.cs",
+              "RelativeToolTip": "Services\\ActivityService.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAywDwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-31T07:37:42.729Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAQAAAAAAAAAAAAkwBAAAAAOAAAA",
+              "DocumentIndex": 0,
+              "Title": "ActivityRepository.cs",
+              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Repository\\ActivityRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\ActivityRepository.cs",
+              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Repository\\ActivityRepository.cs",
+              "RelativeToolTip": "Repository\\ActivityRepository.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAA6wBsAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-30T08:21:58.002Z",
+              "WhenOpened": "2025-01-31T07:32:13.166Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LogService.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Services\\LogService.cs",
-              "RelativeDocumentMoniker": "Services\\LogService.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Services\\LogService.cs",
-              "RelativeToolTip": "Services\\LogService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T14:05:49.067Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "LogRepository.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Repository\\LogRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\LogRepository.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Repository\\LogRepository.cs",
-              "RelativeToolTip": "Repository\\LogRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T14:05:47.663Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LogController.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Controllers\\LogController.cs",
-              "RelativeDocumentMoniker": "Controllers\\LogController.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\LagerSystem\\LagerSystemApi\\Controllers\\LogController.cs",
-              "RelativeToolTip": "Controllers\\LogController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T14:05:45.798Z"
             }
           ]
         },
         {
-          "DockedHeight": 161,
+          "DockedHeight": 180,
           "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"

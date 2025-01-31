@@ -10,9 +10,9 @@ namespace LagerSystemApi.Controllers
         Task<LoggedInDTO> LogIn(UserLogInDTO logIn);
         Task<UserDTO> Get(int id);
         Task<UserDTO[]> GetAll();
-        void Add(UserDTO user);
-        void Update(UpdateUserDTO user);
-        void Disable(int id);
+        Task Add(UserDTO user);
+        Task Update(UpdateUserDTO user);
+        Task Disable(int id);
     }
     public class UserController: IUserController
     {
@@ -44,21 +44,21 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPost("AddUser")]
-        public void Add(UserDTO user)
+        public async Task Add(UserDTO user)
         {
-            _user.AddUser(user);
+            await _user.AddUser(user);
         }
 
         [HttpPut("UpdateUser")]
-        public void Update(UpdateUserDTO user)
+        public async Task Update(UpdateUserDTO user)
         {
-            _user.UpdateUser(user);
+            await _user.UpdateUser(user);
         }
 
         [HttpPut("DisableUser")]
-        public void Disable(int id)
+        public async Task Disable(int id)
         {
-            _user.Disable(id);
+            await _user.Disable(id);
         }
     }
 }

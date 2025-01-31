@@ -31,8 +31,8 @@ namespace LagerSystemApi.Repository
             {
                 Activity newActivity = new Activity
                 {
-                    id = activity.id,
                     device_id = activity.device_id,
+                    user_id = activity.user_id,
                     activity_type = activity.activity_type,
                     created_at = DateTime.Now,
                     start_date = activity.start_date,
@@ -56,7 +56,7 @@ namespace LagerSystemApi.Repository
             {
                 Activity newActivity = await _context.Activities.Where(db => db.id == activity.id).FirstAsync();
 
-                if (newActivity == null) throw new Exception("Coudl not find the activity to be updated");
+                if (newActivity == null) throw new Exception("Could not find the activity to be updated");
 
                 newActivity.device_id = activity.device_id != 0 ? activity.device_id : newActivity.device_id;
                 newActivity.start_date = activity.start_date != default ? activity.start_date : newActivity.start_date;

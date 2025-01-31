@@ -19,8 +19,8 @@ namespace LagerSystemApi.TestRunner.FeatureTest
             // Arrange
             ActivityDTO[] mockActivity = new List<ActivityDTO>
             {
-                new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-One", booking_id = 1, lifecycle_id = 1 ,created_at = new DateTime(2025, 3, 25), start_date = new DateTime(2025, 3, 25), end_date = new DateTime(2025, 5, 1) },
-                new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", booking_id = 1, lifecycle_id = 2 ,created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) }
+                new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-One", lifecycle_id = 1 ,created_at = new DateTime(2025, 3, 25), start_date = new DateTime(2025, 3, 25), end_date = new DateTime(2025, 5, 1) },
+                new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", lifecycle_id = 2 ,created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) }
             }.ToArray();
 
             _activity.Setup(service => service.Add(mockActivity[0]));
@@ -44,8 +44,8 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         {
             // Arrange
             ActivityDTO[] mockActivity = new List<ActivityDTO> {
-                new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", booking_id = 1, lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) },
-                new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", booking_id = 1, lifecycle_id = 2, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) }
+                new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) },
+                new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", lifecycle_id = 2, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) }
             }.ToArray();
 
             _activity.Setup(service => service.Add(mockActivity[0]));
@@ -69,7 +69,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void CanGet_One_ActivityHistory()
         {
             // Arrange
-            ActivityDTO mockActivity = new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", booking_id = 1, lifecycle_id = 2, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
+            ActivityDTO mockActivity = new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", lifecycle_id = 2, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
 
             _activity.Setup(service => service.Add(mockActivity));
             _activity.Setup(service => service.Get(1));
@@ -87,7 +87,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void CheckIf_AbleTo_Create_ActivityHistory()
         {
             // Arrange
-            ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", booking_id = 1, lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
+            ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
 
             _activity.Setup(service => service.Add(mockActivity));
             _activity.Setup(service => service.Get(1));
@@ -105,8 +105,8 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void Can_Update_ActivityHistory()
         {
             // Arrange
-            ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", booking_id = 1, lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
-            UpdateActivityDTO updateActivity = new UpdateActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "is updated", booking_id = 1, lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 10, 1) };
+            ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
+            UpdateActivityDTO updateActivity = new UpdateActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "is updated", lifecycle_id = 1, created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 10, 1) };
 
             _activity.Setup(service => service.Add(mockActivity));
             _activity.Setup(service => service.Update(updateActivity));

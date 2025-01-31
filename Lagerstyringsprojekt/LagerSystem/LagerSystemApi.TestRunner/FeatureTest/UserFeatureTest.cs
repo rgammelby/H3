@@ -1,5 +1,4 @@
 ﻿using LagerSystemApi.Controllers;
-using LagerSystemApi.Models.Domain;
 using LagerSystemApi.Models.DTO;
 using Moq;
 
@@ -18,7 +17,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void CanUser_LogIn()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = "active", type = "user" };
+            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
             UserLogInDTO mockLogIn = new UserLogInDTO { email = "John@zbc.dk", password = "1234!" };
 
             _user.Setup(service => service.Add(mockUser));
@@ -37,7 +36,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void CanYou_CreateA_User()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = "active", type = "user" };
+            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
 
             _user.Setup(service => service.Add(mockUser));
             _user.Setup(service => service.Get(1));
@@ -55,7 +54,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void CanYou_UpdateA_User()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = "active", type = "user" };
+            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
             UpdateUserDTO mockUpdateUser = new UpdateUserDTO { firstname = "Jens", lastname = "Bondegård", telephone = "10010010", password = "4321!" };
 
             _user.Setup(service => service.Add(mockUser));
@@ -78,8 +77,8 @@ namespace LagerSystemApi.TestRunner.FeatureTest
             // Arrange
             UserDTO[] mockUsers = new UserDTO[]
             {
-                new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = "active", type = "user" },
-                new UserDTO { id = 2, first_name = "poul", last_name = "joe", email = "JohnAdmin@zbc.dk", password = "1234!", telephone = "10101010", is_active = "active", type = "admin" }
+                new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" },
+                new UserDTO { id = 2, first_name = "poul", last_name = "joe", email = "JohnAdmin@zbc.dk", password = "1234!", telephone = "10101010", is_active = true, type = "admin" }
             };
 
             _user.Setup(service => service.Add(mockUsers[0]));
@@ -101,7 +100,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void CanYou_ReadA_User()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = "active", type = "user" };
+            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
 
             _user.Setup(service => service.Add(mockUser));
             _user.Setup(service => service.Get(mockUser.id));
@@ -119,7 +118,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         public async void CanYou_Disable_User()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = "active", type = "user" };
+            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
 
             _user.Setup(service => service.Add(mockUser));
             _user.Setup(service => service.Disable(mockUser.id));

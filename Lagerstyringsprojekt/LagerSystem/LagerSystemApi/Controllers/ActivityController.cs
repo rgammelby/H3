@@ -10,8 +10,8 @@ namespace LagerSystemApi.Controllers
         Task<ActivityDTO> Get(int id);
         Task<ActivityDTO[]> GetAll();
         Task<ActivityDTO[]> GetByDeviceId(int id);
-        void Add(ActivityDTO activity);
-        void Update(UpdateActivityDTO activity);
+        Task Add(ActivityDTO activity);
+        Task Update(UpdateActivityDTO activity);
     }
     public class ActivityController: IActivityController
     {
@@ -28,11 +28,6 @@ namespace LagerSystemApi.Controllers
             return await _activity.Get(id);
         }
 
-        /// <summary>
-        /// This returns all the activites with this device id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("GetDeviceById")]
         public async Task<ActivityDTO[]> GetByDeviceId(int id)
         {
@@ -46,15 +41,15 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPost("AddActivity")]
-        public void Add(ActivityDTO activity)
+        public async Task Add(ActivityDTO activity)
         {
-            _activity.AddActivity(activity);
+            await _activity.AddActivity(activity);
         }
 
         [HttpPut("UpdateActivity")]
-        public void Update(UpdateActivityDTO activity)
+        public async Task Update(UpdateActivityDTO activity)
         {
-            _activity.UpdateActivity(activity);
+            await _activity.UpdateActivity(activity);
         }
     }
 }

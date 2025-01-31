@@ -9,7 +9,7 @@ namespace LagerSystemApi.Repository
     {
         Task<DeviceDTO> Get(int id);
         Task<DeviceDTO[]> GetAll();
-        Task Add(DeviceDTO device);
+        Task Add(AddSingleDeviceDTO device);
         Task Update(UpdateDeviceDTO device);
         Task DeactivateDevice(int id);
     }
@@ -34,14 +34,15 @@ namespace LagerSystemApi.Repository
                     id = device.id,
                     description = device.description,
                     location_id = device.location_id,
-                    name = device.name,
+                    deviceOverview_id = device.deviceOverview_id,
                     qr = device.qr,
                     status = device.status,
                     is_archived = device.is_archived,
                 };
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error while getting device: {id}\nError: ", ex.Message);
                 return null;
             }
         }
@@ -55,7 +56,7 @@ namespace LagerSystemApi.Repository
                     id = db.id,
                     description = db.description,
                     location_id = db.location_id,
-                    name = db.name,
+                    deviceOverview_id = db.deviceOverview_id,
                     qr = db.qr,
                     status = db.status,
                     is_archived = db.is_archived,
@@ -63,33 +64,77 @@ namespace LagerSystemApi.Repository
 
                 return device;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error while getting all devices\nError: ", ex.Message);
                 return null;
             }
         }
 
-        public async Task Add(DeviceDTO device)
+        public async Task Add(AddSingleDeviceDTO device)
         {
             try
             {
+                DeviceOverview oldOverview = await _context.DeviceOverviews.Where(db => db.model.Contains(device.model)).FirstOrDefaultAsync();
+
+                int deviceOverview_id = 0;
+
+                if (oldOverview == null)
+                {
+                    oldOverview = await AddDeviceOverview(device);
+                }
+                deviceOverview_id = oldOverview.id;
+
+                bool exists = await _context.DeviceOverviews.AnyAsync(d => d.id == deviceOverview_id);
+                if (!exists)
+                {
+                    throw new Exception($"DeviceOverview with ID {deviceOverview_id} not found.");
+                }
+
                 SingleDevice newDevice = new SingleDevice
                 {
+                    deviceOverview_id = deviceOverview_id,
                     description = device.description,
                     location_id = device.location_id,
-                    name = device.name,
                     qr = device.qr,
-                    status = device.status,
-                    is_archived = device.is_archived,
+                    status = device.status_id,
+                    is_archived = device.is_archived
                 };
                 _context.Devices.Add(newDevice);
                 await _context.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error while adding device\nError: {ex.Message}");
             }
         }
+
+        // Used to make overview there is no overview with this specified model
+        private async Task<DeviceOverview> AddDeviceOverview(AddSingleDeviceDTO device)
+        {
+            try
+            {
+                DeviceOverview newOverview = new DeviceOverview
+                {
+                    device_type = device.device_type,
+                    model = device.model,
+                    available_qty = device.available_qty,
+                    qty = device.qty,
+                    last_ordered = device.last_ordered,
+                    image = device.image
+                };
+
+                _context.DeviceOverviews.Add(newOverview);
+                var saved = await _context.SaveChangesAsync();
+
+                return newOverview;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         public async Task Update(UpdateDeviceDTO device)
         {
@@ -101,16 +146,15 @@ namespace LagerSystemApi.Repository
 
                 newDevice.description = !string.IsNullOrEmpty(device.description) ? device.description : newDevice.description;
                 newDevice.location_id = device.location_id != 0 ? device.location_id : newDevice.location_id;
-                newDevice.name = !string.IsNullOrEmpty(device.name) ? device.name : newDevice.name;
                 newDevice.qr = !string.IsNullOrEmpty(device.qr) ? device.qr : newDevice.qr;
                 newDevice.status = device.status != 0 ? device.status : newDevice.status;
-                newDevice.is_archived = device.is_archived != default ? device.is_archived : newDevice.is_archived;
+                newDevice.is_archived = device.is_archived;
 
                 await _context.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error while updating device: {device.id}\nError: ", ex.Message);
             }
         }
 
@@ -126,9 +170,9 @@ namespace LagerSystemApi.Repository
 
                 await _context.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Error while deactiveting device: {id}\nError: ", ex.Message);
             }
         }
     }

@@ -8,7 +8,7 @@
         public string email { get; set; }
         public string password { get; set; }
         public string telephone { get; set; }
-        public string is_active { get; set; }
+        public bool is_active { get; set; }
         public string type { get; set; }
 
     }
