@@ -1,5 +1,7 @@
-﻿using LagerSystemApi.Data;
-using LagerSystemApi.Models.Domain;
+﻿//using LagerSystemApi.Data;
+global using LagerstyringClassLibrary;
+global using LagerstyringClassLibrary.Models;
+//using LagerSystemApi.Models.Domain;
 using LagerSystemApi.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +17,8 @@ namespace LagerSystemApi.Repository
     }
     public class DeviceRepository: IDeviceRepository
     {
-        private readonly LagerSystemDbContext _context;
-        public DeviceRepository(LagerSystemDbContext db)
+        private readonly Context _context;
+        public DeviceRepository(Context db)
         {
             _context = db;
         }
@@ -27,14 +29,14 @@ namespace LagerSystemApi.Repository
             {
                 if (id == 0) return null;
 
-                SingleDevice device = await _context.Devices.Where(db => db.id == id).FirstAsync();
+                SingleDevice device = await _context.SingleDevices.Where(db => db.id == id).FirstAsync();
 
                 return new DeviceDTO
                 {
                     id = device.id,
                     description = device.description,
-                    location_id = device.location_id,
-                    deviceOverview_id = device.deviceOverview_id,
+                    location_id = device.location,
+                    device_overview_id = device.device_overview_id,
                     qr = device.qr,
                     status = device.status,
                     is_archived = device.is_archived,
@@ -51,12 +53,12 @@ namespace LagerSystemApi.Repository
         {
             try
             {
-                DeviceDTO[] device = await _context.Devices.Select(db => new DeviceDTO
+                DeviceDTO[] device = await _context.SingleDevices.Select(db => new DeviceDTO
                 {
                     id = db.id,
                     description = db.description,
-                    location_id = db.location_id,
-                    deviceOverview_id = db.deviceOverview_id,
+                    location_id = db.location,
+                    device_overview_id = db.device_overview_id,
                     qr = db.qr,
                     status = db.status,
                     is_archived = db.is_archived,
@@ -75,7 +77,7 @@ namespace LagerSystemApi.Repository
         {
             try
             {
-                DeviceOverview oldOverview = await _context.DeviceOverviews.Where(db => db.model.Contains(device.model)).FirstOrDefaultAsync();
+                DeviceOverview oldOverview = await _context.DeviceOverview.Where(db => db.model.Contains(device.model)).FirstOrDefaultAsync();
 
                 int deviceOverview_id = 0;
 
@@ -85,7 +87,7 @@ namespace LagerSystemApi.Repository
                 }
                 deviceOverview_id = oldOverview.id;
 
-                bool exists = await _context.DeviceOverviews.AnyAsync(d => d.id == deviceOverview_id);
+                bool exists = await _context.DeviceOverview.AnyAsync(d => d.id == deviceOverview_id);
                 if (!exists)
                 {
                     throw new Exception($"DeviceOverview with ID {deviceOverview_id} not found.");
@@ -93,14 +95,14 @@ namespace LagerSystemApi.Repository
 
                 SingleDevice newDevice = new SingleDevice
                 {
-                    deviceOverview_id = deviceOverview_id,
+                    device_overview_id = deviceOverview_id,
                     description = device.description,
-                    location_id = device.location_id,
+                    location = device.location_id,
                     qr = device.qr,
                     status = device.status_id,
                     is_archived = device.is_archived
                 };
-                _context.Devices.Add(newDevice);
+                _context.SingleDevices.Add(newDevice);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -124,7 +126,7 @@ namespace LagerSystemApi.Repository
                     image = device.image
                 };
 
-                _context.DeviceOverviews.Add(newOverview);
+                _context.DeviceOverview.Add(newOverview);
                 var saved = await _context.SaveChangesAsync();
 
                 return newOverview;
@@ -140,12 +142,12 @@ namespace LagerSystemApi.Repository
         {
             try
             {
-                SingleDevice newDevice = await _context.Devices.Where(db => db.id == device.id).FirstOrDefaultAsync();
+                SingleDevice newDevice = await _context.SingleDevices.Where(db => db.id == device.id).FirstOrDefaultAsync();
 
                 if (newDevice == null) throw new Exception("Could not find device to be updated");
 
                 newDevice.description = !string.IsNullOrEmpty(device.description) ? device.description : newDevice.description;
-                newDevice.location_id = device.location_id != 0 ? device.location_id : newDevice.location_id;
+                newDevice.location = device.location_id != 0 ? device.location_id : newDevice.location;
                 newDevice.qr = !string.IsNullOrEmpty(device.qr) ? device.qr : newDevice.qr;
                 newDevice.status = device.status != 0 ? device.status : newDevice.status;
                 newDevice.is_archived = device.is_archived;
@@ -162,7 +164,7 @@ namespace LagerSystemApi.Repository
         {
             try
             {
-                SingleDevice newDevice = await _context.Devices.Where(db => db.id == id).FirstOrDefaultAsync();
+                SingleDevice newDevice = await _context.SingleDevices.Where(db => db.id == id).FirstOrDefaultAsync();
 
                 if (newDevice == null) throw new Exception("Could not find the device to be deactivated");
 

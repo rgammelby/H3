@@ -10,6 +10,6 @@
         public DateTime end_date { get; set; }
         public DateTime created_at { get; set; }
         public string notes { get; set; }
-        public int lifecycle_id { get; set; }
+        public Guid lifecycle_id { get; set; }
     }
 }

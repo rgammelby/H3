@@ -1,5 +1,4 @@
-﻿using LagerSystemApi.Data;
-using LagerSystemApi.Models.Domain;
+﻿using LagerstyringClassLibrary.Models;
 using LagerSystemApi.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,8 +15,8 @@ namespace LagerSystemApi.Repository
     }
     public class UserRepository : IUserRepository
     {
-        LagerSystemDbContext _context;
-        public UserRepository(LagerSystemDbContext db)
+        Context _context;
+        public UserRepository(Context db)
         {
             _context = db;
         }
@@ -49,7 +48,7 @@ namespace LagerSystemApi.Repository
                     first_name = user.first_name,
                     last_name = user.last_name,
                     email = user.email,
-                    hashedpwd = user.password,
+                    password = user.password,
                     salt = "test",
                     is_active = user.is_active,
                     telephone = user.telephone,

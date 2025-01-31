@@ -80,7 +80,7 @@ namespace LagerSystemApi.Services
                    activity.end_date == default(DateTime) ||
                    activity.device_id == 0 ||
                    activity.start_date == default(DateTime) ||
-                   activity.lifecycle_id == 0;
+                   activity.lifecycle_id == new Guid();
         }
 
         private bool HasNullFields(UpdateActivityDTO activity)
@@ -90,7 +90,7 @@ namespace LagerSystemApi.Services
                    activity.end_date == default(DateTime) ||
                    activity.device_id == 0 ||
                    activity.start_date == default(DateTime) ||
-                   activity.lifecycle_id == 0;
+                   activity.lifecycle_id != new Guid();
         }
     }
 }

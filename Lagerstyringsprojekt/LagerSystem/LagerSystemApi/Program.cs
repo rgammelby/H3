@@ -1,4 +1,3 @@
-using LagerSystemApi.Data;
 using LagerSystemApi.Repository;
 using LagerSystemApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +16,7 @@ namespace LagerSystemApi
             builder.Services.AddSwaggerGen();
 
             // Register DbContext with SQL Server
-            builder.Services.AddDbContext<LagerSystemDbContext>(options =>
+            builder.Services.AddDbContext<Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
            .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
 

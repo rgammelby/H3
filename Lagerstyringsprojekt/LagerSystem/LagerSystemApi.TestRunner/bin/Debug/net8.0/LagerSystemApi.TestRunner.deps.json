@@ -1656,9 +1656,22 @@
         }
       },
       "xunit.runner.visualstudio/3.0.1": {},
+      "LagerstyringClassLibrary/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0"
+        },
+        "runtime": {
+          "LagerstyringClassLibrary.dll": {}
+        },
+        "compile": {
+          "LagerstyringClassLibrary.dll": {}
+        }
+      },
       "LagerSystemApi/1.0.0": {
         "dependencies": {
           "FluentAssertions": "8.0.1",
+          "LagerstyringClassLibrary": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Testing": "8.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0",
@@ -4238,6 +4251,11 @@
       "sha512": "sha512-lbyYtsBxA8Pz8kaf5Xn/Mj1mL9z2nlBWdZhqFaj66nxXBa4JwiTDm4eGcpSMet6du9TOWI6bfha+gQR6+IHawg==",
       "path": "xunit.runner.visualstudio/3.0.1",
       "hashPath": "xunit.runner.visualstudio.3.0.1.nupkg.sha512"
+    },
+    "LagerstyringClassLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "LagerSystemApi/1.0.0": {
       "type": "project",

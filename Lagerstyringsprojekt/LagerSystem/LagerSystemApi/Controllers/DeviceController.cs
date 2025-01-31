@@ -1,5 +1,4 @@
-﻿using LagerSystemApi.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using LagerSystemApi.Services;
 using LagerSystemApi.Models.DTO;
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Services;
-using LagerSystemApi.Data;
 
 namespace LagerSystemApi.Controllers
 {
@@ -15,9 +14,9 @@ namespace LagerSystemApi.Controllers
     }
     public class ActivityController: IActivityController
     {
-        private LagerSystemDbContext _context;
+        private Context _context;
         private IActivityService _activity;
-        public ActivityController(LagerSystemDbContext db, IActivityService service)
+        public ActivityController(Context db, IActivityService service)
         {
             _context = db;
             _activity = service;

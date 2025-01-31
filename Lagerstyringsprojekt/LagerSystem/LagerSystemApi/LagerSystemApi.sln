@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagerSystemApi", "LagerSystemApi.csproj", "{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagerSystemApi", "LagerSystemApi.csproj", "{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LagerSystemApi.TestRunner", "..\LagerSystemApi.TestRunner\LagerSystemApi.TestRunner.csproj", "{7365F021-938E-4EB9-A24C-450392541692}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagerSystemApi.TestRunner", "..\LagerSystemApi.TestRunner\LagerSystemApi.TestRunner.csproj", "{7365F021-938E-4EB9-A24C-450392541692}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagerstyringClassLibrary", "..\..\..\..\..\..\source\repos\EntityFrameworkTest\EntityFrameworkTest\LagerstyringClassLibrary.csproj", "{05F02BD0-CC5E-45F5-8942-359AA92D31EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7365F021-938E-4EB9-A24C-450392541692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7365F021-938E-4EB9-A24C-450392541692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7365F021-938E-4EB9-A24C-450392541692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05F02BD0-CC5E-45F5-8942-359AA92D31EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F02BD0-CC5E-45F5-8942-359AA92D31EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F02BD0-CC5E-45F5-8942-359AA92D31EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F02BD0-CC5E-45F5-8942-359AA92D31EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

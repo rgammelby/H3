@@ -1,5 +1,4 @@
-﻿using LagerSystemApi.Data;
-using LagerSystemApi.Models.DTO;
+﻿using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +12,9 @@ namespace LagerSystemApi.Controllers
     }
     public class LogController: ILogController
     {
-        private LagerSystemDbContext _context;
+        private Context _context;
         private ILogService _log;
-        public LogController(LagerSystemDbContext context, ILogService log)
+        public LogController(Context context, ILogService log)
         {
             _context = context;
             log = log;

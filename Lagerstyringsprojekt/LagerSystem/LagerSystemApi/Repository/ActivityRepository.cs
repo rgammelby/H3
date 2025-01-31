@@ -1,6 +1,5 @@
 ﻿using LagerSystemApi.Models.DTO;
-using LagerSystemApi.Models.Domain;
-using LagerSystemApi.Data;
+using LagerstyringClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LagerSystemApi.Repository
@@ -20,8 +19,8 @@ namespace LagerSystemApi.Repository
     }
     public class ActivityRepository: IActivityRepository
     {
-        private readonly LagerSystemDbContext _context;
-        public ActivityRepository(LagerSystemDbContext db)
+        private readonly Context _context;
+        public ActivityRepository(Context db)
         {
             _context = db;
         }
@@ -34,7 +33,7 @@ namespace LagerSystemApi.Repository
                     device_id = activity.device_id,
                     user_id = activity.user_id,
                     activity_type = activity.activity_type,
-                    created_at = DateTime.Now,
+                    created_on = DateTime.Now,
                     start_date = activity.start_date,
                     end_date = activity.end_date,
                     lifecycle_id = activity.lifecycle_id,
@@ -60,11 +59,11 @@ namespace LagerSystemApi.Repository
 
                 newActivity.device_id = activity.device_id != 0 ? activity.device_id : newActivity.device_id;
                 newActivity.start_date = activity.start_date != default ? activity.start_date : newActivity.start_date;
-                newActivity.created_at = activity.created_at != default ? activity.created_at : newActivity.created_at;
+                newActivity.created_on = activity.created_at != default ? activity.created_at : newActivity.created_on;
                 newActivity.end_date = activity.end_date != default ? activity.end_date : newActivity.end_date;
                 newActivity.notes = !string.IsNullOrEmpty(activity.notes) ? activity.notes : newActivity.notes;
                 newActivity.activity_type = activity.activity_type != 0 ? activity.activity_type : newActivity.activity_type;
-                newActivity.lifecycle_id = activity.lifecycle_id != 0 ? activity.lifecycle_id : newActivity.lifecycle_id;
+                newActivity.lifecycle_id = activity.lifecycle_id;
 
 
                 await _context.SaveChangesAsync();
@@ -84,7 +83,7 @@ namespace LagerSystemApi.Repository
                     id = db.id,
                     notes = db.notes,
                     activity_type = db.activity_type,
-                    created_at = db.created_at,
+                    created_at = db.created_on,
                     start_date = db.start_date,
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
@@ -108,7 +107,7 @@ namespace LagerSystemApi.Repository
                     id = db.id,
                     notes = db.notes,
                     activity_type = db.activity_type,
-                    created_at = db.created_at,
+                    created_at = db.created_on,
                     start_date = db.start_date,
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
@@ -127,12 +126,12 @@ namespace LagerSystemApi.Repository
         {
             try
             {
-                ActivityDTO[] activities = await _context.Activities.Where(db => db.lifecycle_id == id).Select(db => new ActivityDTO
+                ActivityDTO[] activities = await _context.Activities.Where(db => db.id == id).Select(db => new ActivityDTO
                 {
                     id = db.id,
                     notes = db.notes,
                     activity_type = db.activity_type,
-                    created_at = db.created_at,
+                    created_at = db.created_on,
                     start_date = db.start_date,
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
@@ -156,7 +155,7 @@ namespace LagerSystemApi.Repository
                     id = id,
                     notes = db.notes,
                     activity_type = db.activity_type,
-                    created_at = db.created_at,
+                    created_at = db.created_on,
                     start_date = db.start_date,
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
