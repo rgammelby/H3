@@ -1,6 +1,7 @@
 ﻿using LagerstyringClassLibrary.Models;
 using LagerSystemApi.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+using LagerSystemApi.Services;
 
 namespace LagerSystemApi.Repository
 {
@@ -16,9 +17,12 @@ namespace LagerSystemApi.Repository
     public class UserRepository : IUserRepository
     {
         Context _context;
-        public UserRepository(Context db)
+        PasswordService _passwordService;
+
+        public UserRepository(Context db, PasswordService passwordService)
         {
             _context = db;
+            _passwordService = passwordService;
         }
         
         public async Task<LoggedInDTO> Login(UserLogInDTO user)
@@ -48,12 +52,14 @@ namespace LagerSystemApi.Repository
                     first_name = user.first_name,
                     last_name = user.last_name,
                     email = user.email,
-                    password = user.password,
-                    salt = "test",
+                    salt = _passwordService.GenerateSalt(),
                     is_active = user.is_active,
                     telephone = user.telephone,
                     type = user.type
                 };
+
+                newUser.password = _passwordService.HashPassword(user.password, newUser.salt);
+
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
             }
@@ -111,6 +117,7 @@ namespace LagerSystemApi.Repository
                     first_name = user.first_name,
                     last_name = user.last_name,
                     email = user.email,
+                    password = user.password,
                     is_active = user.is_active,
                     telephone = user.telephone,
                     type = user.type

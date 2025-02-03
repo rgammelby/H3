@@ -1,0 +1,12 @@
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\bin\Debug\net8.0\EntityFrameworkTest.deps.json
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\bin\Debug\net8.0\EntityFrameworkTest.dll
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\bin\Debug\net8.0\EntityFrameworkTest.pdb
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\EntityFrameworkTest.csproj.AssemblyReference.cache
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\EntityFrameworkTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\EntityFrameworkTest.AssemblyInfoInputs.cache
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\EntityFrameworkTest.AssemblyInfo.cs
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\EntityFrameworkTest.csproj.CoreCompileInputs.cache
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\EntityFrameworkTest.dll
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\refint\EntityFrameworkTest.dll
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\EntityFrameworkTest.pdb
+C:\Users\rfj594\source\repos\EntityFrameworkTest\EntityFrameworkTest\obj\Debug\net8.0\ref\EntityFrameworkTest.dll
