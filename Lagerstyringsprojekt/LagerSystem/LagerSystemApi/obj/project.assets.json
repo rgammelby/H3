@@ -6107,8 +6107,8 @@
     },
     "LagerstyringClassLibrary/1.0.0": {
       "type": "project",
-      "path": "../../../../../../source/repos/EntityFrameworkTest/EntityFrameworkTest/LagerstyringClassLibrary.csproj",
-      "msbuildProject": "../../../../../../source/repos/EntityFrameworkTest/EntityFrameworkTest/LagerstyringClassLibrary.csproj"
+      "path": "../LagersystemClassLibrary/LagerstyringClassLibrary.csproj",
+      "msbuildProject": "../LagersystemClassLibrary/LagerstyringClassLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -6158,8 +6158,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\rfj594\\source\\repos\\EntityFrameworkTest\\EntityFrameworkTest\\LagerstyringClassLibrary.csproj": {
-              "projectPath": "C:\\Users\\rfj594\\source\\repos\\EntityFrameworkTest\\EntityFrameworkTest\\LagerstyringClassLibrary.csproj"
+            "C:\\Users\\rfj594\\Desktop\\ZBC\\Hovedforløb 3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj": {
+              "projectPath": "C:\\Users\\rfj594\\Desktop\\ZBC\\Hovedforløb 3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj"
             }
           }
         }

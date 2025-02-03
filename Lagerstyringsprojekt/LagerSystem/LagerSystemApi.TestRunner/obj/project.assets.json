@@ -5715,8 +5715,8 @@
     },
     "LagerstyringClassLibrary/1.0.0": {
       "type": "project",
-      "path": "../../../../../../source/repos/EntityFrameworkTest/EntityFrameworkTest/LagerstyringClassLibrary.csproj",
-      "msbuildProject": "../../../../../../source/repos/EntityFrameworkTest/EntityFrameworkTest/LagerstyringClassLibrary.csproj"
+      "path": "../LagersystemClassLibrary/LagerstyringClassLibrary.csproj",
+      "msbuildProject": "../LagersystemClassLibrary/LagerstyringClassLibrary.csproj"
     },
     "LagerSystemApi/1.0.0": {
       "type": "project",

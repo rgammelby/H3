@@ -36,6 +36,12 @@ namespace LagerSystemApi.Controllers
             return await _user.Get(id);
         }
 
+        [HttpGet("GetUserIdByEmail")]
+        public async Task<UserDTO> GetUserByEmail(string email)
+        {
+            return await _user.GetUserByEmail(email);
+        }
+
         [HttpGet("GetAllUsers")]
         public async Task<UserDTO[]> GetAll()
         {

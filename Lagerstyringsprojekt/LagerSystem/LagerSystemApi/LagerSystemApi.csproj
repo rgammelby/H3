@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\..\..\..\source\repos\EntityFrameworkTest\EntityFrameworkTest\LagerstyringClassLibrary.csproj" />
+	  <ProjectReference Include="..\LagersystemClassLibrary\LagerstyringClassLibrary.csproj" />
 	</ItemGroup>
 
 </Project>

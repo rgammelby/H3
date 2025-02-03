@@ -9,6 +9,7 @@ namespace LagerSystemApi.Repository
     {
         Task<LoggedInDTO> Login(UserLogInDTO user);
         Task Add(UserDTO user);
+        Task<UserDTO> GetUserByEmail(string email);
         Task Update(UpdateUserDTO user);
         Task Disable(int id);
         Task<UserDTO> Get(int id);
@@ -17,12 +18,10 @@ namespace LagerSystemApi.Repository
     public class UserRepository : IUserRepository
     {
         Context _context;
-        PasswordService _passwordService;
 
-        public UserRepository(Context db, PasswordService passwordService)
+        public UserRepository(Context db)
         {
             _context = db;
-            _passwordService = passwordService;
         }
         
         public async Task<LoggedInDTO> Login(UserLogInDTO user)
@@ -52,13 +51,12 @@ namespace LagerSystemApi.Repository
                     first_name = user.first_name,
                     last_name = user.last_name,
                     email = user.email,
-                    salt = _passwordService.GenerateSalt(),
+                    salt = user.salt,
+                    password = user.password,
                     is_active = user.is_active,
                     telephone = user.telephone,
                     type = user.type
                 };
-
-                newUser.password = _passwordService.HashPassword(user.password, newUser.salt);
 
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
@@ -105,6 +103,31 @@ namespace LagerSystemApi.Repository
             }
         }
 
+        public async Task<UserDTO> GetUserByEmail(string email)
+        {
+            try
+            {
+                User user = await _context.Users.Where(db => db.email == email).FirstOrDefaultAsync();
+
+                return new UserDTO
+                {
+                    id = user.id,
+                    first_name = user.first_name,
+                    last_name = user.last_name,
+                    email = user.email,
+                    password = user.password,
+                    is_active = user.is_active,
+                    telephone = user.telephone,
+                    type = user.type,
+                    salt = user.salt
+                };
+            } catch (Exception ex)
+            {
+                Console.WriteLine($"Error while getting user by e-mail address: {email}\nError: ", ex.Message);
+                return null;
+            }
+        }
+
         public async Task<UserDTO> Get(int id)
         {
             try
@@ -120,7 +143,8 @@ namespace LagerSystemApi.Repository
                     password = user.password,
                     is_active = user.is_active,
                     telephone = user.telephone,
-                    type = user.type
+                    type = user.type,
+                    salt = user.salt
                 };
             }
             catch (Exception ex)

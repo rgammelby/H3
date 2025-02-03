@@ -7,6 +7,7 @@ namespace LagerSystemApi.Services
     {
         Task<LoggedInDTO> LogIn(UserLogInDTO user);
         Task<UserDTO> Get(int id);
+        Task<UserDTO> GetUserByEmail(string email);   
         Task<UserDTO[]> GetAll();
         Task AddUser(UserDTO user);
         Task UpdateUser(UpdateUserDTO user);
@@ -15,14 +16,47 @@ namespace LagerSystemApi.Services
     public class UserService: IUserService
     {
         IUserRepository _user;
-        public UserService(IUserRepository repo)
+        PasswordService _passwordService;
+
+        public UserService(IUserRepository repo, PasswordService passwordService)
         {
             _user = repo;
+            _passwordService = passwordService;
         }
-        public Task<LoggedInDTO> LogIn(UserLogInDTO user)
+
+        public async Task<UserDTO> GetUserByEmail(string email)
         {
-            return null;
+            return await _user.GetUserByEmail(email); 
         }
+
+        public async Task<LoggedInDTO> LogIn(UserLogInDTO user)
+        {
+            Console.WriteLine($"\nUser.email: {user.email}\nUser.password: {user.password}\n");
+
+            UserDTO loginUser = await GetUserByEmail(user.email);
+            Console.WriteLine($"\nloginUser.id: {loginUser.id}\n");
+            Console.WriteLine($"\nloginUser.password: {loginUser.password}\n");
+            Console.WriteLine($"\nloginUser.salt: {loginUser.salt}\n");
+            Console.WriteLine($"\nbool: {_passwordService.VerifyPassword(user.password, loginUser.password, loginUser.salt)}");
+
+            if (loginUser == null || !_passwordService.VerifyPassword(user.password, loginUser.password, loginUser.salt))
+            {
+                return new LoggedInDTO
+                {
+                    token = "hejrune",
+                    message = "Login failed. ",
+                    status_code = 403
+                };
+            }
+
+            return new LoggedInDTO
+            {
+                token = "hejrune",
+                message = "Login successful. ",
+                status_code = 200
+            };
+        }
+
         public async Task<UserDTO> Get(int id)
         {
             return await _user.Get(id);
@@ -33,6 +67,9 @@ namespace LagerSystemApi.Services
         }
         public async Task AddUser(UserDTO user)
         {
+            // TODO: implement passwordService
+            user.salt = _passwordService.GenerateSalt();
+            user.password = _passwordService.HashPassword(user.password, user.salt);
 
             await _user.Add(user);
         }

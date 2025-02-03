@@ -10,6 +10,7 @@
         public string telephone { get; set; }
         public bool is_active { get; set; }
         public string type { get; set; }
+        public string salt { get; set; }
 
     }
 }
