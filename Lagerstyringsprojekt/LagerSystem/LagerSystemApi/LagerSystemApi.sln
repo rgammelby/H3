@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagerSystemApi", "LagerSyst
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagerSystemApi.TestRunner", "..\LagerSystemApi.TestRunner\LagerSystemApi.TestRunner.csproj", "{7365F021-938E-4EB9-A24C-450392541692}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagerstyringClassLibrary", "..\..\..\..\..\..\source\repos\EntityFrameworkTest\EntityFrameworkTest\LagerstyringClassLibrary.csproj", "{05F02BD0-CC5E-45F5-8942-359AA92D31EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LagerstyringClassLibrary", "..\LagersystemClassLibrary\LagerstyringClassLibrary.csproj", "{05F02BD0-CC5E-45F5-8942-359AA92D31EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
