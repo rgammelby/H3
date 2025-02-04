@@ -62,5 +62,42 @@ namespace LagerSystemApi.Controllers
             return CreatedAtAction(nameof(GetDeviceById), new { id = createdDevice.id }, createdDevice);
 
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateDevice(int id, [FromBody] UpdateDeviceDTO updateDeviceDTO)
+        {
+            if (updateDeviceDTO == null || id <= 0)
+            {
+                return BadRequest(new { message = "Invalid device data." });
+            }
+
+            var updatedDevice = await _deviceService.UpdateDevice(updateDeviceDTO);
+
+            if (updatedDevice == null)
+            {
+                return NotFound(new { message = $"Device with id {id} not found or update failed." });
+            }
+
+            return Ok(updatedDevice);
+
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> DeactivateDevice(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest(new { message = "Invalid devide data" });
+            }
+
+            var deactivatedDevice = await _deviceService.DeactivateDevice(id);
+
+            if (deactivatedDevice == null)
+            {
+                return NotFound(new { message = $"Unable to deactivate device {id}" });
+            }
+
+            return Ok(deactivatedDevice);
+        }
     }
 }
