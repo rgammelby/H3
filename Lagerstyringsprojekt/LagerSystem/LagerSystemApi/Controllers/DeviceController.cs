@@ -1,55 +1,66 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Services;
-using LagerSystemApi.Models.DTO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Xunit.Sdk;
 
 namespace LagerSystemApi.Controllers
 {
-    public interface IDeviceController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DeviceController : ControllerBase
     {
-        Task<DeviceDTO[]> GetAll();
-        Task<DeviceDTO> Get(int id);
-        Task Add(AddSingleDeviceDTO device);
-        Task Update(UpdateDeviceDTO device);
-        Task Deactivate(int id);
+        private readonly IDeviceService _deviceService;
 
-
-    }
-    public class DeviceController: IDeviceController
-    {
-        private IDeviceService _deviceService;
-        public DeviceController(IDeviceService service)
+        public DeviceController(IDeviceService deviceService)
         {
-            _deviceService = service;
+            _deviceService = deviceService;
         }
 
-        [HttpGet("GetDevice")]
-        public async Task<DeviceDTO> Get(int id)
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetDeviceById(int id)
         {
-            return await _deviceService.Get(id);
+            if (id <= 0)
+            {
+                return BadRequest(new { message = "Invalid Device id." });
+            }
+
+            var device = await _deviceService.GetDevice(id);
+            if (device == null)
+            {
+                return NotFound(new { message = $"Device with id {id} not found." });
+            }
+            return Ok(device);
         }
 
-        [HttpGet("GetAllDevices")]
-        public async Task<DeviceDTO[]> GetAll()
+        [HttpGet]
+        public async Task<IActionResult> GetAllDevices()
         {
-            return await _deviceService.GetAll();
+            var devices = await _deviceService.GetAllDevices();
+            if (devices == null)
+            {
+                return BadRequest(new { message = "NoDevice found." });
+            }
+            return Ok(devices);
         }
 
-        [HttpPost("AddDevice")]
-        public async Task Add(AddSingleDeviceDTO device)
+        [HttpPost]
+        public async Task<IActionResult> AddNewDevice([FromBody] AddSingleDeviceDTO addSingleDeviceDTO)
         {
-            await _deviceService.AddDevice(device);
-        }
+            if (addSingleDeviceDTO == null)
+            {
+                return BadRequest(new { message = "Invalid data." });
+            }
 
-        [HttpPut("UpdateDevice")]
-        public async Task Update(UpdateDeviceDTO device)
-        {
-            await _deviceService.UpdateDevice(device);
-        }
+            var createdDevice = await _deviceService.AddDevice(addSingleDeviceDTO);
+            if (createdDevice == null)
+            {
+                return BadRequest(new { message = "Failed to create new device." });
+            }
 
-        [HttpPut("DeactivateDevice")]
-        public async Task Deactivate(int id)
-        {
-            await _deviceService.DeactivateDevice(id);
+            return CreatedAtAction(nameof(GetDeviceById), new { id = createdDevice.id }, createdDevice);
+
         }
     }
 }

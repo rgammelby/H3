@@ -16,9 +16,12 @@ namespace LagerstyringClassLibrary.Models
 
         [Required]
         public string model { get; set; }  // changed to model
+        [Required]
         public int device_type { get; set; }  // FK DeviceType
         public string image { get; set; }
+        [Required]
         public int qty { get; set; }
+        [Required]
         public int available_qty { get; set; }
         public DateTime last_ordered { get; set; }
 

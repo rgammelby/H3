@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LagerstyringClassLibrary.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250131124633_Initial")]
-    partial class Initial
+    [Migration("20250203210331_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

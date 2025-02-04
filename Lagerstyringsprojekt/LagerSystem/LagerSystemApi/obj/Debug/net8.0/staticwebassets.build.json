@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "4DgEUbADrwVPD1eH5lfdWI2FUER07ndLRAjtpgxuVFg=",
+  "Hash": "bUdOAJGrLfnGaEDSfHZSe4IyQ4XVZ+tR8ZHZJRh6+Wo=",
   "Source": "LagerSystemApi",
   "BasePath": "_content/LagerSystemApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

@@ -1,4 +1,4 @@
-﻿using LagerstyringClassLibrary.Models;
+﻿
 using LagerSystemApi.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using LagerSystemApi.Services;

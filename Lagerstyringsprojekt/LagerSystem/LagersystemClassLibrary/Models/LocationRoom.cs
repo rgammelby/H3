@@ -16,11 +16,11 @@ namespace LagerstyringClassLibrary.Models
         
         [Required]
         public string designation { get; set; }
-        public int location_cupboard_id { get; set; }
+        
 
         // 1-m navigation property
         public ICollection<LocationCupboard> Cupboards { get; set; } = new List<LocationCupboard>();
 
-        public ICollection<SingleDevice> Devices { get; set; } = new List<SingleDevice>();
+       
     }
 }

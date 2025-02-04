@@ -1,86 +1,196 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\rune1\\Downloads\\LagerSystem-20250125T115018Z-001\\LagerSystem\\LagerSystemApi\\",
+  "WorkspaceRootPath": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7365F021-938E-4EB9-A24C-450392541692}|..\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj|c:\\users\\rune1\\downloads\\lagersystem-20250125t115018z-001\\lagersystem\\lagersystemapi.testrunner\\featuretest\\devicefeaturetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{05F02BD0-CC5E-45F5-8942-359AA92D31EE}|..\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemclasslibrary\\models\\locationroom.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7365F021-938E-4EB9-A24C-450392541692}|..\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj|c:\\users\\rune1\\downloads\\lagersystem-20250125t115018z-001\\lagersystem\\lagersystemapi.testrunner\\featuretest\\activityfeaturetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{05F02BD0-CC5E-45F5-8942-359AA92D31EE}|..\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemclasslibrary\\contextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\rune1\\downloads\\lagersystem-20250125t115018z-001\\lagersystem\\lagersystemapi\\models\\dto\\devicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:models\\dto\\devicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\controllers\\devicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\devicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\controllers\\deviceoverviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\deviceoverviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\twan\\source\\repos\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\controllers\\logcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\logcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 1,
+      "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 109,
-          "SelectedChildIndex": 5,
+          "DockedWidth": 516,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LocationRoom.cs",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\Models\\LocationRoom.cs",
+              "RelativeDocumentMoniker": "..\\LagersystemClassLibrary\\Models\\LocationRoom.cs",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\Models\\LocationRoom.cs",
+              "RelativeToolTip": "..\\LagersystemClassLibrary\\Models\\LocationRoom.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-03T21:44:00.939Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ActivityFeatureTest.cs",
-              "DocumentMoniker": "C:\\Users\\rune1\\Downloads\\LagerSystem-20250125T115018Z-001\\LagerSystem\\LagerSystemApi.TestRunner\\FeatureTest\\ActivityFeatureTest.cs",
-              "RelativeDocumentMoniker": "..\\LagerSystemApi.TestRunner\\FeatureTest\\ActivityFeatureTest.cs",
-              "ToolTip": "C:\\Users\\rune1\\Downloads\\LagerSystem-20250125T115018Z-001\\LagerSystem\\LagerSystemApi.TestRunner\\FeatureTest\\ActivityFeatureTest.cs*",
-              "RelativeToolTip": "..\\LagerSystemApi.TestRunner\\FeatureTest\\ActivityFeatureTest.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAMAAAAAAAAAA==",
+              "Title": "ContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\ContextFactory.cs",
+              "RelativeDocumentMoniker": "..\\LagersystemClassLibrary\\ContextFactory.cs",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\ContextFactory.cs",
+              "RelativeToolTip": "..\\LagersystemClassLibrary\\ContextFactory.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-26T11:46:31.609Z",
+              "WhenOpened": "2025-02-03T20:16:42.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-03T20:16:03.29Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "DeviceDTO.cs",
-              "DocumentMoniker": "C:\\Users\\rune1\\Downloads\\LagerSystem-20250125T115018Z-001\\LagerSystem\\LagerSystemApi\\Models\\DTO\\DeviceDTO.cs",
-              "RelativeDocumentMoniker": "Models\\DTO\\DeviceDTO.cs",
-              "ToolTip": "C:\\Users\\rune1\\Downloads\\LagerSystem-20250125T115018Z-001\\LagerSystem\\LagerSystemApi\\Models\\DTO\\DeviceDTO.cs",
-              "RelativeToolTip": "Models\\DTO\\DeviceDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwDEAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-25T13:34:13.826Z"
+              "WhenOpened": "2025-02-03T20:15:57.439Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DeviceFeatureTest.cs",
-              "DocumentMoniker": "C:\\Users\\rune1\\Downloads\\LagerSystem-20250125T115018Z-001\\LagerSystem\\LagerSystemApi.TestRunner\\FeatureTest\\DeviceFeatureTest.cs",
-              "RelativeDocumentMoniker": "..\\LagerSystemApi.TestRunner\\FeatureTest\\DeviceFeatureTest.cs",
-              "ToolTip": "C:\\Users\\rune1\\Downloads\\LagerSystem-20250125T115018Z-001\\LagerSystem\\LagerSystemApi.TestRunner\\FeatureTest\\DeviceFeatureTest.cs",
-              "RelativeToolTip": "..\\LagerSystemApi.TestRunner\\FeatureTest\\DeviceFeatureTest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAmAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "DeviceController.cs",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\DeviceController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DeviceController.cs",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\DeviceController.cs",
+              "RelativeToolTip": "Controllers\\DeviceController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAgwEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-25T12:30:06.011Z",
+              "WhenOpened": "2025-02-03T19:53:15.508Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LogController.cs",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\LogController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LogController.cs",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\LogController.cs",
+              "RelativeToolTip": "Controllers\\LogController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-03T19:52:09.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DeviceOverviewController.cs",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\DeviceOverviewController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DeviceOverviewController.cs",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\DeviceOverviewController.cs",
+              "RelativeToolTip": "Controllers\\DeviceOverviewController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-03T19:49:28.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\twan\\source\\repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-03T19:51:36.682Z",
               "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedHeight": 290,
+          "DockedWidth": 279,
           "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             }
           ]
         }

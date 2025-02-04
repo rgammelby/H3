@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LagerstyringClassLibrary.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250131124541_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250203213043_updateRelationsCupboardRoomSingleDevice")]
+    partial class updateRelationsCupboardRoomSingleDevice
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,16 +170,16 @@ namespace LagerstyringClassLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("Roomid")
-                        .HasColumnType("int");
-
                     b.Property<string>("designation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("room_id")
+                        .HasColumnType("int");
+
                     b.HasKey("id");
 
-                    b.HasIndex("Roomid");
+                    b.HasIndex("room_id");
 
                     b.ToTable("Cupboards");
                 });
@@ -195,9 +195,6 @@ namespace LagerstyringClassLibrary.Migrations
                     b.Property<string>("designation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("location_cupboard_id")
-                        .HasColumnType("int");
 
                     b.HasKey("id");
 
@@ -236,9 +233,6 @@ namespace LagerstyringClassLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("Locationid")
-                        .HasColumnType("int");
-
                     b.Property<string>("description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -261,9 +255,9 @@ namespace LagerstyringClassLibrary.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Locationid");
-
                     b.HasIndex("device_overview_id");
+
+                    b.HasIndex("location");
 
                     b.HasIndex("status");
 
@@ -398,7 +392,7 @@ namespace LagerstyringClassLibrary.Migrations
                 {
                     b.HasOne("LagerstyringClassLibrary.Models.LocationRoom", "Room")
                         .WithMany("Cupboards")
-                        .HasForeignKey("Roomid")
+                        .HasForeignKey("room_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -407,15 +401,15 @@ namespace LagerstyringClassLibrary.Migrations
 
             modelBuilder.Entity("LagerstyringClassLibrary.Models.SingleDevice", b =>
                 {
-                    b.HasOne("LagerstyringClassLibrary.Models.LocationRoom", "Location")
-                        .WithMany("Devices")
-                        .HasForeignKey("Locationid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("LagerstyringClassLibrary.Models.DeviceOverview", "DeviceOverview")
                         .WithMany("Devices")
                         .HasForeignKey("device_overview_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LagerstyringClassLibrary.Models.LocationCupboard", "Location")
+                        .WithMany("Devices")
+                        .HasForeignKey("location")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -447,11 +441,14 @@ namespace LagerstyringClassLibrary.Migrations
                     b.Navigation("Overviews");
                 });
 
+            modelBuilder.Entity("LagerstyringClassLibrary.Models.LocationCupboard", b =>
+                {
+                    b.Navigation("Devices");
+                });
+
             modelBuilder.Entity("LagerstyringClassLibrary.Models.LocationRoom", b =>
                 {
                     b.Navigation("Cupboards");
-
-                    b.Navigation("Devices");
                 });
 
             modelBuilder.Entity("LagerstyringClassLibrary.Models.SingleDevice", b =>

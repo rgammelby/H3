@@ -15,10 +15,13 @@ namespace LagerSystemApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Register DbContext with SQL Server
+
+            //  Configure DbContext to use SQL Server and ensure migrations work
             builder.Services.AddDbContext<Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-           .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                    sqlOptions => sqlOptions.MigrationsAssembly("LagerSystemApi")) // Ensure migrations go to API
+                .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information) // Debug logs
+            );
 
 
             // Registers all repositories with an instance of DBcontext
@@ -35,6 +38,13 @@ namespace LagerSystemApi
             builder.Services.AddScoped<ILogService, LogService>();
 
             var app = builder.Build();
+
+            //  Ensure database is created and migrated at startup
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+                dbContext.Database.Migrate(); // This will auto-migrate DB at startup
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

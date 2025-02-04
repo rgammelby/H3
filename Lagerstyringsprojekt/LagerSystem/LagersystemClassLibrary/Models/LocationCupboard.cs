@@ -16,7 +16,12 @@ namespace LagerstyringClassLibrary.Models
         [Required]
         public string designation { get; set; }
 
+        // Foreign Key (Cupboard belongs to Room)
+        public int room_id { get; set; }
+
+
         // nav prop
         public LocationRoom Room { get; set; }
+        public ICollection<SingleDevice> Devices { get; set; } = new List<SingleDevice>();
     }
 }
