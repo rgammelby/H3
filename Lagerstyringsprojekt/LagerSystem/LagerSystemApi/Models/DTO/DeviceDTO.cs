@@ -9,7 +9,7 @@ namespace LagerSystemApi.Models.DTO
         public bool is_archived { get; set; }
         public string description { get; set; }
         public int status { get; set; }
-        public int location_id { get; set; }
+        public int location { get; set; }
         public string qr { get; set; }
     }
 }

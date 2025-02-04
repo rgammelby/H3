@@ -9,12 +9,18 @@ namespace LagerSystemApi.Repository
 {
     public interface IDeviceRepository
     {
-        Task<DeviceDTO> Get(int id);
-        Task<DeviceDTO[]> GetAll();
-        Task Add(AddSingleDeviceDTO device);
-        Task Update(UpdateDeviceDTO device);
-        Task DeactivateDevice(int id);
+        Task<SingleDevice?> GetDeviceById(int id); // Returns domain model
+        Task<List<SingleDevice>> GetAllDevices();  // Returns list of domain models
+        Task AddDevice(SingleDevice device);       // Accepts domain model for adding
+        Task UpdateDevice(SingleDevice device);    // Updates a domain model
+        // Task DeactivateDevice(int id);                 // Deactivate a device by id
     }
+    /// <summary>
+    ///  The repository is responsible for interacting with the database. It:
+    /// Fetches, adds, updates, or deletes data from the database.
+    /// Returns domain models (like SingleDevice or DTOs if necessary).
+    /// Does not handle business rules or logic.
+    /// </summary>
     public class DeviceRepository: IDeviceRepository
     {
         private readonly Context _context;
@@ -23,159 +29,65 @@ namespace LagerSystemApi.Repository
             _context = db;
         }
 
-        public async Task<DeviceDTO> Get(int id)
+        public async Task<SingleDevice?> GetDeviceById(int id)
         {
-            try
-            {
-                if (id == 0) return null;
-
-                SingleDevice device = await _context.SingleDevices.Where(db => db.id == id).FirstAsync();
-
-                return new DeviceDTO
-                {
-                    id = device.id,
-                    description = device.description,
-                    location_id = device.location,
-                    device_overview_id = device.device_overview_id,
-                    qr = device.qr,
-                    status = device.status,
-                    is_archived = device.is_archived,
-                };
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while getting device: {id}\nError: ", ex.Message);
-                return null;
-            }
+           return await _context.SingleDevices.SingleOrDefaultAsync( d => d.id == id);
+            // If no device found, returns null (handled in service layer)
         }
 
-        public async Task<DeviceDTO[]> GetAll()
+        public async Task<List<SingleDevice>> GetAllDevices()
         {
-            try
-            {
-                DeviceDTO[] device = await _context.SingleDevices.Select(db => new DeviceDTO
-                {
-                    id = db.id,
-                    description = db.description,
-                    location_id = db.location,
-                    device_overview_id = db.device_overview_id,
-                    qr = db.qr,
-                    status = db.status,
-                    is_archived = db.is_archived,
-                }).ToArrayAsync();
-
-                return device;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while getting all devices\nError: ", ex.Message);
-                return null;
-            }
+           return await _context.SingleDevices.ToListAsync() ?? new List<SingleDevice>();
+            // Ensures it never returns null, only an empty list
         }
 
-        public async Task Add(AddSingleDeviceDTO device)
+        public async Task AddDevice(SingleDevice device)
         {
-            try
-            {
-                DeviceOverview oldOverview = await _context.DeviceOverview.Where(db => db.model.Contains(device.model)).FirstOrDefaultAsync();
-
-                int deviceOverview_id = 0;
-
-                if (oldOverview == null)
-                {
-                    oldOverview = await AddDeviceOverview(device);
-                }
-                deviceOverview_id = oldOverview.id;
-
-                bool exists = await _context.DeviceOverview.AnyAsync(d => d.id == deviceOverview_id);
-                if (!exists)
-                {
-                    throw new Exception($"DeviceOverview with ID {deviceOverview_id} not found.");
-                }
-
-                SingleDevice newDevice = new SingleDevice
-                {
-                    device_overview_id = deviceOverview_id,
-                    description = device.description,
-                    location = device.location_id,
-                    qr = device.qr,
-                    status = device.status_id,
-                    is_archived = device.is_archived
-                };
-                _context.SingleDevices.Add(newDevice);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while adding device\nError: {ex.Message}");
-            }
+            _context.SingleDevices.Add(device);
+            await _context.SaveChangesAsync();
         }
 
         // Used to make overview there is no overview with this specified model
-        private async Task<DeviceOverview> AddDeviceOverview(AddSingleDeviceDTO device)
+        //private async Task<DeviceOverview> AddDeviceOverview(AddSingleDeviceDTO device)
+        //{
+        //    try
+        //    {
+        //        DeviceOverview newOverview = new DeviceOverview
+        //        {
+        //            device_type = device.device_type,
+        //            model = device.model,
+        //            available_qty = device.available_qty,
+        //            qty = device.qty,
+        //            last_ordered = device.last_ordered,
+        //            image = device.image
+        //        };
+
+        //        _context.DeviceOverview.Add(newOverview);
+        //        var saved = await _context.SaveChangesAsync();
+
+        //        return newOverview;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
+
+
+        public async Task UpdateDevice(SingleDevice device)
         {
-            try
-            {
-                DeviceOverview newOverview = new DeviceOverview
-                {
-                    device_type = device.device_type,
-                    model = device.model,
-                    available_qty = device.available_qty,
-                    qty = device.qty,
-                    last_ordered = device.last_ordered,
-                    image = device.image
-                };
-
-                _context.DeviceOverview.Add(newOverview);
-                var saved = await _context.SaveChangesAsync();
-
-                return newOverview;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            _context.Entry(device).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
-
-        public async Task Update(UpdateDeviceDTO device)
-        {
-            try
-            {
-                SingleDevice newDevice = await _context.SingleDevices.Where(db => db.id == device.id).FirstOrDefaultAsync();
-
-                if (newDevice == null) throw new Exception("Could not find device to be updated");
-
-                newDevice.description = !string.IsNullOrEmpty(device.description) ? device.description : newDevice.description;
-                newDevice.location = device.location_id != 0 ? device.location_id : newDevice.location;
-                newDevice.qr = !string.IsNullOrEmpty(device.qr) ? device.qr : newDevice.qr;
-                newDevice.status = device.status != 0 ? device.status : newDevice.status;
-                newDevice.is_archived = device.is_archived;
-
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while updating device: {device.id}\nError: ", ex.Message);
-            }
-        }
-
-        public async Task DeactivateDevice(int id)
-        {
-            try
-            {
-                SingleDevice newDevice = await _context.SingleDevices.Where(db => db.id == id).FirstOrDefaultAsync();
-
-                if (newDevice == null) throw new Exception("Could not find the device to be deactivated");
-
-                newDevice.is_archived = true;
-
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while deactiveting device: {id}\nError: ", ex.Message);
-            }
-        }
+        //public async Task DeactivateDevice(int id)
+        //{
+        //    var device = await GetDeviceById(id);
+        //    if (device != null)
+        //    {
+        //        device.is_archived = true;
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
     }
 }

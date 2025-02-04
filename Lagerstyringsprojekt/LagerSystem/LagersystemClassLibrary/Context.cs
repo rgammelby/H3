@@ -70,6 +70,23 @@ namespace LagerstyringClassLibrary
                 .HasIndex(u => u.email)
                 .IsUnique();
 
+            // SingleDevice - LocationCupboard (Many-to-One)
+            modelBuilder.Entity<SingleDevice>()
+                .HasOne(sd => sd.Location)
+                .WithMany(c => c.Devices)
+                .HasForeignKey(sd => sd.location);
+
+            // LocationCupboard - LocationRoom (Many-to-One)
+            modelBuilder.Entity<LocationCupboard>()
+                .HasOne(c => c.Room)
+                .WithMany(r => r.Cupboards)
+                .HasForeignKey(c => c.room_id);
+
+            // UNIQUE and INDEX constraints for User and User column email
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.email)
+                .IsUnique();
+
             // UNIQUE for Activity column lifecycle_id
             modelBuilder.Entity<Activity>()
                 .HasIndex(a => a.lifecycle_id);
@@ -102,7 +119,7 @@ namespace LagerstyringClassLibrary
                 .ValueGeneratedOnAdd();
         }
 
-        public string conn = "Server=localhost\\SQLEXPRESS;Database=Lagerstyring;Trusted_Connection=True;User Id=admin;Password=administrator;Encrypt=False;";
+        public string conn = "Server=SUS-EL-TWAN1;Database=Lagerstyring;Trusted_Connection=True;TrustServerCertificate=True";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

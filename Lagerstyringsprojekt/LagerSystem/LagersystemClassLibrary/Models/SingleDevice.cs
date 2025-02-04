@@ -20,7 +20,7 @@ namespace LagerstyringClassLibrary.Models
         //public string device_type { get; set; }  // string value of type via DeviceOverview  // removed; duplicate data
 
         public int status { get; set; }  // FK id from StatusType
-        public int location { get; set; }  // FK id from LocationRoom  location = $"{Location.Room + Location.Cupboard} where id = {id}";
+        public int location { get; set; }  // FK id from LocationCupboard  location = $"{Location.Cupboard + Cupboard.roomid} where id = {id}";
         public int device_overview_id { get; set; }  // FK DeviceOverview
         public string description { get; set; }
         public string qr { get; set; }
@@ -34,6 +34,6 @@ namespace LagerstyringClassLibrary.Models
         //public Location Locations { get; set; }
         public DeviceOverview DeviceOverview { get; set; }
 
-        public LocationRoom Location { get; set; }
+        public LocationCupboard Location { get; set; }
     }
 }
