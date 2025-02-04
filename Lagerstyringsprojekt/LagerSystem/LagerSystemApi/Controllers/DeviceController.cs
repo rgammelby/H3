@@ -87,14 +87,14 @@ namespace LagerSystemApi.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest(new { message = "Invalid devide data" });
+                return BadRequest(new { message = "Invalid device data." });
             }
 
             var deactivatedDevice = await _deviceService.DeactivateDevice(id);
 
             if (deactivatedDevice == null)
             {
-                return NotFound(new { message = $"Unable to deactivate device {id}" });
+                return NotFound(new { message = $"Unable to deactivate device {id}." });
             }
 
             return Ok(deactivatedDevice);
