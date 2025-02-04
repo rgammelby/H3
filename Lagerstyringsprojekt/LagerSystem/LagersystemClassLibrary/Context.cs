@@ -117,6 +117,21 @@ namespace LagerstyringClassLibrary
             modelBuilder.Entity<ActivityType>()
                 .Property(st => st.id)
                 .ValueGeneratedOnAdd();
+
+             // Seed data for DeviceType
+             modelBuilder.Entity<DeviceType>().HasData(
+                 new DeviceType { id = 1, type_name = "Laptop" },
+                 new DeviceType { id = 2, type_name = "Desktop" },
+                 new DeviceType { id = 3, type_name = "Keyboard" },
+                 new DeviceType { id = 4, type_name = "Monitor" },
+                 new DeviceType { id = 5, type_name = "Mouse" },
+                 new DeviceType { id = 6, type_name = "Server" },
+                 new DeviceType { id = 7, type_name = "Router" },
+                 new DeviceType { id = 8, type_name = "Switch" },
+                 new DeviceType { id = 9, type_name = "Headset" },
+                 new DeviceType { id = 10, type_name = "Microphone Set" },
+                 new DeviceType { id = 11, type_name = "WebCam" }
+             );
         }
 
         public string conn = "Server=SUS-EL-TWAN1;Database=Lagerstyring;Trusted_Connection=True;TrustServerCertificate=True";
