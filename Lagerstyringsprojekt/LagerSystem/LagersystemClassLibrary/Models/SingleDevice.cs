@@ -34,6 +34,6 @@ namespace LagerstyringClassLibrary.Models
         //public Location Locations { get; set; }
         public DeviceOverview DeviceOverview { get; set; }
 
-        public LocationCupboard Location { get; set; }
+        public Location Location { get; set; }
     }
 }
