@@ -19,8 +19,9 @@ namespace LagerstyringClassLibrary.Models
         
 
        // nav prop
-        public Location Location { get; set; }
-
-       
+        // public Location Location { get; set; }
+        
+        // Many-to-Many with Location
+        public ICollection<Location> Locations { get; set; } = new List<Location>();
     }
 }
