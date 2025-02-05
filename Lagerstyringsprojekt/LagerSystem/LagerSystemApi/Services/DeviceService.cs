@@ -91,7 +91,7 @@ namespace LagerSystemApi.Services
             // 🔹 Set default values if null or empty
             newDeviceDto.description ??= "No description provided";
             newDeviceDto.qr ??= "";
-            newDeviceDto.status = newDeviceDto.status != 0 ? newDeviceDto.status : 1; // ✅ Default status to `1` (Available)
+            newDeviceDto.status = newDeviceDto.status != 0 ? newDeviceDto.status : 1; //  Default status to `1` (Available)
             
 
             var device = new SingleDevice
