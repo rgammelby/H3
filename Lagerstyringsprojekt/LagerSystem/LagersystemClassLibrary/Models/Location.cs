@@ -13,15 +13,17 @@ namespace LagerstyringClassLibrary.Models
 
         [Key]
         public int id { get; set; }
-        public int room_id { get; set; }
-        public int cupboard_id { get; set; }
-
-        // 1-m navigation prop
-        public ICollection<LocationRoom> Rooms { get; set; }
-        public ICollection<LocationCupboard> Cupboards { get; set; }
-
-        // nav prop
+        // no need fks anymore:
+        //[ForeignKey("Room")]
+        //public int room_id { get; set; }
+        //[ForeignKey("Cupboard")]
+        //public int cupboard_id { get; set; }
+        
+        // Navigation Properties (Many-to-Many)
+        public ICollection<LocationRoom> Rooms { get; set; } = new List<LocationRoom>();
+        public ICollection<LocationCupboard> Cupboards { get; set; } =  new List<LocationCupboard>();
+        
+        // nav prop: devices in this lcoation:
         public ICollection<SingleDevice> Devices { get; set; } = new List<SingleDevice>();
-
     }
 }
