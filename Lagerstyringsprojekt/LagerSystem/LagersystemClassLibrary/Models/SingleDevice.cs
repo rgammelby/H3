@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ namespace LagerstyringClassLibrary.Models
         //public string device_type { get; set; }  // string value of type via DeviceOverview  // removed; duplicate data
 
         public int status { get; set; }  // FK id from StatusType
+
+        // Foreign Key for LocationCupboard
+        [ForeignKey("Location")]
         public int location { get; set; }  // FK id from LocationCupboard  location = $"{Location.Cupboard + Cupboard.roomid} where id = {id}";
         public int device_overview_id { get; set; }  // FK DeviceOverview
         public string description { get; set; }
@@ -34,6 +38,6 @@ namespace LagerstyringClassLibrary.Models
         //public Location Locations { get; set; }
         public DeviceOverview DeviceOverview { get; set; }
 
-        public Location Location { get; set; }
+        public LocationCupboard Location { get; set; }
     }
 }

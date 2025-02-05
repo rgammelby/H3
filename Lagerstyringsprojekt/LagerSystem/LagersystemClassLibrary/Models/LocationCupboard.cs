@@ -16,7 +16,11 @@ namespace LagerstyringClassLibrary.Models
         [Required]
         public string designation { get; set; }
 
-        // Many-to-Many with Location
-        public ICollection<Location> Locations { get; set; } = new List<Location>();
+        // Foreign Key (Cupboard belongs to Room)
+        public int room_id { get; set; }
+
+        // nav prop
+        public LocationRoom Room { get; set; }
+        public ICollection<SingleDevice> Devices { get; set; } = new List<SingleDevice>();
     }
 }

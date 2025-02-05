@@ -13,15 +13,12 @@ namespace LagerstyringClassLibrary.Models
 
         [Key]
         public int id { get; set; }
-        
+
         [Required]
         public string designation { get; set; }
-        
 
-       // nav prop
-        // public Location Location { get; set; }
-        
-        // Many-to-Many with Location
-        public ICollection<Location> Locations { get; set; } = new List<Location>();
+
+        // 1-m navigation property
+        public ICollection<LocationCupboard> Cupboards { get; set; } = new List<LocationCupboard>();
     }
 }

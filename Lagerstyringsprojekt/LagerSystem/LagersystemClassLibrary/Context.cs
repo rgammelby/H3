@@ -18,7 +18,7 @@ namespace LagerstyringClassLibrary
         public DbSet<Activity> Activities { get; set; }
         public DbSet<DeviceOverview> DeviceOverview { get; set; }
         public DbSet<DeviceType> DeviceTypes { get; set; }
-        public DbSet<Location> Locations { get; set; }
+        // public DbSet<Location> Locations { get; set; }
         public DbSet<LocationCupboard> Cupboards { get; set; }
         public DbSet<LocationRoom> Rooms { get; set; }
         public DbSet<Log> Logs { get; set; }
@@ -29,17 +29,7 @@ namespace LagerstyringClassLibrary
         // OnModelCreating for instituting foreign keys
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Many-to-Many Relationship: Room <-> Location
-            modelBuilder.Entity<Location>()
-                .HasMany(l => l.Rooms)
-                .WithMany(r => r.Locations)
-                .UsingEntity(j => j.ToTable("LocationRooms"));
             
-            // Many-to-Many Relationship: Cupboard <-> Location
-            modelBuilder.Entity<Location>()
-                .HasMany(l => l.Cupboards)
-                .WithMany(c => c.Locations)
-                .UsingEntity(j => j.ToTable("LocationCupboards"));
 
             // Activity - ActivityType (Many-to-One)
             modelBuilder.Entity<Activity>()
@@ -144,6 +134,40 @@ namespace LagerstyringClassLibrary
                  new DeviceType { id = 10, type_name = "Microphone Set" },
                  new DeviceType { id = 11, type_name = "WebCam" }
              );
+
+            // Seed data for LocationRoom (3 rooms)
+            modelBuilder.Entity<LocationRoom>().HasData(
+                new LocationRoom { id = 1, designation = "D.15" },
+                new LocationRoom { id = 2, designation = "D.16" },
+                new LocationRoom { id = 3, designation = "D.17" }
+            );
+
+            // Seed data for LocationCupboard (6 cupboards per room)
+            modelBuilder.Entity<LocationCupboard>().HasData(
+                // Cupboards for Room D.15 (id=1)
+                new LocationCupboard { id = 1, designation = "Cupboard 1", room_id = 1 },
+                new LocationCupboard { id = 2, designation = "Cupboard 2", room_id = 1 },
+                new LocationCupboard { id = 3, designation = "Cupboard 3", room_id = 1 },
+                new LocationCupboard { id = 4, designation = "Cupboard 4", room_id = 1 },
+                new LocationCupboard { id = 5, designation = "Cupboard 5", room_id = 1 },
+                new LocationCupboard { id = 6, designation = "Cupboard 6", room_id = 1 },
+
+                // Cupboards for Room D.16 (id=2)
+                new LocationCupboard { id = 7, designation = "Cupboard 7", room_id = 2 },
+                new LocationCupboard { id = 8, designation = "Cupboard 8", room_id = 2 },
+                new LocationCupboard { id = 9, designation = "Cupboard 9", room_id = 2 },
+                new LocationCupboard { id = 10, designation = "Cupboard 10", room_id = 2 },
+                new LocationCupboard { id = 11, designation = "Cupboard 11", room_id = 2 },
+                new LocationCupboard { id = 12, designation = "Cupboard 12", room_id = 2 },
+
+                // Cupboards for Room D.17 (id=3)
+                new LocationCupboard { id = 13, designation = "Cupboard 13", room_id = 3 },
+                new LocationCupboard { id = 14, designation = "Cupboard 14", room_id = 3 },
+                new LocationCupboard { id = 15, designation = "Cupboard 15", room_id = 3 },
+                new LocationCupboard { id = 16, designation = "Cupboard 16", room_id = 3 },
+                new LocationCupboard { id = 17, designation = "Cupboard 17", room_id = 3 },
+                new LocationCupboard { id = 18, designation = "Cupboard 18", room_id = 3 }
+            );
         }
 
         public string conn = "Server=SUS-EL-TWAN1;Database=Lagerstyring;Trusted_Connection=True;TrustServerCertificate=True";
