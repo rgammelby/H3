@@ -18,8 +18,8 @@ namespace LagerstyringClassLibrary.Models
         public string designation { get; set; }
         
 
-        // 1-m navigation property
-        public ICollection<LocationCupboard> Cupboards { get; set; } = new List<LocationCupboard>();
+       // nav prop
+        public Location Location { get; set; }
 
        
     }
