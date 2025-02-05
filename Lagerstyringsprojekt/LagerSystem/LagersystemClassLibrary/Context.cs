@@ -18,7 +18,7 @@ namespace LagerstyringClassLibrary
         public DbSet<Activity> Activities { get; set; }
         public DbSet<DeviceOverview> DeviceOverview { get; set; }
         public DbSet<DeviceType> DeviceTypes { get; set; }
-        //public DbSet<Location> Locations { get; set; }
+        public DbSet<Location> Locations { get; set; }
         public DbSet<LocationCupboard> Cupboards { get; set; }
         public DbSet<LocationRoom> Rooms { get; set; }
         public DbSet<Log> Logs { get; set; }
@@ -29,6 +29,18 @@ namespace LagerstyringClassLibrary
         // OnModelCreating for instituting foreign keys
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Many-to-Many Relationship: Room <-> Location
+            modelBuilder.Entity<Location>()
+                .HasMany(l => l.Rooms)
+                .WithMany(r => r.Locations)
+                .UsingEntity(j => j.ToTable("LocationRooms"));
+            
+            // Many-to-Many Relationship: Cupboard <-> Location
+            modelBuilder.Entity<Location>()
+                .HasMany(l => l.Cupboards)
+                .WithMany(c => c.Locations)
+                .UsingEntity(j => j.ToTable("LocationCupboards"));
+
             // Activity - ActivityType (Many-to-One)
             modelBuilder.Entity<Activity>()
                 .HasOne(a => a.ActivityType)
