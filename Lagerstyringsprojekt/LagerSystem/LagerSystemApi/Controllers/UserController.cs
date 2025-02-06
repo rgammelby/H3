@@ -24,8 +24,8 @@ namespace LagerSystemApi.Controllers
             _user = user;
         }
 
-        [HttpGet("Login")]
-        public Task<LoggedInDTO> LogIn(UserLogInDTO logIn)
+        [HttpPost("Login")]
+        public Task<LoggedInDTO> LogIn([FromBody] UserLogInDTO logIn)
         {
             return _user.LogIn(logIn);
         }

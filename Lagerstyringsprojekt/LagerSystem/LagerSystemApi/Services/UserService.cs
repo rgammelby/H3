@@ -31,13 +31,7 @@ namespace LagerSystemApi.Services
 
         public async Task<LoggedInDTO> LogIn(UserLogInDTO user)
         {
-            Console.WriteLine($"\nUser.email: {user.email}\nUser.password: {user.password}\n");
-
             UserDTO loginUser = await GetUserByEmail(user.email);
-            Console.WriteLine($"\nloginUser.id: {loginUser.id}\n");
-            Console.WriteLine($"\nloginUser.password: {loginUser.password}\n");
-            Console.WriteLine($"\nloginUser.salt: {loginUser.salt}\n");
-            Console.WriteLine($"\nbool: {_passwordService.VerifyPassword(user.password, loginUser.password, loginUser.salt)}");
 
             if (loginUser == null || !_passwordService.VerifyPassword(user.password, loginUser.password, loginUser.salt))
             {

@@ -20,6 +20,11 @@ namespace LagerSystemApi
             // Register AutoMapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
+            // Enforce HTTPS
+            builder.Services.AddHttpsRedirection(options =>
+            {
+                options.HttpsPort = 443; // Default HTTPS port
+            });
 
             // Register DbContext with SQL Server
             builder.Services.AddDbContext<Context>(options =>
