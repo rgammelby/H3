@@ -15,6 +15,7 @@ namespace LagerstyringClassLibrary.Models
         public int id { get; set; }
 
         [Required]
+        [StringLength(16)]
         public string activity_type { get; set; }
 
 

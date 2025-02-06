@@ -15,6 +15,7 @@ namespace LagerstyringClassLibrary.Models
         public int id { get; set; }  // seq
 
         [Required]
+        [StringLength(32)]
         public string model { get; set; }  // changed to model
         [Required]
         public int device_type { get; set; }  // FK DeviceType

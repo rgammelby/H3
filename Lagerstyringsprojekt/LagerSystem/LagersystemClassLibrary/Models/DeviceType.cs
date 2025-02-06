@@ -14,6 +14,7 @@ namespace LagerstyringClassLibrary.Models
         [Key]
         public int id { get; set; }
         [Required]
+        [StringLength(32)]
         public string type_name { get; set; }
 
         // 1-m navigation property

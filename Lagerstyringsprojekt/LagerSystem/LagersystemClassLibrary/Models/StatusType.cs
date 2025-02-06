@@ -15,6 +15,7 @@ namespace LagerstyringClassLibrary.Models
         public int id { get; set; }
 
         [Required]
+        [StringLength(16)]
         public string status_type { get; set; }
 
         // 1-m navigation prop

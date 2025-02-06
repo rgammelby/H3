@@ -15,15 +15,19 @@ namespace LagerstyringClassLibrary.Models
         public int id { get; set; }
 
         [Required]
+        [StringLength(64)]
         public string first_name { get; set; }
 
         [Required]
+        [StringLength(64)]
         public string last_name { get; set; }
 
         [Required]
+        [StringLength(64)]
         public string email { get; set; }
 
         [Required]
+        [StringLength(12)]
         public string telephone { get; set; }
         public bool is_active { get; set; } = true;
 
