@@ -5,6 +5,7 @@ namespace LagerSystemApi.Services
 {
     public interface IUserService
     {
+        Task<LoggedInDTO> AdminLogin(UserLogInDTO admin);
         Task<LoggedInDTO> LogIn(UserLogInDTO user);
         Task<UserDTO> Get(int id);
         Task<UserDTO> GetUserByEmail(string email);   
@@ -28,6 +29,28 @@ namespace LagerSystemApi.Services
         {
             return await _user.GetUserByEmail(email); 
         }
+
+        public async Task<LoggedInDTO> AdminLogin(UserLogInDTO admin)
+        {
+            UserDTO loginAdmin = await GetUserByEmail(admin.email);
+
+            if (loginAdmin == null || !_passwordService.VerifyPassword(admin.password, loginAdmin.password, loginAdmin.salt) || loginAdmin.type != "admin")
+            {
+                return new LoggedInDTO
+                {
+                    token = "hejrune",
+                    message = "E-mail address/password is incorrect, or user does not have admin status. ",
+                    status_code = 403
+                };
+            }
+
+            return new LoggedInDTO
+            {
+                token = "hejrune",
+                message = "Login successful. ",
+                status_code = 200
+            };
+        } 
 
         public async Task<LoggedInDTO> LogIn(UserLogInDTO user)
         {

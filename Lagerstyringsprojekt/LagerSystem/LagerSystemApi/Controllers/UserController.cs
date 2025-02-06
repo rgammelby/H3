@@ -30,6 +30,12 @@ namespace LagerSystemApi.Controllers
             return _user.LogIn(logIn);
         }
 
+        [HttpPost("AdminLogin")]
+        public Task<LoggedInDTO> AdminLogin([FromBody] UserLogInDTO admin)
+        {
+            return _user.AdminLogin(admin);
+        }
+
         [HttpGet("GetUser")]
         public async Task<UserDTO> Get(int id)
         {
