@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
+using AutoMapper;
 
 namespace LagerSystemApi.Services
 {
@@ -24,10 +25,12 @@ namespace LagerSystemApi.Services
     {
         private readonly IDeviceRepository _deviceRepository;
         private readonly ILogger<DeviceService> _logger; // Inject Logger
-        public DeviceService(IDeviceRepository device, ILogger<DeviceService> logger)
+        private readonly IMapper _mapper;
+        public DeviceService(IDeviceRepository device, ILogger<DeviceService> logger, IMapper mapper)
         {
             _deviceRepository = device;
             _logger = logger;
+            _mapper = mapper;
         }
         // Fetch a device and convert to DTO
         public async Task<DeviceDTO?> GetDevice(int id)
@@ -37,16 +40,20 @@ namespace LagerSystemApi.Services
             var device = await _deviceRepository.GetDeviceById(id);
             if (device == null) return null;
 
-            return new DeviceDTO
-            {
-                id = device.id,
-                device_overview_id = device.device_overview_id,
-                is_archived = device.is_archived,
-                description = device.description,
-                status = device.status,
-                location = device.location,
-                qr = device.qr,
-            };
+            //return new DeviceDTO
+            //{
+            //    id = device.id,
+            //    device_overview_id = device.device_overview_id,
+            //    is_archived = device.is_archived,
+            //    description = device.description,
+            //    status = device.status,
+            //    location = device.location,
+            //    qr = device.qr,
+            //};
+
+            var deviceDto = _mapper.Map<DeviceDTO>(device);
+
+            return deviceDto;
         }
         
         // Fetch all devices and convert to DTOs
@@ -54,16 +61,20 @@ namespace LagerSystemApi.Services
         {
             var devices = await _deviceRepository.GetAllDevices();
             
-            return devices.Select(devices => new DeviceDTO
-            {
-                id = devices.id,
-                device_overview_id = devices.device_overview_id,
-                is_archived = devices.is_archived,
-                description = devices.description,
-                status = devices.status,
-                location = devices.location,
-                qr = devices.qr
-            }).ToList();
+            //return devices.Select(devices => new DeviceDTO
+            //{
+            //    id = devices.id,
+            //    device_overview_id = devices.device_overview_id,
+            //    is_archived = devices.is_archived,
+            //    description = devices.description,
+            //    status = devices.status,
+            //    location = devices.location,
+            //    qr = devices.qr
+            //}).ToList();
+
+            var deviceDtos = _mapper.Map<List<DeviceDTO>>(devices);
+
+            return deviceDtos;
         }
 
         //  Add a new device (DTO -> Entity)
@@ -75,7 +86,7 @@ namespace LagerSystemApi.Services
                 return null;
             }
 
-            // 🔹 Validate required fields
+            // Validate required fields
             if (newDeviceDto.status <= 0)
             {
                 _logger.LogError("AddDevice failed: Status must be greater than 0.");
@@ -88,35 +99,44 @@ namespace LagerSystemApi.Services
                 return null;
             }
 
-            // 🔹 Set default values if null or empty
+            // Set default values if null or empty
             newDeviceDto.description ??= "No description provided";
             newDeviceDto.qr ??= "";
-            newDeviceDto.status = newDeviceDto.status != 0 ? newDeviceDto.status : 1; // ✅ Default status to `1` (Available)
-            
+            newDeviceDto.status = newDeviceDto.status != 0 ? newDeviceDto.status : 1; //  Default status to `1` (Available)
 
-            var device = new SingleDevice
-            {
-                status = newDeviceDto.status,
-                location = newDeviceDto.location,
-                device_overview_id = newDeviceDto.device_overview_id,
-                description = newDeviceDto.description,
-                qr = newDeviceDto.qr,
-                is_archived = newDeviceDto.is_archived
-            };
 
+            //var device = new SingleDevice
+            //{
+            //    status = newDeviceDto.status,
+            //    location = newDeviceDto.location,
+            //    device_overview_id = newDeviceDto.device_overview_id,
+            //    description = newDeviceDto.description,
+            //    qr = newDeviceDto.qr,
+            //    is_archived = newDeviceDto.is_archived
+            //};
+
+            // 1. map AddSingleDeviceDTO to domain model, no id yet
+            var device = _mapper.Map<SingleDevice>(newDeviceDto);
+
+            // 2. save the new device to db
             await _deviceRepository.AddDevice(device);
 
-            // Return the newly created DeviceDto
-            return new DeviceDTO
-            {
-                id = device.id, // EF automatically updates this field
-                device_overview_id = device.device_overview_id,
-                description = device.description,
-                status = device.status,
-                location = device.location,
-                qr = device.qr,
-                is_archived = device.is_archived
-            };
+            // 3. Map the saved device (with ID) back to `DeviceDTO`
+            var deviceDto = _mapper.Map<DeviceDTO>(device);
+
+            return deviceDto;
+
+
+            //return new DeviceDTO
+            //{
+            //    id = device.id, // EF automatically updates this field
+            //    device_overview_id = device.device_overview_id,
+            //    description = device.description,
+            //    status = device.status,
+            //    location = device.location,
+            //    qr = device.qr,
+            //    is_archived = device.is_archived
+            //};
         }
         public async Task<DeviceDTO?> UpdateDevice(UpdateDeviceDTO updateDeviceDto)
         {
@@ -132,30 +152,39 @@ namespace LagerSystemApi.Services
                 return null;
             }
 
+            // get domain model by id
             var device = await _deviceRepository.GetDeviceById(updateDeviceDto.id);
+
             if (device == null) 
             {
                 _logger.LogError($"UpdateDevice failed: Device with ID {updateDeviceDto.id} not found.");
                 return null;
             }
-            device.description = updateDeviceDto.description ?? device.description;
-            device.location = updateDeviceDto.location != 0 ? updateDeviceDto.location : device.location;
-            device.qr = updateDeviceDto.qr ?? device.qr;
-            device.status = updateDeviceDto.status != 0 ? updateDeviceDto.status : device.status;
-            device.is_archived = updateDeviceDto.is_archived;
+
+            //device.description = updateDeviceDto.description ?? device.description;
+            //device.location = updateDeviceDto.location != 0 ? updateDeviceDto.location : device.location;
+            //device.qr = updateDeviceDto.qr ?? device.qr;
+            //device.status = updateDeviceDto.status != 0 ? updateDeviceDto.status : device.status;
+            //device.is_archived = updateDeviceDto.is_archived;
+
+            // AutoMapper updates only non-null properties in `device`
+            _mapper.Map(updateDeviceDto, device);
 
             await _deviceRepository.UpdateDevice(device);
 
-            return new DeviceDTO
-            {
-                id = device.id,
-                device_overview_id = device.device_overview_id,
-                is_archived = device.is_archived,
-                description = device.description,
-                status = device.status,
-                location = device.location,
-                qr = device.qr
-            };
+            //return new DeviceDTO
+            //{
+            //    id = device.id,
+            //    device_overview_id = device.device_overview_id,
+            //    is_archived = device.is_archived,
+            //    description = device.description,
+            //    status = device.status,
+            //    location = device.location,
+            //    qr = device.qr
+            //};
+
+            // Convert back to DTO
+            return _mapper.Map<DeviceDTO>(device);
         }
 
         public async Task<DeviceDTO?> DeactivateDevice(int id)
@@ -166,7 +195,9 @@ namespace LagerSystemApi.Services
                 return null;
             }
 
+            // get domain model by id
             var device = await _deviceRepository.GetDeviceById(id);
+
             if (device == null)
             {
                 _logger.LogError($"DeactivateDevice failed: Device with ID {id} not found.");
@@ -176,17 +207,22 @@ namespace LagerSystemApi.Services
             if (device.is_archived)
             {
                 _logger.LogInformation($"DeactivateDevice skipped: Device with ID {id} is already deactivated.");
-                return new DeviceDTO
-                {
-                    id = device.id,
-                    device_overview_id = device.device_overview_id,
-                    is_archived = device.is_archived,
-                    description = device.description,
-                    status = device.status,
-                    location = device.location,
-                    qr = device.qr
-                };
+
+                //return new DeviceDTO
+                //{
+                //    id = device.id,
+                //    device_overview_id = device.device_overview_id,
+                //    is_archived = device.is_archived,
+                //    description = device.description,
+                //    status = device.status,
+                //    location = device.location,
+                //    qr = device.qr
+                //};
+
+                // Map the deactivated to dto then return
+                return _mapper.Map<DeviceDTO>(device);
             }
+
             // Update only `is_archived`
             device.is_archived = true;
 
@@ -195,17 +231,18 @@ namespace LagerSystemApi.Services
             _logger.LogInformation($"Device with ID {id} successfully deactivated.");
 
             // Return the updated DeviceDto
+            //return new DeviceDTO
+            //{
+            //    id = device.id,
+            //    device_overview_id = device.device_overview_id,
+            //    is_archived = device.is_archived,
+            //    description = device.description,
+            //    status = device.status,
+            //    location = device.location,
+            //    qr = device.qr
+            //};
 
-            return new DeviceDTO
-            {
-                id = device.id,
-                device_overview_id = device.device_overview_id,
-                is_archived = device.is_archived,
-                description = device.description,
-                status = device.status,
-                location = device.location,
-                qr = device.qr
-            };
+            return _mapper.Map<DeviceDTO?>(device);
         }
 
 

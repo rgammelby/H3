@@ -1,4 +1,4 @@
-﻿using LagerSystemApi.Models.Domain;
+﻿
 
 namespace LagerSystemApi.Models.DTO
 {

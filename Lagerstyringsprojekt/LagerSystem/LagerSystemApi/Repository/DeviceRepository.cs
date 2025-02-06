@@ -11,8 +11,8 @@ namespace LagerSystemApi.Repository
     {
         Task<SingleDevice?> GetDeviceById(int id); // Returns domain model
         Task<List<SingleDevice>> GetAllDevices();  // Returns list of domain models
-        Task AddDevice(SingleDevice device);       // Accepts domain model for adding
-        Task UpdateDevice(SingleDevice device);    // Updates a domain model
+        Task<SingleDevice> AddDevice(SingleDevice device);       // Accepts domain model for adding
+        Task<SingleDevice> UpdateDevice(SingleDevice device);    // Updates a domain model
         // Task DeactivateDevice(int id);                 // Deactivate a device by id
     }
     /// <summary>
@@ -41,10 +41,13 @@ namespace LagerSystemApi.Repository
             // Ensures it never returns null, only an empty list
         }
 
-        public async Task AddDevice(SingleDevice device)
+        public async Task<SingleDevice> AddDevice(SingleDevice device)
         {
             _context.SingleDevices.Add(device);
+            // save the change first, EF Core inserts into the database and assigns an ID.
             await _context.SaveChangesAsync();
+            //  the complete entity (with generated id) is returned.
+            return device;
         }
 
         // Used to make overview there is no overview with this specified model
@@ -74,10 +77,12 @@ namespace LagerSystemApi.Repository
         //}
 
 
-        public async Task UpdateDevice(SingleDevice device)
+        public async Task<SingleDevice> UpdateDevice(SingleDevice device)
         {
             _context.Entry(device).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+            // return the updated domain model
+            return device;
         }
 
         //public async Task DeactivateDevice(int id)

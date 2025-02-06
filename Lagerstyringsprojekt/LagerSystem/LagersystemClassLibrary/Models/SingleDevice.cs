@@ -23,7 +23,7 @@ namespace LagerstyringClassLibrary.Models
         public int status { get; set; }  // FK id from StatusType
 
         // Foreign Key for LocationCupboard
-        [ForeignKey("Location")]
+        
         public int location { get; set; }  // FK id from LocationCupboard  location = $"{Location.Cupboard + Cupboard.roomid} where id = {id}";
         public int device_overview_id { get; set; }  // FK DeviceOverview
         public string description { get; set; }

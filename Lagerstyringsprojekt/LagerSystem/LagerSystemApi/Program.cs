@@ -1,6 +1,8 @@
+using LagerSystemApi.Mappings;
 using LagerSystemApi.Repository;
 using LagerSystemApi.Services;
 using Microsoft.EntityFrameworkCore;
+using static LagerSystemApi.Repository.DeviceOverviewRepository;
 
 namespace LagerSystemApi
 {
@@ -15,10 +17,14 @@ namespace LagerSystemApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Register AutoMapper
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+
+
             // Register DbContext with SQL Server
             builder.Services.AddDbContext<Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-           .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
 
 
             // Registers all repositories with an instance of DBcontext
@@ -27,6 +33,7 @@ namespace LagerSystemApi
             builder.Services.AddScoped<ILogRepository, LogRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<PasswordService>();
+            //builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
 
             // Registers all services with an instance of their repositories
             builder.Services.AddScoped<IActivityService, ActivityService>();
