@@ -46,6 +46,7 @@ namespace LagerSystemApi
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ILogService, LogService>();
+            builder.Services.AddScoped<IDeviceOverviewService, DeviceOverviewService>();
 
             var app = builder.Build();
 

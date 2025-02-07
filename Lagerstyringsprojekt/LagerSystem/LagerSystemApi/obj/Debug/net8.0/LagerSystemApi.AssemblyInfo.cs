@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LagerSystemApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a646761d9f3316a5e7b77ed215dc443c72dc7f83")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8971421485d6d3d7cb37802a5854f4b2328f8b8d")]
 [assembly: System.Reflection.AssemblyProductAttribute("LagerSystemApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LagerSystemApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -3,6 +3,7 @@ using LagerSystemApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Xunit.Sdk;
+using LagerSystemApi.Interfaces;
 
 namespace LagerSystemApi.Controllers
 {

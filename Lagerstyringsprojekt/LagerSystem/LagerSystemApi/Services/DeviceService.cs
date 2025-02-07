@@ -5,18 +5,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Reflection.Metadata;
 using System.Security.Cryptography;
 using AutoMapper;
+using LagerSystemApi.Interfaces;
 
 namespace LagerSystemApi.Services
 {
-    public interface IDeviceService
-    {
-        Task<List<SingleDevice>> GetSingleDevicesByModel(string model);
-        Task<List<DeviceDTO>> GetAllDevices();   // Fetch all devices (DTO)
-        Task<DeviceDTO?> GetDevice(int id);    // Fetch a single device (DTO)
-        Task<DeviceDTO?> AddDevice(AddSingleDeviceDTO device);
-        Task<DeviceDTO?> UpdateDevice(UpdateDeviceDTO update);
-        Task<DeviceDTO?> DeactivateDevice(int id);
-    }
     /// <summary>
     /// Validates inputs and ensures rules are applied (e.g., checking is_archived).
     /// Converts DTOs to domain models(and vice versa).
@@ -34,11 +26,11 @@ namespace LagerSystemApi.Services
             _mapper = mapper;
         }
 
-        public async Task<List<SingleDevice>> GetSingleDevicesByModel(string model)
+        public async Task<List<DeviceDTO>> GetSingleDevicesByModel(string model)
         {
             List<SingleDevice> singleDevices = await _deviceRepository.GetSingleDevicesByModel(model);
 
-            return singleDevices;
+            return _mapper.Map<List<DeviceDTO>>(singleDevices);
         }
 
         // Fetch a device and convert to DTO

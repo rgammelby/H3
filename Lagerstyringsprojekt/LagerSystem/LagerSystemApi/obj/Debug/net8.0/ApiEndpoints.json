@@ -49,79 +49,7 @@
       },
       {
         "Name": "lifecycle_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
-    "Method": "Add",
-    "RelativePath": "AddDevice",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "device_type",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "model",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "available_qty",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "qty",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "image",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "last_ordered",
-        "Type": "System.DateTime",
-        "IsRequired": false
-      },
-      {
-        "Name": "description",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "status_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "location_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "qr",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "is_archived",
-        "Type": "System.Boolean",
+        "Type": "System.Guid",
         "IsRequired": false
       }
     ],
@@ -180,6 +108,11 @@
         "Name": "type",
         "Type": "System.String",
         "IsRequired": false
+      },
+      {
+        "Name": "salt",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -191,10 +124,83 @@
     ]
   },
   {
+    "ContainingType": "LagerSystemApi.Controllers.UserController",
+    "Method": "AdminLogin",
+    "RelativePath": "AdminLogin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "admin",
+        "Type": "LagerSystemApi.Models.DTO.UserLogInDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "LagerSystemApi.Models.DTO.LoggedInDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "LagerSystemApi.Controllers.DeviceController",
-    "Method": "Deactivate",
-    "RelativePath": "DeactivateDevice",
+    "Method": "GetAllDevices",
+    "RelativePath": "api/Device",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
+    "Method": "AddNewDevice",
+    "RelativePath": "api/Device",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addSingleDeviceDTO",
+        "Type": "LagerSystemApi.Models.DTO.AddSingleDeviceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
+    "Method": "UpdateDevice",
+    "RelativePath": "api/Device",
     "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "updateDeviceDTO",
+        "Type": "LagerSystemApi.Models.DTO.UpdateDeviceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
+    "Method": "DeactivateDevice",
+    "RelativePath": "api/Device",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -204,13 +210,102 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
+    "Method": "GetDeviceById",
+    "RelativePath": "api/Device/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
+    "Method": "GetSingleDevicesByModel",
+    "RelativePath": "api/Device/{model}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceOverviewController",
+    "Method": "GetAllDeviceOverviews",
+    "RelativePath": "api/DeviceOverview",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceOverviewController",
+    "Method": "AddDeviceOverview",
+    "RelativePath": "api/DeviceOverview",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "addDeviceOverviewDto",
+        "Type": "LagerSystemApi.Models.DTO.AddDeviceOverviewDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceOverviewController",
+    "Method": "GetDeviceOverviewById",
+    "RelativePath": "api/DeviceOverview/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.DeviceOverviewController",
+    "Method": "UpdateDeviceOverview",
+    "RelativePath": "api/DeviceOverview/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDeviceOverviewDto",
+        "Type": "LagerSystemApi.Models.DTO.UpdateDeviceOverviewDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "LagerSystemApi.Controllers.UserController",
@@ -281,26 +376,6 @@
     ]
   },
   {
-    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
-    "Method": "GetAll",
-    "RelativePath": "GetAllDevices",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "LagerSystemApi.Models.DTO.DeviceDTO[]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
     "ContainingType": "LagerSystemApi.Controllers.LogController",
     "Method": "GetAll",
     "RelativePath": "GetAllLogs",
@@ -331,32 +406,6 @@
     "ReturnTypes": [
       {
         "Type": "LagerSystemApi.Models.DTO.UserDTO[]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
-    "Method": "Get",
-    "RelativePath": "GetDevice",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "LagerSystemApi.Models.DTO.DeviceDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -446,8 +495,8 @@
   },
   {
     "ContainingType": "LagerSystemApi.Controllers.UserController",
-    "Method": "LogIn",
-    "RelativePath": "Login",
+    "Method": "GetUserByEmail",
+    "RelativePath": "GetUserIdByEmail",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -456,11 +505,32 @@
         "Name": "email",
         "Type": "System.String",
         "IsRequired": false
-      },
+      }
+    ],
+    "ReturnTypes": [
       {
-        "Name": "password",
-        "Type": "System.String",
-        "IsRequired": false
+        "Type": "LagerSystemApi.Models.DTO.UserDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "LagerSystemApi.Controllers.UserController",
+    "Method": "LogIn",
+    "RelativePath": "Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "logIn",
+        "Type": "LagerSystemApi.Models.DTO.UserLogInDTO",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -546,59 +616,7 @@
       },
       {
         "Name": "lifecycle_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "LagerSystemApi.Controllers.DeviceController",
-    "Method": "Update",
-    "RelativePath": "UpdateDevice",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "deviceOverview_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "is_archived",
-        "Type": "System.Boolean",
-        "IsRequired": false
-      },
-      {
-        "Name": "description",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "status",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "location_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "qr",
-        "Type": "System.String",
+        "Type": "System.Guid",
         "IsRequired": false
       }
     ],
