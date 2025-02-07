@@ -139,7 +139,7 @@ namespace LagerSystemApi.Services
             //    is_archived = device.is_archived
             //};
         }
-        public async Task<DeviceDTO?> UpdateDevice(UpdateDeviceDTO updateDeviceDto)
+        public async Task<DeviceDTO?> UpdateDevice(int id, UpdateDeviceDTO updateDeviceDto)
         {
             // Validate input
             if(updateDeviceDto == null)
@@ -147,18 +147,18 @@ namespace LagerSystemApi.Services
                 _logger.LogError("UpdateDevice failed: deviceDTO is null.");
                 return null;
             }
-            if (updateDeviceDto.id <= 0)
+            if (id <= 0)
             {
-                _logger.LogError($"UpdateDevice failed: Invalid device ID {updateDeviceDto.id}.");
+                _logger.LogError($"UpdateDevice failed: Invalid device ID {id}.");
                 return null;
             }
 
             // get domain model by id
-            var device = await _deviceRepository.GetDeviceById(updateDeviceDto.id);
+            var device = await _deviceRepository.GetDeviceById(id);
 
             if (device == null) 
             {
-                _logger.LogError($"UpdateDevice failed: Device with ID {updateDeviceDto.id} not found.");
+                _logger.LogError($"UpdateDevice failed: Device with ID {id} not found.");
                 return null;
             }
 

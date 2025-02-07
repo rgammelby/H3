@@ -71,7 +71,7 @@ namespace LagerSystemApi.Controllers
                 return BadRequest(new { message = "Invalid device data." });
             }
 
-            var updatedDevice = await _deviceService.UpdateDevice(updateDeviceDTO);
+            var updatedDevice = await _deviceService.UpdateDevice(id, updateDeviceDTO);
 
             if (updatedDevice == null)
             {

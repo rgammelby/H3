@@ -8,7 +8,7 @@ namespace LagerSystemApi.Interfaces
         Task<List<DeviceDTO>> GetSingleDevicesByModel(string model);
         Task<DeviceDTO?> GetDevice(int id);    // Fetch a single device (DTO)
         Task<DeviceDTO?> AddDevice(AddSingleDeviceDTO device);
-        Task<DeviceDTO?> UpdateDevice(UpdateDeviceDTO update);
+        Task<DeviceDTO?> UpdateDevice(int id, UpdateDeviceDTO update);
         Task<DeviceDTO?> DeactivateDevice(int id);
         
     }
