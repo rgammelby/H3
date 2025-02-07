@@ -6,9 +6,18 @@ using Xunit.Sdk;
 
 namespace LagerSystemApi.Controllers
 {
+    public interface IDeviceController
+    {
+        Task<IActionResult> GetDeviceById(int id);
+        Task<IActionResult> GetAllDevices();
+        Task<IActionResult> AddNewDevice(AddSingleDeviceDTO device);
+        Task<IActionResult> UpdateDevice(int id, UpdateDeviceDTO device);
+        Task<IActionResult> DeactivateDevice(int id);
+    }
+
     [Route("api/[controller]")]
     [ApiController]
-    public class DeviceController : ControllerBase
+    public class DeviceController : ControllerBase, IDeviceController
     {
         private readonly IDeviceService _deviceService;
 

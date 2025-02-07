@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Lagerstyringsprojekt",
+    "\\Lagerstyringsprojekt\\LagerSystem",
+    "\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi",
+    "\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services"
+  ],
+  "SelectedNode": "\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services\\UserService.cs",
+  "PreviewInSolutionExplorer": false
+}

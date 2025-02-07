@@ -1,7 +1,7 @@
 ﻿//using Moq;
-//using LagerSystemApi.Services;
 //using LagerSystemApi.Models.DTO;
 //using LagerSystemApi.Controllers;
+//using Microsoft.AspNetCore.Mvc;
 
 //namespace LagerSystemApi.TestRunner.FeatureTest
 //{
@@ -14,25 +14,25 @@
 //        }
 
 //        [Fact]
-//        public async void CheckIf_AbleTo_GetAllDevices()
+//        public async void t_cangetalldevices()
 //        {
 //            // Arrange
-//            DeviceDTO[] mockDevices = new List<DeviceDTO>
+//            AddSingleDeviceDTO[] mockDevices = new List<AddSingleDeviceDTO>
 //            {
-//                new DeviceDTO { id = 1, device_overview_id = 1, description = "This is a Monitor", location_id = 1, is_archived = true, qr = "Device-id=1", status = 0 },
-//                new DeviceDTO { id = 2, device_overview_id = 2, description = "This is a Desktop", location_id = 2, is_archived = false, qr = "Device-id=2", status = 0  }
+//                new AddSingleDeviceDTO { device_overview_id = 1, description = "This is a Monitor", location = 1, is_archived = true, qr = "Device-id=1", status = 0 },
+//                new AddSingleDeviceDTO { device_overview_id = 2, description = "This is a Desktop", location = 2, is_archived = false, qr = "Device-id=2", status = 0 }
 //            }.ToArray();
 
-//            _deviceMock.Setup(service => service.Add(mockDevices[0]));
-//            _deviceMock.Setup(service => service.GetAll());
+//            _deviceMock.Setup(service => service.AddNewDevice(mockDevices[0]));
+//            _deviceMock.Setup(service => service.GetAllDevices());
 
 //            // Act
-//            for(int i = 0; i < mockDevices.Length; i++)
+//            for (int i = 0; i < mockDevices.Length; i++)
 //            {
-//                await _deviceMock.Object.Add(mockDevices[i]);
+//                await _deviceMock.Object.AddNewDevice(mockDevices[i]);
 //            }
 
-//            DeviceDTO[] devices = await _deviceMock.Object.GetAll();
+//            IActionResult devices = await _deviceMock.Object.GetAllDevices();
 
 //            // Assert
 //            Assert.NotNull(devices);
@@ -40,31 +40,33 @@
 //            Assert.True(devices.Any(d => d.device_overview_id == mockDevices[0].device_overview_id));
 //        }
 
-        
-//        //[Fact]
-//        //public async void CheckIf_AbleTo_GetOnlyOneDevice()
-//        //{
-//        //    // Arrange
-//        //    DeviceDTO mockDevice = new DeviceDTO { id = 1, device_overview_id = "Device1", description = "This is a Monitor", location_id = 1, is_archived = 1, qr = "Device-id=1", status = 0 };
-
-//        //    _deviceMock.Setup(service => service.Add(mockDevice));
-//        //    _deviceMock.Setup(service => service.Get(1));
-
-//        //    // Act
-//        //    await _deviceMock.Object.Add(mockDevice);
-//        //    DeviceDTO device = await _deviceMock.Object.Get(1);
-
-//        //    // Assert
-//        //    Assert.NotNull(device);
-//        //    Assert.Equal(mockDevice.id, device.id);
-//        //    Assert.True(device.device_overview_id == mockDevice.device_overview_id);
-//        //}
 
 //        [Fact]
-//        public async void IsAbleTo_CreateSingleDevice()
+//        public async void t_cangetonedevice()
 //        {
 //            // Arrange
-//            DeviceDTO mockDevice = new DeviceDTO { id = 1, device_overview_id = "De, description = "This is a Monitor", location_id = 1, is_archived = 1, qr = "Device-id=1", status = 0 };
+//            DeviceDTO mockDevice = new DeviceDTO { id = 1, device_overview_id = 1, description = "This is a Monitor", location = 1, is_archived = false, qr = "Device-id=1", status = 0 };
+
+//            _deviceMock.Setup(service => service.Add(mockDevice));
+//            _deviceMock.Setup(service => service.Get(1));
+
+//            // Act
+//            await _deviceMock.Object.Add(mockDevice);
+//            DeviceDTO device = await _deviceMock.Object.Get(1);
+
+//            // Assert
+//            Assert.NotNull(device);
+//            Assert.Equal(mockDevice.id, device.id);
+//            Assert.True(device.device_overview_id == mockDevice.device_overview_id);
+//        }
+
+//        [Fact]
+//        public async void t_cancreateonedevice()
+//        {
+//            // Arrange
+//            DeviceDTO mockDevice = new DeviceDTO
+//            {
+//                id = 1,
 
 //            _deviceMock.Setup(service => service.Add(mockDevice));
 //            _deviceMock.Setup(service => service.Get(1));
@@ -82,10 +84,10 @@
 //        }
 
 //        [Fact]
-//        public async void IsAbleTo_DeactivateADevice()
+//        public async void t_candeactivateonedevice()
 //        {
 //            // Arrange
-//            DeviceDTO mockDevice = new DeviceDTO { id = 1, device_overview_id = "Device1", description = "This is a Monitor", location_id = 1, is_archived = 1, qr = "Device-id=1", status = 0 };
+//            DeviceDTO mockDevice = new DeviceDTO { id = 1, device_overview_id = 1, description = "This is a Monitor", location = 1, is_archived = false, qr = "Device-id=1", status = 0 };
 
 //            _deviceMock.Setup(service => service.Add(mockDevice));
 //            _deviceMock.Setup(service => service.Deactivate(1));
@@ -103,11 +105,11 @@
 //        }
 
 //        [Fact]
-//        public async void IsAbleTo_UpdateADevice()
+//        public async void t_canupdateonedevice()
 //        {
 //            // Arrange
-//            DeviceDTO mockDevice = new DeviceDTO { id = 1, device_overview_id = "Device1", description = "This is a Monitor", location_id = 1, is_archived = 1, qr = "Device-id=1", status = 0 };
-//            UpdateDeviceDTO updateDevice = new UpdateDeviceDTO { id = 1, deviceOverview_id = "Device1", description = "This is a Monitor", location_id = 6, is_archived = 1, qr = "Device-id=1", status = 4 };
+//            DeviceDTO mockDevice = new DeviceDTO { id = 1, device_overview_id = 1, description = "This is a Monitor", location = 1, is_archived = false, qr = "Device-id=1", status = 0 };
+//            UpdateDeviceDTO updateDevice = new UpdateDeviceDTO { id = 1, device_overview_id = 1, description = "This is a Monitor", location = 6, is_archived = false, qr = "Device-id=1", status = 4 };
 
 //            _deviceMock.Setup(service => service.Add(mockDevice));
 //            _deviceMock.Setup(service => service.Update(updateDevice));
@@ -120,7 +122,7 @@
 
 //            // Assert
 //            Assert.NotNull(device);
-//            Assert.True(device.location_id == updateDevice.location_id);
+//            Assert.True(device.location == updateDevice.location);
 //            Assert.True(device.status == mockDevice.status);
 //        }
 //    }

@@ -6,7 +6,7 @@ namespace LagerSystemApi.Repository
 {
     public interface IActivityRepository
     {
-        Task Add(ActivityDTO activity);
+        Task<ActivityDTO> Add(ActivityDTO activity);
         Task Update (UpdateActivityDTO activity);
         Task<ActivityDTO> Get(int id);
         Task<ActivityDTO[]> GetAll();
@@ -24,7 +24,7 @@ namespace LagerSystemApi.Repository
         {
             _context = db;
         }
-        public async Task Add(ActivityDTO activity)
+        public async Task<ActivityDTO> Add(ActivityDTO activity)
         {
             try
             {
@@ -42,6 +42,7 @@ namespace LagerSystemApi.Repository
 
                 _context.Activities.Add(newActivity);
                 await _context.SaveChangesAsync();
+                return activity;
             }
             catch
             {

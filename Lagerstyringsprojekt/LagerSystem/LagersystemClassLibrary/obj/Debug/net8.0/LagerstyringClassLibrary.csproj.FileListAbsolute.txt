@@ -27,3 +27,18 @@ C:\Users\rfj594\Desktop\ZBC\Hovedforløb 3\Lagerstyringsprojekt\LagerSystem\Lage
 C:\Users\rfj594\Desktop\ZBC\Hovedforløb 3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.pdb
 C:\Users\rfj594\Desktop\ZBC\Hovedforløb 3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.genruntimeconfig.cache
 C:\Users\rfj594\Desktop\ZBC\Hovedforløb 3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\ref\LagerstyringClassLibrary.dll
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\bin\Debug\net8.0\LagerstyringClassLibrary.deps.json
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\bin\Debug\net8.0\LagerstyringClassLibrary.runtimeconfig.json
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\bin\Debug\net8.0\LagerstyringClassLibrary.dll
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\bin\Debug\net8.0\LagerstyringClassLibrary.pdb
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.csproj.AssemblyReference.cache
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.AssemblyInfoInputs.cache
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.AssemblyInfo.cs
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.csproj.CoreCompileInputs.cache
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.sourcelink.json
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.dll
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\refint\LagerstyringClassLibrary.dll
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.pdb
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\LagerstyringClassLibrary.genruntimeconfig.cache
+C:\Users\zbcrvsa\Desktop\Lagerstyring\H3\Lagerstyringsprojekt\LagerSystem\LagersystemClassLibrary\obj\Debug\net8.0\ref\LagerstyringClassLibrary.dll

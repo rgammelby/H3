@@ -6,49 +6,84 @@ namespace LagerSystemApi.Controllers
 {
     public interface IActivityController
     {
-        Task<ActivityDTO> Get(int id);
-        Task<ActivityDTO[]> GetAll();
-        Task<ActivityDTO[]> GetByDeviceId(int id);
-        Task Add(ActivityDTO activity);
+        Task<IActionResult> Get(int id);
+        Task<IActionResult> GetAll();
+        Task<IActionResult> GetByDeviceId(int id);
+        Task<IActionResult> Add(ActivityDTO activity);
         Task Update(UpdateActivityDTO activity);
     }
-    public class ActivityController: IActivityController
+
+    // TODO: Add logging in the catch blocks
+    
+    public class ActivityController: ControllerBase, IActivityController
     {
-        private Context _context;
         private IActivityService _activity;
-        public ActivityController(Context db, IActivityService service)
+        public ActivityController(IActivityService service)
         {
-            _context = db;
             _activity = service;
         }
         [HttpGet("GetActivity")]
-        public async Task<ActivityDTO> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await _activity.Get(id);
+            try
+            {
+                return Ok(await _activity.Get(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while getting Activity with id: {id}");
+            }
         }
 
         [HttpGet("GetDeviceById")]
-        public async Task<ActivityDTO[]> GetByDeviceId(int id)
+        public async Task<IActionResult> GetByDeviceId(int id)
         {
-            return await _activity.GetByDeviceId(id);
+            try
+            {
+                return Ok(await _activity.GetByDeviceId(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while getting activities by deviceId: {id}");
+            }
         }
 
         [HttpGet("GetAllActivities")]
-        public async Task<ActivityDTO[]> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return await _activity.GetAll();
+            try
+            {
+                return Ok(await _activity.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error getting all activities");
+            }
         }
 
         [HttpPost("AddActivity")]
-        public async Task Add(ActivityDTO activity)
+        public async Task<IActionResult> Add(ActivityDTO activity)
         {
-            await _activity.AddActivity(activity);
+            try
+            {
+                return Ok(await _activity.AddActivity(activity));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error while adding a new activity");
+            }
         }
 
         [HttpPut("UpdateActivity")]
         public async Task Update(UpdateActivityDTO activity)
         {
-            await _activity.UpdateActivity(activity);
+            try
+            {
+                await _activity.UpdateActivity(activity);
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanUser_LogIn()
+        public async void t_canuserlogin()
         {
             // Arrange
             UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
@@ -33,7 +33,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanYou_CreateA_User()
+        public async void t_canyoucreateuser()
         {
             // Arrange
             UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
@@ -51,7 +51,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanYou_UpdateA_User()
+        public async void t_canyuoupdateuser()
         {
             // Arrange
             UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
@@ -72,7 +72,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanYou_ReadAll_Users()
+        public async void t_canyougetallusers()
         {
             // Arrange
             UserDTO[] mockUsers = new UserDTO[]
@@ -97,7 +97,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanYou_ReadA_User()
+        public async void t_cangetoneuser()
         {
             // Arrange
             UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
@@ -115,7 +115,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanYou_Disable_User()
+        public async void t_candisableauser()
         {
             // Arrange
             UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };

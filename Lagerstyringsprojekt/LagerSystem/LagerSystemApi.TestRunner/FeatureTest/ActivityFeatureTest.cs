@@ -14,7 +14,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanGet_All_ActivityHistory()
+        public async void t_cangetallactivities()
         {
             // Arrange
             ActivityDTO[] mockActivity = new List<ActivityDTO>
@@ -40,7 +40,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanYou_GetActivity_ByDevice()
+        public async void t_cangetallactivitiesbydeviceid()
         {
             // Arrange
             ActivityDTO[] mockActivity = new List<ActivityDTO> {
@@ -66,7 +66,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CanGet_One_ActivityHistory()
+        public async void t_cangetoneactivity()
         {
             // Arrange
             ActivityDTO mockActivity = new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
@@ -84,7 +84,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void CheckIf_AbleTo_Create_ActivityHistory()
+        public async void t_cancreateaactivity()
         {
             // Arrange
             ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
@@ -102,7 +102,7 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         }
 
         [Fact]
-        public async void Can_Update_ActivityHistory()
+        public async void t_canupdateactivity()
         {
             // Arrange
             ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
