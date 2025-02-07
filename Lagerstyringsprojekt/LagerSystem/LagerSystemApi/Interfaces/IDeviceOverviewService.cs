@@ -7,6 +7,6 @@ namespace LagerSystemApi.Interfaces
         Task<List<DeviceOverviewDTO>> GetAllDeviceOverviews();   // Fetch all deviceOverviews (DTO)
         Task<DeviceOverviewDTO?> GetDeviceOverviewById(int id);    // Fetch a deviceOverview (DTO)
         Task<DeviceOverviewDTO?> AddDeviceOverview(AddDeviceOverviewDTO addDeviceOverviewDto);
-        Task<DeviceOverviewDTO?> UpdateDeviceOverview(UpdateDeviceOverviewDTO updateDeviceOverviewDto);
+        Task<DeviceOverviewDTO?> UpdateDeviceOverview(int id, UpdateDeviceOverviewDTO updateDeviceOverviewDto);
     }
 }

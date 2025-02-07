@@ -91,14 +91,9 @@ namespace LagerSystemApi.Controllers
                 {
                     return BadRequest("Invalid input data.");
                 }
+                
 
-                // Ensure the provided ID matches the DTO's ID (Prevents mismatch errors)
-                if (updateDeviceOverviewDto.id != id)
-                {
-                    return BadRequest("Mismatched ID between URL and body.");
-                }
-
-                var updatedDeviceOverview = await _deviceOverviewService.UpdateDeviceOverview(updateDeviceOverviewDto);
+                var updatedDeviceOverview = await _deviceOverviewService.UpdateDeviceOverview(id, updateDeviceOverviewDto);
 
                 if (updatedDeviceOverview == null)
                 {

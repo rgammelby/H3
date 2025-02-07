@@ -2,7 +2,7 @@
 {
     public class UpdateActivityDTO
     {
-        // public int id { get; set; }
+        public int id { get; set; }
         public int device_id { get; set; }
         public int activity_type { get; set; }
         public DateTime start_date { get; set; }

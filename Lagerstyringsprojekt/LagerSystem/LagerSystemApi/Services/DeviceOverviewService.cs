@@ -122,7 +122,7 @@ namespace LagerSystemApi.Services
                 throw;
             }
         }
-        public async Task<DeviceOverviewDTO?> UpdateDeviceOverview(UpdateDeviceOverviewDTO updateDeviceOverviewDto)
+        public async Task<DeviceOverviewDTO?> UpdateDeviceOverview(int id, UpdateDeviceOverviewDTO updateDeviceOverviewDto)
         {
             // Input Validation
             if (updateDeviceOverviewDto == null)
@@ -131,11 +131,7 @@ namespace LagerSystemApi.Services
                 return null;
             }
 
-            if (updateDeviceOverviewDto.id <= 0)
-            {
-                _logger.LogError($"UpdateDeviceOverview failed: Invalid ID {updateDeviceOverviewDto.id}.");
-                return null;
-            }
+           
             if (string.IsNullOrWhiteSpace(updateDeviceOverviewDto.model))
             {
                 _logger.LogError("UpdateDeviceOverview failed: Model cannot be empty.");
@@ -150,11 +146,11 @@ namespace LagerSystemApi.Services
 
             try
             {
-                var existingDeviceOverview = await _deviceOverviewRepository.GetDeviceOverviewById(updateDeviceOverviewDto.id);
+                var existingDeviceOverview = await _deviceOverviewRepository.GetDeviceOverviewById(id);
 
                 if (existingDeviceOverview == null)
                 {
-                    _logger.LogError($"UpdateDeviceOverview failed: Device with ID {updateDeviceOverviewDto.id} not found.");
+                    _logger.LogError($"UpdateDeviceOverview failed: Device with ID {id} not found.");
                     return null;
                 }
 
@@ -183,7 +179,7 @@ namespace LagerSystemApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Service Error: Failed to update device overview with ID {updateDeviceOverviewDto.id}");
+                _logger.LogError(ex, $"Service Error: Failed to update device overview with ID {id}");
                 throw;
             }
         }
