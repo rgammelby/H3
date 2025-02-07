@@ -98,7 +98,7 @@ namespace LagerSystemApi.Controllers
                     return BadRequest("Mismatched ID between URL and body.");
                 }
 
-                var updatedDeviceOverview = _deviceOverviewService.UpdateDeviceOverview(updateDeviceOverviewDto);
+                var updatedDeviceOverview = await _deviceOverviewService.UpdateDeviceOverview(updateDeviceOverviewDto);
 
                 if (updatedDeviceOverview == null)
                 {

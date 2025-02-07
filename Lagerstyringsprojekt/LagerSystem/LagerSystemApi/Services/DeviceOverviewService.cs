@@ -150,7 +150,7 @@ namespace LagerSystemApi.Services
 
             try
             {
-                var existingDeviceOverview = await _deviceOverviewRepository.GetDeviceOverviewByModelAndType(updateDeviceOverviewDto.model, updateDeviceOverviewDto.device_type);
+                var existingDeviceOverview = await _deviceOverviewRepository.GetDeviceOverviewById(updateDeviceOverviewDto.id);
 
                 if (existingDeviceOverview == null)
                 {
