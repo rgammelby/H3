@@ -17,7 +17,6 @@ namespace LagerSystemApi.Controllers
             _deviceService = deviceService;
         }
 
-
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetDeviceById(int id)
         {
@@ -98,6 +97,15 @@ namespace LagerSystemApi.Controllers
             }
 
             return Ok(deactivatedDevice);
+        }
+
+        [HttpGet("{model}")]
+        public async Task<IActionResult> GetSingleDevicesByModel(string model)
+        {
+            if (string.IsNullOrEmpty(model)) return BadRequest(new { message = "No models corresponding with search term. " });
+            var devices = await _deviceService.GetSingleDevicesByModel(model);
+
+            return Ok(devices);
         }
     }
 }

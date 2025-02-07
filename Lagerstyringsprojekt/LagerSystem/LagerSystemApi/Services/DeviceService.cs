@@ -10,6 +10,7 @@ namespace LagerSystemApi.Services
 {
     public interface IDeviceService
     {
+        Task<List<SingleDevice>> GetSingleDevicesByModel(string model);
         Task<List<DeviceDTO>> GetAllDevices();   // Fetch all devices (DTO)
         Task<DeviceDTO?> GetDevice(int id);    // Fetch a single device (DTO)
         Task<DeviceDTO?> AddDevice(AddSingleDeviceDTO device);
@@ -32,6 +33,14 @@ namespace LagerSystemApi.Services
             _logger = logger;
             _mapper = mapper;
         }
+
+        public async Task<List<SingleDevice>> GetSingleDevicesByModel(string model)
+        {
+            List<SingleDevice> singleDevices = await _deviceRepository.GetSingleDevicesByModel(model);
+
+            return singleDevices;
+        }
+
         // Fetch a device and convert to DTO
         public async Task<DeviceDTO?> GetDevice(int id)
         {

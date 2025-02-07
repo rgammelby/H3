@@ -9,6 +9,8 @@ namespace LagerSystemApi.Repository
 {
     public interface IDeviceRepository
     {
+        // TODO: GetFilteredDevices  // skal hente devices ud fra et filter; type
+        Task<List<SingleDevice>> GetSingleDevicesByModel(string model);
         Task<SingleDevice?> GetDeviceById(int id); // Returns domain model
         Task<List<SingleDevice>> GetAllDevices();  // Returns list of domain models
         Task<SingleDevice> AddDevice(SingleDevice device);       // Accepts domain model for adding
@@ -28,6 +30,19 @@ namespace LagerSystemApi.Repository
         {
             _context = db;
         }
+
+        public async Task<List<SingleDevice>> GetSingleDevicesByModel(string model)
+        {
+            var deviceOverviewIds = await _context.DeviceOverview
+                                                  .Where(d => d.model.Contains(model))
+                                                  .Select(d => d.id)
+                                                  .ToListAsync();
+
+            return await _context.SingleDevices
+                                  .Where(s => deviceOverviewIds.Contains(s.id))
+                                  .ToListAsync();
+        }
+
 
         public async Task<SingleDevice?> GetDeviceById(int id)
         {
