@@ -15,13 +15,13 @@ namespace LagerSystemApi.Controllers
     }
     public class UserController: ControllerBase, IUserController
     {
-        private Context _context;
-        private IUserService _user;
+        private readonly IUserService _user;
+        private readonly ILogger<UserController> _logger;
         
-        public UserController(Context context, IUserService user)
+        public UserController(IUserService user, ILogger<UserController> logger)
         {
-            _context = context;
             _user = user;
+            _logger = logger;
         }
 
         [HttpPost("Login")]
@@ -33,6 +33,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest(new { message = "NoDevice found." });
             }
         }
@@ -46,6 +47,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest("Error while logging in");
             }
         }
@@ -59,6 +61,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest($"Error while getting user with user_id: {id}");
             }
         }
@@ -72,6 +75,7 @@ namespace LagerSystemApi.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest($"Error while getting user with email: {email}");
             }
         }
@@ -85,6 +89,7 @@ namespace LagerSystemApi.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest("Error while getting all users");
             }
         }
@@ -98,6 +103,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest("Error while adding user");
             }
         }
@@ -112,6 +118,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest("Error while updating user");
             }
         }
@@ -126,6 +133,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest($"Error while disabling user with user_id: {id}");
             }
         }

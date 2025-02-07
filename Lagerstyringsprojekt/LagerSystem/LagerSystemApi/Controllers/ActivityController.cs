@@ -18,9 +18,11 @@ namespace LagerSystemApi.Controllers
     public class ActivityController: ControllerBase, IActivityController
     {
         private IActivityService _activity;
-        public ActivityController(IActivityService service)
+        private readonly ILogger<ActivityController> _logger;
+        public ActivityController(IActivityService service, ILogger<ActivityController> logger)
         {
             _activity = service;
+            _logger = logger;
         }
         [HttpGet("GetActivity")]
         public async Task<IActionResult> Get(int id)
@@ -31,6 +33,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest($"Error while getting Activity with id: {id}");
             }
         }
@@ -44,6 +47,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest($"Error while getting activities by deviceId: {id}");
             }
         }
@@ -57,6 +61,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest("Error getting all activities");
             }
         }
@@ -70,6 +75,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
                 return BadRequest("Error while adding a new activity");
             }
         }
@@ -83,6 +89,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogInformation(ex.Message);
             }
         }
     }

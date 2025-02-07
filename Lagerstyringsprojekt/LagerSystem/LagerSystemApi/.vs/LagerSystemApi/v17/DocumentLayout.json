@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\controllers\\devicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\devicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\controllers\\activitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:controllers\\activitycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\repository\\activityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:repository\\activityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\services\\activityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:services\\activityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|c:\\users\\zbcrvsa\\desktop\\lagerstyring\\h3\\lagerstyringsprojekt\\lagersystem\\lagersystemapi\\repository\\devicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0C5F69A8-E5C7-481C-A4DA-A6E69BB62F18}|LagerSystemApi.csproj|solutionrelative:repository\\devicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,21 +22,8 @@
       "DocumentGroups": [
         {
           "DockedHeight": 283,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ActivityRepository.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Repository\\ActivityRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\ActivityRepository.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Repository\\ActivityRepository.cs",
-              "RelativeToolTip": "Repository\\ActivityRepository.cs",
-              "ViewState": "AQIAAIkAAAAAAAAAAAAmwAgAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T07:47:17.173Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
@@ -51,49 +34,45 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ActivityService.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services\\ActivityService.cs",
-              "RelativeDocumentMoniker": "Services\\ActivityService.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Services\\ActivityService.cs",
-              "RelativeToolTip": "Services\\ActivityService.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAADwvw4AAAAZAAAA",
+              "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AQIAAHIAAAAAAAAAAAAuwIQAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T07:41:47.597Z",
+              "WhenOpened": "2025-02-07T11:31:03.945Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ActivityController.cs",
               "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\ActivityController.cs",
               "RelativeDocumentMoniker": "Controllers\\ActivityController.cs",
               "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\ActivityController.cs",
               "RelativeToolTip": "Controllers\\ActivityController.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABUAAAAJAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-07T07:26:47.849Z",
+              "WhenOpened": "2025-02-07T11:10:40.074Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DeviceRepository.cs",
-              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Repository\\DeviceRepository.cs",
-              "RelativeDocumentMoniker": "Repository\\DeviceRepository.cs",
-              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Repository\\DeviceRepository.cs",
-              "RelativeToolTip": "Repository\\DeviceRepository.cs",
-              "ViewState": "AQIAACgAAAAAAAAAAAAuwG8AAAAwAAAA",
+              "DocumentIndex": 1,
+              "Title": "DeviceController.cs",
+              "DocumentMoniker": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\DeviceController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DeviceController.cs",
+              "ToolTip": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\Controllers\\DeviceController.cs",
+              "RelativeToolTip": "Controllers\\DeviceController.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAowH4AAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-06T15:15:56.57Z",
+              "WhenOpened": "2025-02-07T11:06:49.169Z",
               "EditorCaption": ""
             }
           ]

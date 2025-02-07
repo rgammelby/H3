@@ -93,9 +93,9 @@ namespace LagerSystemApi.Repository
 
                 return activity;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -117,9 +117,9 @@ namespace LagerSystemApi.Repository
 
                 return activites;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -141,9 +141,9 @@ namespace LagerSystemApi.Repository
 
                 return activities;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -165,9 +165,9 @@ namespace LagerSystemApi.Repository
                 }).ToArrayAsync();
                 return activities;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception(ex.Message);
             }
         }
 
