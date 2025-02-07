@@ -53,18 +53,34 @@ namespace LagerSystemApi.Services
             return _activity.SearchByTypes(key);
         }
         */
-        public async Task AddActivity(ActivityDTO activity)
+        public async Task<ActivityDTO> AddActivity(ActivityDTO activity)
         {
-            if (activity != null && !HasNullFields(activity))
+            try
             {
-                await _activity.Add(activity);
+                if (activity != null && !HasNullFields(activity))
+                {
+                    return await _activity.Add(activity);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
-        public async Task UpdateActivity(UpdateActivityDTO activity)
+        public async Task<UpdateActivityDTO> UpdateActivity(UpdateActivityDTO activity)
         {
-            if (activity != null && !HasNullFields(activity))
+            try
             {
-                await _activity.Update(activity);
+                if (activity != null && !HasNullFields(activity))
+                {
+                    return await _activity.Update(activity);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

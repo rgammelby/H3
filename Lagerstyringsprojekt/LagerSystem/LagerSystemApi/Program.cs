@@ -1,9 +1,9 @@
+using LagerSystemApi.CustomLogger;
 using LagerSystemApi.Interfaces;
 using LagerSystemApi.Mappings;
 using LagerSystemApi.Repository;
 using LagerSystemApi.Services;
 using Microsoft.EntityFrameworkCore;
-using static LagerSystemApi.Repository.DeviceOverviewRepository;
 
 namespace LagerSystemApi
 {
@@ -12,6 +12,9 @@ namespace LagerSystemApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add Logger in dependency
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();

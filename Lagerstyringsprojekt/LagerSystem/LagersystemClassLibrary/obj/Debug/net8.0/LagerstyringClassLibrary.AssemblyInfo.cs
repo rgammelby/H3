@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LagerstyringClassLibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8971421485d6d3d7cb37802a5854f4b2328f8b8d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24892a061ec5a3e7ee77d378281a66766d96d0ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("LagerstyringClassLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LagerstyringClassLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

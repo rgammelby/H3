@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj": {}
+    "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj": {}
   },
   "projects": {
-    "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj": {
+    "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj",
+        "projectUniqueName": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj",
         "projectName": "LagerSystemApi.TestRunner",
-        "projectPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj",
-        "packagesPath": "C:\\Users\\twan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\obj\\",
+        "projectPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\LagerSystemApi.TestRunner.csproj",
+        "packagesPath": "C:\\Users\\zbcrvsa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi.TestRunner\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\twan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zbcrvsa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,14 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj": {
-                "projectPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj"
+              "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj": {
+                "projectPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj"
               }
             }
           }
@@ -47,8 +48,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -95,24 +95,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj": {
+    "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
+        "projectUniqueName": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
         "projectName": "LagerSystemApi",
-        "projectPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
-        "packagesPath": "C:\\Users\\twan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\obj\\",
+        "projectPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\LagerSystemApi.csproj",
+        "packagesPath": "C:\\Users\\zbcrvsa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagerSystemApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\twan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zbcrvsa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -121,14 +121,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj": {
-                "projectPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj"
+              "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj": {
+                "projectPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj"
               }
             }
           }
@@ -142,8 +143,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -211,24 +211,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj": {
+    "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj",
         "projectName": "LagerstyringClassLibrary",
-        "projectPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj",
-        "packagesPath": "C:\\Users\\twan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\twan\\Source\\Repos\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\obj\\",
+        "projectPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\LagerstyringClassLibrary.csproj",
+        "packagesPath": "C:\\Users\\zbcrvsa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\zbcrvsa\\Desktop\\Lagerstyring\\H3\\Lagerstyringsprojekt\\LagerSystem\\LagersystemClassLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\twan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\zbcrvsa\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -237,6 +237,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -254,8 +255,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -292,7 +292,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
