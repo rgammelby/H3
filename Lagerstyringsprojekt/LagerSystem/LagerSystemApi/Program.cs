@@ -1,3 +1,4 @@
+using LagerSystemApi.Interfaces;
 using LagerSystemApi.Mappings;
 using LagerSystemApi.Repository;
 using LagerSystemApi.Services;
@@ -38,7 +39,7 @@ namespace LagerSystemApi
             builder.Services.AddScoped<ILogRepository, LogRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<PasswordService>();
-            //builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
+            builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
 
             // Registers all services with an instance of their repositories
             builder.Services.AddScoped<IActivityService, ActivityService>();
