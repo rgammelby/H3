@@ -1,8 +1,9 @@
+using LagerSystemApi.CustomLogger;
+using LagerSystemApi.Interfaces;
 using LagerSystemApi.Mappings;
 using LagerSystemApi.Repository;
 using LagerSystemApi.Services;
 using Microsoft.EntityFrameworkCore;
-using static LagerSystemApi.Repository.DeviceOverviewRepository;
 
 namespace LagerSystemApi
 {
@@ -11,6 +12,9 @@ namespace LagerSystemApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add Logger in dependency
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -38,13 +42,14 @@ namespace LagerSystemApi
             builder.Services.AddScoped<ILogRepository, LogRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<PasswordService>();
-            //builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
+            builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
 
             // Registers all services with an instance of their repositories
             builder.Services.AddScoped<IActivityService, ActivityService>();
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ILogService, LogService>();
+            builder.Services.AddScoped<IDeviceOverviewService, DeviceOverviewService>();
 
             var app = builder.Build();
 

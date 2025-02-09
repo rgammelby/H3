@@ -1,0 +1,60 @@
+# How to Apply the .gitignore File
+# Create the file inside C:\Users\twan\Source\Repos\H3\Lagerstyringsprojekt\
+# Run the following commands in Git Bash or PowerShell:
+# git rm -r --cached .
+# git add .
+# git commit -m "Applied .gitignore to remove unnecessary files"
+# git push origin YOUR_BRANCH_NAME
+
+# This will:
+# Remove unwanted files from Git tracking
+# Keep them in your local project
+# Prevent them from being committed again
+
+
+# Ignore build & debug files
+bin/
+Lagerstyringsprojekt/LagerSystem/LagerSystemApi.TestRunner/bin/
+Lagerstyringsprojekt/LagerSystem/LagerSystemApi/bin/
+Lagerstyringsprojekt/LagerSystem/LagersystemClassLibrary/bin/
+
+obj/
+Lagerstyringsprojekt/LagerSystem/LagerSystemApi/obj/
+Lagerstyringsprojekt/LagerSystem/LagerSystemApi.TestRunner/obj/
+Lagerstyringsprojekt/LagerSystem/LagersystemClassLibrary/obj/
+
+*.pdb
+*.exe
+*.dll
+*.cache
+*.log
+*.db
+*.nuget
+
+# Ignore Visual Studio files
+.vs
+Lagerstyringsprojekt/LagerSystem/LagerSystemApi/.vs/
+*.user
+*.suo
+*.vscode/
+*.tlog
+*.VC.db
+
+
+
+# Ignore test results
+TestResults/
+coverage/
+
+# Ignore migrations if auto-generated
+Migrations/
+
+# Ignore compiled TypeScript files
+*.js.map
+*.tsbuildinfo
+
+# Ignore Copilot indices
+CopilotIndices/
+
+# Ignore file locks
+*.lock

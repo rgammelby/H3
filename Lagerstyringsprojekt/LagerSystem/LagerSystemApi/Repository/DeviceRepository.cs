@@ -1,22 +1,12 @@
-﻿//using LagerSystemApi.Data;
-global using LagerstyringClassLibrary;
+﻿global using LagerstyringClassLibrary;
 global using LagerstyringClassLibrary.Models;
-//using LagerSystemApi.Models.Domain;
+using LagerSystemApi.Interfaces;
 using LagerSystemApi.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace LagerSystemApi.Repository
 {
-    public interface IDeviceRepository
-    {
-        // TODO: GetFilteredDevices  // skal hente devices ud fra et filter; type
-        Task<List<SingleDevice>> GetSingleDevicesByModel(string model);
-        Task<SingleDevice?> GetDeviceById(int id); // Returns domain model
-        Task<List<SingleDevice>> GetAllDevices();  // Returns list of domain models
-        Task<SingleDevice> AddDevice(SingleDevice device);       // Accepts domain model for adding
-        Task<SingleDevice> UpdateDevice(SingleDevice device);    // Updates a domain model
-        // Task DeactivateDevice(int id);                 // Deactivate a device by id
-    }
+    
     /// <summary>
     ///  The repository is responsible for interacting with the database. It:
     /// Fetches, adds, updates, or deletes data from the database.

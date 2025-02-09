@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LagerSystemApi.TestRunner")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c4ac2a162cf2cc17b3e729e6dffe9eb2c931d01")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24892a061ec5a3e7ee77d378281a66766d96d0ea")]
 [assembly: System.Reflection.AssemblyProductAttribute("LagerSystemApi.TestRunner")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LagerSystemApi.TestRunner")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

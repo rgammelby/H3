@@ -6,8 +6,8 @@ namespace LagerSystemApi.Repository
 {
     public interface IActivityRepository
     {
-        Task Add(ActivityDTO activity);
-        Task Update (UpdateActivityDTO activity);
+        Task<ActivityDTO> Add(ActivityDTO activity);
+        Task<UpdateActivityDTO> Update (UpdateActivityDTO activity);
         Task<ActivityDTO> Get(int id);
         Task<ActivityDTO[]> GetAll();
         Task<ActivityDTO[]> GetByLifecycleId(int id);
@@ -24,7 +24,7 @@ namespace LagerSystemApi.Repository
         {
             _context = db;
         }
-        public async Task Add(ActivityDTO activity)
+        public async Task<ActivityDTO> Add(ActivityDTO activity)
         {
             try
             {
@@ -42,6 +42,7 @@ namespace LagerSystemApi.Repository
 
                 _context.Activities.Add(newActivity);
                 await _context.SaveChangesAsync();
+                return activity;
             }
             catch
             {
@@ -49,7 +50,7 @@ namespace LagerSystemApi.Repository
             }
         }
 
-        public async Task Update(UpdateActivityDTO activity)
+        public async Task<UpdateActivityDTO> Update(UpdateActivityDTO activity)
         {
             try
             {
@@ -67,6 +68,7 @@ namespace LagerSystemApi.Repository
 
 
                 await _context.SaveChangesAsync();
+                return activity;
             }
             catch
             {

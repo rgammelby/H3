@@ -2,7 +2,7 @@
 {
     public class UpdateDeviceOverviewDTO
     {
-        public int id { get; set; }
+        // public int id { get; set; }
         public string model { get; set; }
         public int device_type { get; set; }
         public string image { get; set; }
