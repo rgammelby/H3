@@ -142,6 +142,7 @@
           "Microsoft.Extensions.Configuration.KeyPerFile": "8.0.0.0",
           "Microsoft.Extensions.Configuration.UserSecrets.Reference": "8.0.0.0",
           "Microsoft.Extensions.Configuration.Xml": "8.0.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions.Reference": "8.0.0.0",
           "Microsoft.Extensions.DependencyInjection.Reference": "8.0.0.0",
           "Microsoft.Extensions.Diagnostics.Abstractions.Reference": "8.0.0.0",
           "Microsoft.Extensions.Diagnostics.Reference": "8.0.0.0",
@@ -160,6 +161,7 @@
           "Microsoft.Extensions.Identity.Stores": "8.0.0.0",
           "Microsoft.Extensions.Localization.Abstractions": "8.0.0.0",
           "Microsoft.Extensions.Localization": "8.0.0.0",
+          "Microsoft.Extensions.Logging.Abstractions.Reference": "8.0.0.0",
           "Microsoft.Extensions.Logging.Configuration.Reference": "8.0.0.0",
           "Microsoft.Extensions.Logging.Console.Reference": "8.0.0.0",
           "Microsoft.Extensions.Logging.Debug.Reference": "8.0.0.0",
@@ -349,6 +351,35 @@
           "LagerSystemApi.TestRunner.dll": {}
         }
       },
+      "AutoMapper/12.0.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/AutoMapper.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/AutoMapper.dll": {}
+        }
+      },
+      "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.1": {
+        "dependencies": {
+          "AutoMapper": "12.0.1",
+          "Microsoft.Extensions.Options": "8.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
+        }
+      },
       "Azure.Core/1.25.0": {
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
@@ -495,7 +526,7 @@
           "lib/netcoreapp3.1/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {}
         }
       },
-      "Microsoft.CSharp/4.5.0": {},
+      "Microsoft.CSharp/4.7.0": {},
       "Microsoft.Data.SqlClient/5.1.1": {
         "dependencies": {
           "Azure.Identity": "1.7.0",
@@ -699,9 +730,6 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1024.46610"
           }
-        },
-        "compile": {
-          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         }
       },
       "Microsoft.Extensions.DependencyModel/8.0.0": {
@@ -797,9 +825,6 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.1024.46610"
           }
-        },
-        "compile": {
-          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
         }
       },
       "Microsoft.Extensions.Logging.Configuration/8.0.0": {
@@ -968,7 +993,7 @@
       },
       "Microsoft.IdentityModel.Tokens/6.24.0": {
         "dependencies": {
-          "Microsoft.CSharp": "4.5.0",
+          "Microsoft.CSharp": "4.7.0",
           "Microsoft.IdentityModel.Logging": "6.24.0",
           "System.Security.Cryptography.Cng": "5.0.0"
         },
@@ -1662,7 +1687,10 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0"
         },
         "runtime": {
-          "LagerstyringClassLibrary.dll": {}
+          "LagerstyringClassLibrary.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         },
         "compile": {
           "LagerstyringClassLibrary.dll": {}
@@ -1670,18 +1698,24 @@
       },
       "LagerSystemApi/1.0.0": {
         "dependencies": {
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
           "FluentAssertions": "8.0.1",
           "LagerstyringClassLibrary": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Testing": "8.0.0",
           "Microsoft.EntityFrameworkCore": "8.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0",
+          "Microsoft.NET.Test.Sdk": "17.12.0",
           "Newtonsoft.Json": "13.0.1",
           "Swashbuckle.AspNetCore": "6.4.0",
           "Testcontainers.PostgreSql": "4.1.0",
-          "xunit": "2.9.3"
+          "xunit": "2.9.3",
+          "xunit.runner.visualstudio": "3.0.1"
         },
         "runtime": {
-          "LagerSystemApi.dll": {}
+          "LagerSystemApi.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         },
         "compile": {
           "LagerSystemApi.dll": {}
@@ -2287,6 +2321,12 @@
         },
         "compileOnly": true
       },
+      "Microsoft.Extensions.DependencyInjection.Abstractions.Reference/8.0.0.0": {
+        "compile": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+        },
+        "compileOnly": true
+      },
       "Microsoft.Extensions.DependencyInjection.Reference/8.0.0.0": {
         "compile": {
           "Microsoft.Extensions.DependencyInjection.dll": {}
@@ -2392,6 +2432,12 @@
       "Microsoft.Extensions.Localization/8.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Localization.dll": {}
+        },
+        "compileOnly": true
+      },
+      "Microsoft.Extensions.Logging.Abstractions.Reference/8.0.0.0": {
+        "compile": {
+          "Microsoft.Extensions.Logging.Abstractions.dll": {}
         },
         "compileOnly": true
       },
@@ -3489,6 +3535,20 @@
       "serviceable": false,
       "sha512": ""
     },
+    "AutoMapper/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hvV62vl6Hp/WfQ24yzo3Co9+OPl8wH8hApwVtgWpiAynVJkUcs7xvehnSftawL8Pe8FrPffBRM3hwzLQqWDNjA==",
+      "path": "automapper/12.0.1",
+      "hashPath": "automapper.12.0.1.nupkg.sha512"
+    },
+    "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+g/K+Vpe3gGMKGzjslMOdqNlkikScDjWfVvmWTayrDHaG/n2pPmFBMa+jKX1r/h6BDGFdkyRjAuhFE3ykW+r1g==",
+      "path": "automapper.extensions.microsoft.dependencyinjection/12.0.1",
+      "hashPath": "automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512"
+    },
     "Azure.Core/1.25.0": {
       "type": "package",
       "serviceable": true,
@@ -3566,12 +3626,12 @@
       "path": "microsoft.codecoverage/17.12.0",
       "hashPath": "microsoft.codecoverage.17.12.0.nupkg.sha512"
     },
-    "Microsoft.CSharp/4.5.0": {
+    "Microsoft.CSharp/4.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-kaj6Wb4qoMuH3HySFJhxwQfe8R/sJsNJnANrvv8WdFPMoNbKY5htfNscv+LHCu5ipz+49m2e+WQXpLXr9XYemQ==",
-      "path": "microsoft.csharp/4.5.0",
-      "hashPath": "microsoft.csharp.4.5.0.nupkg.sha512"
+      "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+      "path": "microsoft.csharp/4.7.0",
+      "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
     },
     "Microsoft.Data.SqlClient/5.1.1": {
       "type": "package",
@@ -4762,6 +4822,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Microsoft.Extensions.DependencyInjection.Abstractions.Reference/8.0.0.0": {
+      "type": "referenceassembly",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Microsoft.Extensions.DependencyInjection.Reference/8.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
@@ -4848,6 +4913,11 @@
       "sha512": ""
     },
     "Microsoft.Extensions.Localization/8.0.0.0": {
+      "type": "referenceassembly",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Extensions.Logging.Abstractions.Reference/8.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
