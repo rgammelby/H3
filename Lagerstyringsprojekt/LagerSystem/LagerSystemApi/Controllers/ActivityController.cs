@@ -10,7 +10,7 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> GetAll();
         Task<IActionResult> GetByDeviceId(int id);
         Task<IActionResult> Add(ActivityDTO activity);
-        Task Update(UpdateActivityDTO activity);
+        Task Update(int id, UpdateActivityDTO activity);
     }
     public class ActivityController : ControllerBase, IActivityController
     {
@@ -78,11 +78,12 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPut("UpdateActivity")]
-        public async Task<IActionResult> Update(int id, [FromBody]UpdateActivityDTO activity)
+        public async Task Update(int id, [FromBody]UpdateActivityDTO activity)
         {
             try
             {
-                return Ok(await _activity.UpdateActivity(activity));
+                await _activity.UpdateActivity(activity);
+                Ok();
             }
             catch (Exception ex)
             {

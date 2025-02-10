@@ -23,13 +23,11 @@ namespace LagerSystemApi.Repository
             }
             catch (DbUpdateException dbEx)
             {
-                _logger.LogError(dbEx, $"Database error while retrieving device overview with ID {id}");
-                throw;
+                throw new Exception($"Database error while retrieving device overview with ID {id}\nDB-Error: {dbEx.Message}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Unexpected error while retrieving device overview with ID {id}");
-                throw;
+                throw new Exception($"Unexpected error while retrieving device overview with ID {id}\nError: {ex.Message}");
             }
         }
         public async Task<List<DeviceOverview>> GetAllDeviceOverviews()
@@ -40,8 +38,7 @@ namespace LagerSystemApi.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving all device overviews");
-                throw;
+                throw new Exception($"Error retrieving all device overviews\nError{ex.Message}");
             }
         }
         public async Task<DeviceOverview> AddDeviceOverview(DeviceOverview deviceOverview)
@@ -56,13 +53,11 @@ namespace LagerSystemApi.Repository
             }
             catch (DbUpdateException dbEx)
             {
-                _logger.LogError(dbEx, "Database error while adding a new device overview");
-                throw;
+                throw new Exception($"Database error while adding a new device overview\nDB-Error: {dbEx.Message}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while adding a new device overview");
-                throw;
+                throw new Exception($"Unexpected error while adding a new device overview\nError: {ex.Message}");
             }
         }
 
@@ -77,13 +72,11 @@ namespace LagerSystemApi.Repository
             }
             catch (DbUpdateException dbEx)
             {
-                _logger.LogError(dbEx, $"Database error while updating device overview with ID {deviceOverview.id}");
-                throw;
+                throw new Exception($"Database error while updating device overview with ID {deviceOverview.id}\nDB-Error: {dbEx.Message}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Unexpected error while updating device overview with ID {deviceOverview.id}");
-                throw;
+                throw new Exception($"Unexpected error while updating device overview with ID {deviceOverview.id}\nError: {ex.Message}");
             }
         }
 
@@ -96,8 +89,7 @@ namespace LagerSystemApi.Repository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error retrieving device overview for Model '{model}' and DeviceType {deviceType}");
-                return null;
+                throw new Exception($"Error retrieving device overview for Model '{model}' and DeviceType {deviceType}\nError: {ex.Message}");
             }
         }
     }

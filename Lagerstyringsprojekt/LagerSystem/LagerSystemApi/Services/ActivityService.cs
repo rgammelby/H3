@@ -12,7 +12,7 @@ namespace LagerSystemApi.Services
         /*
         Task<ActivityDTO[]> SearchByType(string type);
         */
-        Task AddActivity(ActivityDTO activity);
+        Task<ActivityDTO> AddActivity(ActivityDTO activity);
         Task UpdateActivity(UpdateActivityDTO activity);
     }
     public class ActivityService : IActivityService
@@ -25,26 +25,54 @@ namespace LagerSystemApi.Services
 
         public Task<ActivityDTO> Get(int id)
         {
-            if (id == 0) return null;
+            try
+            {
+                if (id <= 0) throw new Exception("Not a valid id");
 
-            return _activity.Get(id);
+                return _activity.Get(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         public Task<ActivityDTO[]> GetAll()
         {
-            return _activity.GetAll();
+            try
+            {
+                return _activity.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Task<ActivityDTO[]> GetByDeviceId(int id)
         {
-            if (id == 0) return null;
-            return _activity.GetByDeviceId(id);
+            try
+            {
+                if (id <= 0) throw new Exception("Not a valid id");
+                return _activity.GetByDeviceId(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public Task<ActivityDTO[]> GetByLifecycleId(int id)
         {
-            if (id == 0) return null;
+            try
+            {
+                if (id <= 0) throw new Exception("Not a valid id");
 
-            return _activity.GetByLifecycleId(id);
+                return _activity.GetByLifecycleId(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         /*
         public Task<ActivityDTO[]> SearchByTypes(string key)
@@ -61,22 +89,22 @@ namespace LagerSystemApi.Services
                 {
                     return await _activity.Add(activity);
                 }
-                return null;
+                throw new Exception("Some properties were not valid");
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<UpdateActivityDTO> UpdateActivity(UpdateActivityDTO activity)
+        public async Task UpdateActivity(UpdateActivityDTO activity)
         {
             try
             {
                 if (activity != null && !HasNullFields(activity))
                 {
-                    return await _activity.Update(activity);
+                    await _activity.Update(activity);
                 }
-                return null;
+                throw new Exception("Some properties were not valid");
             }
             catch (Exception ex)
             {

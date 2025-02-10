@@ -7,8 +7,8 @@ namespace LagerSystemApi.Repository
 {
     public interface IUserRepository
     {
-        Task<LoggedInDTO> Login(UserLogInDTO user);
-        Task Add(UserDTO user);
+        //Task<LoggedInDTO> Login(UserLogInDTO user);
+        Task<UserDTO> Add(UserDTO user);
         Task<UserDTO> GetUserByEmail(string email);
         Task Update(UpdateUserDTO user);
         Task Disable(int id);
@@ -24,25 +24,24 @@ namespace LagerSystemApi.Repository
             _context = db;
         }
         
-        public async Task<LoggedInDTO> Login(UserLogInDTO user)
-        {
-            try
-            {
-                User newUser = await _context.Users.Where(db => db.email == user.email).FirstOrDefaultAsync();
+        //public async Task<LoggedInDTO> Login(UserLogInDTO user)
+        //{
+        //    try
+        //    {
+        //        User newUser = await _context.Users.Where(db => db.email == user.email).FirstOrDefaultAsync();
 
 
-                // Decrypt pass then compare user.password with newUser.hashedpwd, if the same, return 
-                // Else throw error that says password not correct.
-                return null;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while logging into user, Email: {user.email},\nError: ", ex.Message);
-                return null;
-            }
-        }
+        //        // Decrypt pass then compare user.password with newUser.hashedpwd, if the same, return 
+        //        // Else throw error that says password not correct.
+        //        return null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Error while logging into user, Email: {user.email}.\nError: {ex.Message}");
+        //    }
+        //}
 
-        public async Task Add(UserDTO user)
+        public async Task<UserDTO> Add(UserDTO user)
         {
             try
             {
@@ -60,10 +59,11 @@ namespace LagerSystemApi.Repository
 
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
+                return user;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error saving user: {ex.Message}");
+                throw new Exception($"Unexpected error while adding user.\nError: {ex.Message}");
             }
         }
 
@@ -83,7 +83,7 @@ namespace LagerSystemApi.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while trying to update user: {user.id}\nError: ", ex.Message);
+                throw new Exception($"Unexpected error while trying to update user: {user.id}.\nError: {ex.Message}");
             }
         }
 
@@ -99,7 +99,7 @@ namespace LagerSystemApi.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while disabling user_id: {id}\nError: ", ex.Message);
+                throw new Exception($"Unexpected error while disabling user_id: {id}.\nError: {ex.Message}");
             }
         }
 
@@ -123,8 +123,7 @@ namespace LagerSystemApi.Repository
                 };
             } catch (Exception ex)
             {
-                Console.WriteLine($"Error while getting user by e-mail address: {email}\nError: ", ex.Message);
-                return null;
+                throw new Exception($"Unexpected error while getting user by e-mail address: {email}.\nError: {ex.Message}");
             }
         }
 
@@ -149,8 +148,7 @@ namespace LagerSystemApi.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while getting user from user_id: {id}\nError: ", ex.Message);
-                return null;
+                throw new Exception($"Unexpected error while getting user from user_id: {id}.\nError: {ex.Message}");
             }
         }
 
@@ -172,8 +170,7 @@ namespace LagerSystemApi.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error while getting all users:\n", ex.Message);
-                return null;
+                throw new Exception("Unexpected error while getting all users.\nError: {ex.Message}");
             }
         }
     }

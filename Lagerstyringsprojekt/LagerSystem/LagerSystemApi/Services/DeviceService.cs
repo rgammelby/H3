@@ -1,9 +1,4 @@
 ﻿using LagerSystemApi.Models.DTO;
-using LagerSystemApi.Repository;
-using Microsoft.IdentityModel.Tokens;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Reflection.Metadata;
-using System.Security.Cryptography;
 using AutoMapper;
 using LagerSystemApi.Interfaces;
 
@@ -28,186 +23,175 @@ namespace LagerSystemApi.Services
 
         public async Task<List<DeviceDTO>> GetSingleDevicesByModel(string model)
         {
-            List<SingleDevice> singleDevices = await _deviceRepository.GetSingleDevicesByModel(model);
+            try
+            {
+                List<SingleDevice> singleDevices = await _deviceRepository.GetSingleDevicesByModel(model);
 
-            return _mapper.Map<List<DeviceDTO>>(singleDevices);
+                return _mapper.Map<List<DeviceDTO>>(singleDevices);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         // Fetch a device and convert to DTO
         public async Task<DeviceDTO?> GetDevice(int id)
         {
-            if (id <= 0) return null;
+            try
+            {
+                if (id <= 0) return null;
 
-            var device = await _deviceRepository.GetDeviceById(id);
-            if (device == null) return null;
+                var device = await _deviceRepository.GetDeviceById(id);
+                if (device == null) return null;
 
-            //return new DeviceDTO
-            //{
-            //    id = device.id,
-            //    device_overview_id = device.device_overview_id,
-            //    is_archived = device.is_archived,
-            //    description = device.description,
-            //    status = device.status,
-            //    location = device.location,
-            //    qr = device.qr,
-            //};
+                //return new DeviceDTO
+                //{
+                //    id = device.id,
+                //    device_overview_id = device.device_overview_id,
+                //    is_archived = device.is_archived,
+                //    description = device.description,
+                //    status = device.status,
+                //    location = device.location,
+                //    qr = device.qr,
+                //};
 
-            var deviceDto = _mapper.Map<DeviceDTO>(device);
+                var deviceDto = _mapper.Map<DeviceDTO>(device);
 
-            return deviceDto;
+                return deviceDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         
         // Fetch all devices and convert to DTOs
         public async Task<List<DeviceDTO>> GetAllDevices()
         {
-            var devices = await _deviceRepository.GetAllDevices();
-            
-            //return devices.Select(devices => new DeviceDTO
-            //{
-            //    id = devices.id,
-            //    device_overview_id = devices.device_overview_id,
-            //    is_archived = devices.is_archived,
-            //    description = devices.description,
-            //    status = devices.status,
-            //    location = devices.location,
-            //    qr = devices.qr
-            //}).ToList();
+            try
+            {
+                var devices = await _deviceRepository.GetAllDevices();
 
-            var deviceDtos = _mapper.Map<List<DeviceDTO>>(devices);
+                //return devices.Select(devices => new DeviceDTO
+                //{
+                //    id = devices.id,
+                //    device_overview_id = devices.device_overview_id,
+                //    is_archived = devices.is_archived,
+                //    description = devices.description,
+                //    status = devices.status,
+                //    location = devices.location,
+                //    qr = devices.qr
+                //}).ToList();
 
-            return deviceDtos;
+                var deviceDtos = _mapper.Map<List<DeviceDTO>>(devices);
+
+                return deviceDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         //  Add a new device (DTO -> Entity)
         public async Task<DeviceDTO?> AddDevice(AddSingleDeviceDTO newDeviceDto)
         {
-            if (newDeviceDto == null) 
+            try
             {
-                _logger.LogError("AddDevice failed: newDeviceDto is null.");
-                return null;
-            }
+                if (newDeviceDto == null)
+                {
+                    throw new Exception("AddDevice failed: newDeviceDto is null.");
+                }
 
-            // Validate required fields
-            if (newDeviceDto.status <= 0)
+                // Validate required fields
+                if (newDeviceDto.status <= 0)
+                {
+                    throw new Exception("AddDevice failed: Status must be greater than 0.");
+                }
+
+                if (newDeviceDto.device_overview_id <= 0)
+                {
+                    throw new Exception("AddDevice failed: Device must be linked to a valid overview.");
+                }
+
+                // Set default values if null or empty
+                newDeviceDto.description ??= "No description provided";
+                // TODO: Call qr code, to create with a url to get this device.
+                newDeviceDto.qr ??= "";
+                newDeviceDto.status = newDeviceDto.status != 0 ? newDeviceDto.status : 1; //  Default status to `1` (Available)
+
+
+                //var device = new SingleDevice
+                //{
+                //    status = newDeviceDto.status,
+                //    location = newDeviceDto.location,
+                //    device_overview_id = newDeviceDto.device_overview_id,
+                //    description = newDeviceDto.description,
+                //    qr = newDeviceDto.qr,
+                //    is_archived = newDeviceDto.is_archived
+                //};
+
+                // 1. map AddSingleDeviceDTO to domain model, no id yet
+                var device = _mapper.Map<SingleDevice>(newDeviceDto);
+
+                // 2. save the new device to db
+                await _deviceRepository.AddDevice(device);
+
+                // 3. Map the saved device (with ID) back to `DeviceDTO`
+                var deviceDto = _mapper.Map<DeviceDTO>(device);
+
+                return deviceDto;
+
+
+                //return new DeviceDTO
+                //{
+                //    id = device.id, // EF automatically updates this field
+                //    device_overview_id = device.device_overview_id,
+                //    description = device.description,
+                //    status = device.status,
+                //    location = device.location,
+                //    qr = device.qr,
+                //    is_archived = device.is_archived
+                //};
+            }
+            catch (Exception ex)
             {
-                _logger.LogError("AddDevice failed: Status must be greater than 0.");
-                return null;
+                throw new Exception(ex.Message);
             }
-
-            if (newDeviceDto.device_overview_id <= 0)
-            {
-                _logger.LogError("AddDevice failed: Device must be linked to a valid overview.");
-                return null;
-            }
-
-            // Set default values if null or empty
-            newDeviceDto.description ??= "No description provided";
-            newDeviceDto.qr ??= "";
-            newDeviceDto.status = newDeviceDto.status != 0 ? newDeviceDto.status : 1; //  Default status to `1` (Available)
-
-
-            //var device = new SingleDevice
-            //{
-            //    status = newDeviceDto.status,
-            //    location = newDeviceDto.location,
-            //    device_overview_id = newDeviceDto.device_overview_id,
-            //    description = newDeviceDto.description,
-            //    qr = newDeviceDto.qr,
-            //    is_archived = newDeviceDto.is_archived
-            //};
-
-            // 1. map AddSingleDeviceDTO to domain model, no id yet
-            var device = _mapper.Map<SingleDevice>(newDeviceDto);
-
-            // 2. save the new device to db
-            await _deviceRepository.AddDevice(device);
-
-            // 3. Map the saved device (with ID) back to `DeviceDTO`
-            var deviceDto = _mapper.Map<DeviceDTO>(device);
-
-            return deviceDto;
-
-
-            //return new DeviceDTO
-            //{
-            //    id = device.id, // EF automatically updates this field
-            //    device_overview_id = device.device_overview_id,
-            //    description = device.description,
-            //    status = device.status,
-            //    location = device.location,
-            //    qr = device.qr,
-            //    is_archived = device.is_archived
-            //};
         }
         public async Task<DeviceDTO?> UpdateDevice(int id, UpdateDeviceDTO updateDeviceDto)
         {
-            // Validate input
-            if(updateDeviceDto == null)
+            try
             {
-                _logger.LogError("UpdateDevice failed: deviceDTO is null.");
-                return null;
-            }
-            if (id <= 0)
-            {
-                _logger.LogError($"UpdateDevice failed: Invalid device ID {id}.");
-                return null;
-            }
+                // Validate input
+                if (updateDeviceDto == null)
+                {
+                    throw new Exception("UpdateDevice failed: deviceDTO is null.");
+                }
+                if (id <= 0)
+                {
+                    throw new Exception($"UpdateDevice failed: Invalid device ID {id}.");
+                }
 
-            // get domain model by id
-            var device = await _deviceRepository.GetDeviceById(id);
+                // get domain model by id
+                var device = await _deviceRepository.GetDeviceById(id);
 
-            if (device == null) 
-            {
-                _logger.LogError($"UpdateDevice failed: Device with ID {id} not found.");
-                return null;
-            }
+                if (device == null)
+                {
+                    throw new Exception($"UpdateDevice failed: Device with ID {id} not found.");
+                }
 
-            //device.description = updateDeviceDto.description ?? device.description;
-            //device.location = updateDeviceDto.location != 0 ? updateDeviceDto.location : device.location;
-            //device.qr = updateDeviceDto.qr ?? device.qr;
-            //device.status = updateDeviceDto.status != 0 ? updateDeviceDto.status : device.status;
-            //device.is_archived = updateDeviceDto.is_archived;
+                //device.description = updateDeviceDto.description ?? device.description;
+                //device.location = updateDeviceDto.location != 0 ? updateDeviceDto.location : device.location;
+                //device.qr = updateDeviceDto.qr ?? device.qr;
+                //device.status = updateDeviceDto.status != 0 ? updateDeviceDto.status : device.status;
+                //device.is_archived = updateDeviceDto.is_archived;
 
-            // AutoMapper updates only non-null properties in `device`
-            _mapper.Map(updateDeviceDto, device);
+                // AutoMapper updates only non-null properties in `device`
+                _mapper.Map(updateDeviceDto, device);
 
-            await _deviceRepository.UpdateDevice(device);
-
-            //return new DeviceDTO
-            //{
-            //    id = device.id,
-            //    device_overview_id = device.device_overview_id,
-            //    is_archived = device.is_archived,
-            //    description = device.description,
-            //    status = device.status,
-            //    location = device.location,
-            //    qr = device.qr
-            //};
-
-            // Convert back to DTO
-            return _mapper.Map<DeviceDTO>(device);
-        }
-
-        public async Task<DeviceDTO?> DeactivateDevice(int id)
-        {
-            if (id <= 0)
-            {
-                _logger.LogError($"DeactivateDevice failed: Invalid device ID {id}.");
-                return null;
-            }
-
-            // get domain model by id
-            var device = await _deviceRepository.GetDeviceById(id);
-
-            if (device == null)
-            {
-                _logger.LogError($"DeactivateDevice failed: Device with ID {id} not found.");
-                return null;
-            }
-
-            if (device.is_archived)
-            {
-                _logger.LogInformation($"DeactivateDevice skipped: Device with ID {id} is already deactivated.");
+                await _deviceRepository.UpdateDevice(device);
 
                 //return new DeviceDTO
                 //{
@@ -220,30 +204,74 @@ namespace LagerSystemApi.Services
                 //    qr = device.qr
                 //};
 
-                // Map the deactivated to dto then return
+                // Convert back to DTO
                 return _mapper.Map<DeviceDTO>(device);
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
-            // Update only `is_archived`
-            device.is_archived = true;
+        public async Task<DeviceDTO?> DeactivateDevice(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    throw new Exception($"DeactivateDevice failed: Invalid device ID {id}.");
+                }
 
-            await _deviceRepository.UpdateDevice(device);
+                // get domain model by id
+                var device = await _deviceRepository.GetDeviceById(id);
 
-            _logger.LogInformation($"Device with ID {id} successfully deactivated.");
+                if (device == null)
+                {
+                    throw new Exception($"DeactivateDevice failed: Device with ID {id} not found.");
+                }
 
-            // Return the updated DeviceDto
-            //return new DeviceDTO
-            //{
-            //    id = device.id,
-            //    device_overview_id = device.device_overview_id,
-            //    is_archived = device.is_archived,
-            //    description = device.description,
-            //    status = device.status,
-            //    location = device.location,
-            //    qr = device.qr
-            //};
+                if (device.is_archived)
+                {
+                    throw new Exception($"Device with id: {id} is already deactivated.");
 
-            return _mapper.Map<DeviceDTO?>(device);
+                    //return new DeviceDTO
+                    //{
+                    //    id = device.id,
+                    //    device_overview_id = device.device_overview_id,
+                    //    is_archived = device.is_archived,
+                    //    description = device.description,
+                    //    status = device.status,
+                    //    location = device.location,
+                    //    qr = device.qr
+                    //};
+
+                    // Map the deactivated to dto then return
+                    // return _mapper.Map<DeviceDTO>(device);
+                }
+
+                // Update only `is_archived`
+                device.is_archived = true;
+
+                await _deviceRepository.UpdateDevice(device);
+
+                // Return the updated DeviceDto
+                //return new DeviceDTO
+                //{
+                //    id = device.id,
+                //    device_overview_id = device.device_overview_id,
+                //    is_archived = device.is_archived,
+                //    description = device.description,
+                //    status = device.status,
+                //    location = device.location,
+                //    qr = device.qr
+                //};
+
+                return _mapper.Map<DeviceDTO?>(device);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
 

@@ -33,7 +33,7 @@ Lagerstyringsprojekt/LagerSystem/LagersystemClassLibrary/obj/
 
 # Ignore Visual Studio files
 .vs
-Lagerstyringsprojekt/LagerSystem/LagerSystemApi/.vs/
+Lagerstyringsprojekt/LagerSystem/LagerSystemApi/.vs
 *.user
 *.suo
 *.vscode/

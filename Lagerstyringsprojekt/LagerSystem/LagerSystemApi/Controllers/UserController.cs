@@ -6,70 +6,136 @@ namespace LagerSystemApi.Controllers
 {
     public interface IUserController
     {
-        Task<LoggedInDTO> LogIn(UserLogInDTO logIn);
-        Task<UserDTO> Get(int id);
-        Task<UserDTO[]> GetAll();
-        Task Add(UserDTO user);
+        Task<IActionResult> LogIn(UserLogInDTO logIn);
+        Task<IActionResult> Get(int id);
+        Task<IActionResult> GetAll();
+        Task<IActionResult> Add(UserDTO user);
         Task Update(UpdateUserDTO user);
         Task Disable(int id);
     }
-    public class UserController: IUserController
+    public class UserController: ControllerBase, IUserController
     {
-        private Context _context;
-        private IUserService _user;
+        private readonly IUserService _user;
+        private readonly ILogger<UserController> _logger;
         
-        public UserController(Context context, IUserService user)
+        public UserController(IUserService user, ILogger<UserController> logger)
         {
-            _context = context;
             _user = user;
+            _logger = logger;
         }
 
         [HttpPost("Login")]
-        public Task<LoggedInDTO> LogIn([FromBody] UserLogInDTO logIn)
+        public async Task<IActionResult> LogIn([FromBody] UserLogInDTO logIn)
         {
-            return _user.LogIn(logIn);
+            try
+            {
+                return Ok(await _user.LogIn(logIn));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest("Error trying to log in");
+            }
         }
 
         [HttpPost("AdminLogin")]
-        public Task<LoggedInDTO> AdminLogin([FromBody] UserLogInDTO admin)
+        public async Task<IActionResult> AdminLogin([FromBody] UserLogInDTO admin)
         {
-            return _user.AdminLogin(admin);
+            try
+            {
+                return Ok(await _user.AdminLogin(admin));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest("Error trying to log in");
+            }
         }
 
         [HttpGet("GetUser")]
-        public async Task<UserDTO> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return await _user.Get(id);
+            try
+            {
+                return Ok(await _user.Get(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error trying to get user with id: {id}");
+            }
         }
 
         [HttpGet("GetUserIdByEmail")]
-        public async Task<UserDTO> GetUserByEmail(string email)
+        public async Task<IActionResult> GetUserByEmail(string email)
         {
-            return await _user.GetUserByEmail(email);
+            try
+            {
+                return Ok(await _user.GetUserByEmail(email));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error trying to get user with email: {email}");
+            }
         }
 
         [HttpGet("GetAllUsers")]
-        public async Task<UserDTO[]> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return await _user.GetAll();
+            try
+            {
+                return Ok(await _user.GetAll());
+            }
+            catch(Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest("Error retrieving all users");
+            }
         }
 
         [HttpPost("AddUser")]
-        public async Task Add(UserDTO user)
+        public async Task<IActionResult> Add(UserDTO user)
         {
-            await _user.AddUser(user);
+            try
+            {
+                return Ok(await _user.AddUser(user));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest("Error adding user");
+            }
         }
 
         [HttpPut("UpdateUser")]
         public async Task Update(UpdateUserDTO user)
         {
-            await _user.UpdateUser(user);
+            try
+            {
+                await _user.UpdateUser(user);
+                Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                BadRequest("Error updating user");
+            }
         }
 
         [HttpPut("DisableUser")]
         public async Task Disable(int id)
         {
-            await _user.Disable(id);
+            try
+            {
+                await _user.Disable(id);
+                Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                BadRequest($"Error while disabling user with id: {id}");
+            }
         }
     }
 }

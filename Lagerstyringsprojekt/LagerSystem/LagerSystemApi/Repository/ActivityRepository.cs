@@ -44,9 +44,9 @@ namespace LagerSystemApi.Repository
                 await _context.SaveChangesAsync();
                 return activity;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Add activity was not succesful");
+                throw new Exception($"Add activity was not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -70,9 +70,9 @@ namespace LagerSystemApi.Repository
                 await _context.SaveChangesAsync();
                 return activity;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Update activity was not succesful");
+                throw new Exception($"Update activity was not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -94,9 +94,9 @@ namespace LagerSystemApi.Repository
 
                 return activity;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving activity id: {id}, were not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -118,9 +118,9 @@ namespace LagerSystemApi.Repository
 
                 return activites;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving all activites were not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -142,9 +142,9 @@ namespace LagerSystemApi.Repository
 
                 return activities;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving activities with lifecycleId: {id}, were not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -166,9 +166,9 @@ namespace LagerSystemApi.Repository
                 }).ToArrayAsync();
                 return activities;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving activities by device id: {id}, were not succesful.\nError: {ex.Message}");
             }
         }
 

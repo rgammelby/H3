@@ -26,7 +26,7 @@ namespace LagerSystemApi.Controllers
                 var deviceOverview = await _deviceOverviewService.GetDeviceOverviewById(id);
                 if (deviceOverview == null)
                 {
-                    _logger.LogWarning($"DeviceOverview with ID {id} not found.");
+                    _logger.LogInformation($"DeviceOverview with ID {id} not found.");
                     return NotFound($"DeviceOverview with ID {id} not found.");
                 }
 
@@ -35,7 +35,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Controller Error: Failed to retrieve device overview with ID {id}");
+                _logger.LogInformation($"Controller Error: Failed to retrieve device overview with ID {id}.\nError: {ex.Message}");
                 return StatusCode(500, "Internal server error.");
             }
         }
@@ -50,7 +50,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Controller Error: Failed to retrieve all device overviews");
+                _logger.LogInformation($"Controller Error: Failed to retrieve all device overviews\nError: {ex.Message}");
                 return StatusCode(500, "Internal server error.");
             }
         }
@@ -77,7 +77,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Controller Error: Failed to add device overview");
+                _logger.LogInformation($"Controller Error: Failed to add device overview.\nError: {ex.Message}");
                 return StatusCode(500, "Internal server error.");
             }
         }
@@ -105,7 +105,7 @@ namespace LagerSystemApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Controller Error: Failed to update device overview with ID {id}");
+                _logger.LogInformation($"Controller Error: Failed to update device overview with ID {id}.\nError: {ex.Message}");
                 return StatusCode(500, "Internal server error.");
             }
         }
