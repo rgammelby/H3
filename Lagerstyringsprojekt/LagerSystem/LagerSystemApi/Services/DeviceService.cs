@@ -25,6 +25,8 @@ namespace LagerSystemApi.Services
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(model)) throw new Exception("GetSingleDevicesByModel failed: Model can not be empty or null");
+
                 List<SingleDevice> singleDevices = await _deviceRepository.GetSingleDevicesByModel(model);
 
                 return _mapper.Map<List<DeviceDTO>>(singleDevices);
@@ -40,10 +42,10 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (id <= 0) return null;
+                if (id <= 0) throw new Exception("GetDevice failed: Id can not be 0 or less");
 
                 var device = await _deviceRepository.GetDeviceById(id);
-                if (device == null) return null;
+                if (device == null) throw new Exception($"GetDeviceById failed: Device with id: {id} was not found");
 
                 //return new DeviceDTO
                 //{
@@ -73,6 +75,7 @@ namespace LagerSystemApi.Services
             {
                 var devices = await _deviceRepository.GetAllDevices();
 
+                if (devices == null) throw new Exception("GetAllDevices faild: No devices were found");
                 //return devices.Select(devices => new DeviceDTO
                 //{
                 //    id = devices.id,
@@ -99,21 +102,12 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (newDeviceDto == null)
-                {
-                    throw new Exception("AddDevice failed: newDeviceDto is null.");
-                }
+                if (newDeviceDto == null) throw new Exception("AddDevice failed: newDeviceDto is null.");
 
                 // Validate required fields
-                if (newDeviceDto.status <= 0)
-                {
-                    throw new Exception("AddDevice failed: Status must be greater than 0.");
-                }
+                if (newDeviceDto.status <= 0) throw new Exception("AddDevice failed: Status must be greater than 0.");
 
-                if (newDeviceDto.device_overview_id <= 0)
-                {
-                    throw new Exception("AddDevice failed: Device must be linked to a valid overview.");
-                }
+                if (newDeviceDto.device_overview_id <= 0) throw new Exception("AddDevice failed: Device must be linked to a valid overview.");
 
                 // Set default values if null or empty
                 newDeviceDto.description ??= "No description provided";
@@ -165,22 +159,13 @@ namespace LagerSystemApi.Services
             try
             {
                 // Validate input
-                if (updateDeviceDto == null)
-                {
-                    throw new Exception("UpdateDevice failed: deviceDTO is null.");
-                }
-                if (id <= 0)
-                {
-                    throw new Exception($"UpdateDevice failed: Invalid device ID {id}.");
-                }
+                if (updateDeviceDto == null) throw new Exception("UpdateDevice failed: deviceDTO is null.");
+                if (id <= 0) throw new Exception($"UpdateDevice failed: Invalid device ID {id}.");
 
                 // get domain model by id
                 var device = await _deviceRepository.GetDeviceById(id);
 
-                if (device == null)
-                {
-                    throw new Exception($"UpdateDevice failed: Device with ID {id} not found.");
-                }
+                if (device == null) throw new Exception($"UpdateDevice failed: Device with ID {id} not found.");
 
                 //device.description = updateDeviceDto.description ?? device.description;
                 //device.location = updateDeviceDto.location != 0 ? updateDeviceDto.location : device.location;
@@ -217,22 +202,14 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (id <= 0)
-                {
-                    throw new Exception($"DeactivateDevice failed: Invalid device ID {id}.");
-                }
+                if (id <= 0) throw new Exception($"DeactivateDevice failed: Invalid device ID {id}.");
 
                 // get domain model by id
                 var device = await _deviceRepository.GetDeviceById(id);
 
-                if (device == null)
-                {
-                    throw new Exception($"DeactivateDevice failed: Device with ID {id} not found.");
-                }
+                if (device == null) throw new Exception($"DeactivateDevice failed: Device with ID {id} not found.");
 
-                if (device.is_archived)
-                {
-                    throw new Exception($"Device with id: {id} is already deactivated.");
+                if (device.is_archived) throw new Exception($"Device with id: {id} is already deactivated.");
 
                     //return new DeviceDTO
                     //{
@@ -247,7 +224,6 @@ namespace LagerSystemApi.Services
 
                     // Map the deactivated to dto then return
                     // return _mapper.Map<DeviceDTO>(device);
-                }
 
                 // Update only `is_archived`
                 device.is_archived = true;

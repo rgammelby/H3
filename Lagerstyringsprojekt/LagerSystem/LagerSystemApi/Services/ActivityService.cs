@@ -23,24 +23,32 @@ namespace LagerSystemApi.Services
             _activity = repo;
         }
 
-        public Task<ActivityDTO> Get(int id)
+        public async Task<ActivityDTO> Get(int id)
         {
             try
             {
-                if (id <= 0) throw new Exception("Not a valid id");
+                if (id <= 0) throw new Exception("Get failed: Not a valid id");
 
-                return _activity.Get(id);
+                ActivityDTO activity = await _activity.Get(id);
+
+                if (activity == null) throw new Exception($"No device foudn with id: {id}");
+
+                return activity;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public Task<ActivityDTO[]> GetAll()
+        public async Task<ActivityDTO[]> GetAll()
         {
             try
             {
-                return _activity.GetAll();
+                ActivityDTO[] activity = await _activity.GetAll();
+
+                if (activity == null) throw new Exception("GetAll failed: no activities found");
+
+                return activity;
             }
             catch (Exception ex)
             {
@@ -48,12 +56,16 @@ namespace LagerSystemApi.Services
             }
         }
 
-        public Task<ActivityDTO[]> GetByDeviceId(int id)
+        public async Task<ActivityDTO[]> GetByDeviceId(int id)
         {
             try
             {
-                if (id <= 0) throw new Exception("Not a valid id");
-                return _activity.GetByDeviceId(id);
+                if (id <= 0) throw new Exception("GetByDeviceId failed: Not a valid id");
+                ActivityDTO[] activity = await _activity.GetByDeviceId(id);
+
+                if (activity == null) throw new Exception($"No activities found with device id: {id}");
+
+                return activity;
             }
             catch (Exception ex)
             {
@@ -61,13 +73,17 @@ namespace LagerSystemApi.Services
             }
         }
 
-        public Task<ActivityDTO[]> GetByLifecycleId(int id)
+        public async Task<ActivityDTO[]> GetByLifecycleId(int id)
         {
             try
             {
-                if (id <= 0) throw new Exception("Not a valid id");
+                if (id <= 0) throw new Exception("Not a valid lifecycle id");
 
-                return _activity.GetByLifecycleId(id);
+                ActivityDTO[] activity = await _activity.GetByLifecycleId(id);
+
+                if (activity == null) throw new Exception($"No activities fund with lifecycle id: {id}");
+
+                return activity;
             }
             catch (Exception ex)
             {
@@ -85,11 +101,9 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (activity != null && !HasNullFields(activity))
-                {
-                    return await _activity.Add(activity);
-                }
-                throw new Exception("Some properties were not valid");
+                if (activity == null || HasNullFields(activity)) throw new Exception("Some properties were not valid");
+
+                return await _activity.Add(activity);
             }
             catch (Exception ex)
             {
@@ -100,11 +114,9 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (activity != null && !HasNullFields(activity))
-                {
-                    await _activity.Update(activity);
-                }
-                throw new Exception("Some properties were not valid");
+                if (activity == null || HasNullFields(activity)) throw new Exception("Some properties were not valid");
+
+                await _activity.Update(activity);                
             }
             catch (Exception ex)
             {

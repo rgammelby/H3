@@ -22,16 +22,11 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (id <= 0)
-                {
-                    throw new Exception($"GetDeviceOverviewById failed: Invalid ID {id}.");
-                }
+                if (id <= 0) throw new Exception($"GetDeviceOverviewById failed: Invalid ID {id}.");
+
                 var deviceOverview = await _deviceOverviewRepository.GetDeviceOverviewById(id);
 
-                if (deviceOverview == null)
-                {
-                    throw new Exception($"DeviceOverview with id {id} not found.");
-                }
+                if (deviceOverview == null) throw new Exception($"DeviceOverview with id {id} was not found.");
 
                 return _mapper.Map<DeviceOverviewDTO>(deviceOverview);
             }
@@ -46,6 +41,8 @@ namespace LagerSystemApi.Services
             {
                 var deviceOverviews = await _deviceOverviewRepository.GetAllDeviceOverviews();
 
+                if (deviceOverviews == null) throw new Exception("GetAllDeviceOverviews failed: no devices found");
+
                 return _mapper.Map<List<DeviceOverviewDTO>>(deviceOverviews);
             }
             catch (Exception ex)
@@ -58,25 +55,10 @@ namespace LagerSystemApi.Services
             try
             {
                 // Validate input fields (e.g., device_type > 1, model is not empty).
-                if (addDeviceOverviewDto == null)
-                {
-                    throw new Exception("AddDeviceOverview failed: Input DTO is null.");
-                }
-
-                if (string.IsNullOrWhiteSpace(addDeviceOverviewDto.model))
-                {
-                    throw new Exception("AddDeviceOverview failed: Model cannot be empty.");
-                }
-
-                if (addDeviceOverviewDto.device_type <= 1)
-                {
-                    throw new Exception($"AddDeviceOverview failed: DeviceType {addDeviceOverviewDto.device_type} is invalid. Must be > 1.");
-                }
-
-                if (addDeviceOverviewDto.qty < 0 || addDeviceOverviewDto.available_qty < 0)
-                {
-                    throw new Exception($"AddDeviceOverview failed: Qty {addDeviceOverviewDto.qty} and AvailableQty {addDeviceOverviewDto.available_qty} must be >= 0.");
-                }
+                if (addDeviceOverviewDto == null) throw new Exception("AddDeviceOverview failed: Input DTO is null.");
+                if (string.IsNullOrWhiteSpace(addDeviceOverviewDto.model)) throw new Exception("AddDeviceOverview failed: Model cannot be empty.");
+                if (addDeviceOverviewDto.device_type <= 1) throw new Exception($"AddDeviceOverview failed: DeviceType {addDeviceOverviewDto.device_type} is invalid. Must be > 1.");
+                if (addDeviceOverviewDto.qty < 0 || addDeviceOverviewDto.available_qty < 0) throw new Exception($"AddDeviceOverview failed: Qty {addDeviceOverviewDto.qty} and AvailableQty {addDeviceOverviewDto.available_qty} must be >= 0.");
 
                 try
                 {
@@ -85,7 +67,7 @@ namespace LagerSystemApi.Services
 
                     if (existingDeviceOverview != null)
                     {
-                        throw new Exception($"DeviveOverview with Model {addDeviceOverviewDto?.model} and DeviceType {addDeviceOverviewDto.device_type} already exists. Updating instead of creating new.");
+                        throw new Exception($"DeviveOverview with Model {addDeviceOverviewDto?.model} and DeviceType {addDeviceOverviewDto.device_type} already exists.");
 
                         //// Map new data from DTO while keeping the same ID
                         //_mapper.Map(addDeviceOverviewDto, existingDeviceOverview);
@@ -122,30 +104,15 @@ namespace LagerSystemApi.Services
         public async Task<DeviceOverviewDTO?> UpdateDeviceOverview(int id, UpdateDeviceOverviewDTO updateDeviceOverviewDto)
         {
             // Input Validation
-            if (updateDeviceOverviewDto == null)
-            {
-                throw new Exception("UpdateDeviceOverview failed: Input DTO is null.");
-            }
-
-
-            if (string.IsNullOrWhiteSpace(updateDeviceOverviewDto.model))
-            {
-                throw new Exception("UpdateDeviceOverview failed: Model cannot be empty.");
-            }
-
-            if (updateDeviceOverviewDto.device_type <= 0)
-            {
-                throw new Exception($"UpdateDeviceOverview failed: DeviceType {updateDeviceOverviewDto.device_type} is invalid. Must be > 0.");
-            }
+            if (updateDeviceOverviewDto == null) throw new Exception("UpdateDeviceOverview failed: Input DTO is null.");
+            if (string.IsNullOrWhiteSpace(updateDeviceOverviewDto.model)) throw new Exception("UpdateDeviceOverview failed: Model cannot be empty.");
+            if (updateDeviceOverviewDto.device_type <= 0) throw new Exception($"UpdateDeviceOverview failed: DeviceType {updateDeviceOverviewDto.device_type} is invalid. Must be > 0.");
 
             try
             {
                 var existingDeviceOverview = await _deviceOverviewRepository.GetDeviceOverviewById(id);
 
-                if (existingDeviceOverview == null)
-                {
-                    throw new Exception($"UpdateDeviceOverview failed: Device with ID {id} not found.");
-                }
+                if (existingDeviceOverview == null) throw new Exception($"UpdateDeviceOverview failed: Device with ID {id} not found.");
 
                 // ---------------TODO : image -------------------------------------
                 // if user upload a picture, call gateway for pic-handling then save it to addDeviceOverviewDto

@@ -1,5 +1,6 @@
 ﻿using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Repository;
+using System.Text.RegularExpressions;
 
 namespace LagerSystemApi.Services
 {
@@ -29,6 +30,9 @@ namespace LagerSystemApi.Services
         {
             try
             {
+                string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+                if (!Regex.IsMatch(email, emailPattern)) throw new Exception("Not a valid email");
                 return await _user.GetUserByEmail(email);
             }
             catch (Exception ex)
@@ -101,6 +105,7 @@ namespace LagerSystemApi.Services
         {
             try
             {
+                if (id <= 0) throw new Exception("Not a valid id");
                 return await _user.Get(id);
             }
             catch (Exception ex)
@@ -123,6 +128,16 @@ namespace LagerSystemApi.Services
         {
             try
             {
+                string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+
+                if (user == null) throw new Exception("User can not be null");
+                if (user.email == null) throw new Exception("Email can not be null");
+                if (!Regex.IsMatch(user.email, emailPattern)) throw new Exception("Email is not valid");
+                if (string.IsNullOrEmpty(user.first_name)) throw new Exception("First name can not be empty or null");
+                if (string.IsNullOrEmpty(user.last_name)) throw new Exception("Last name can not be empty or null");
+                if (string.IsNullOrEmpty(user.type)) throw new Exception("User type can not be empty or null");
+                if (string.IsNullOrEmpty(user.password)) throw new Exception("User password can not be empty or null");
+
                 // TODO: implement passwordService
                 user.salt = _passwordService.GenerateSalt();
                 user.password = _passwordService.HashPassword(user.password, user.salt);
@@ -138,6 +153,8 @@ namespace LagerSystemApi.Services
         {
             try
             {
+                if (user == null) throw new Exception("User can not be null");
+
                 await _user.Update(user);
             }
             catch (Exception ex)
@@ -149,6 +166,7 @@ namespace LagerSystemApi.Services
         {
             try
             {
+                if (id <= 0) throw new Exception("Id can not be 0 or less");
                 await _user.Disable(id);
             }
             catch (Exception ex)
