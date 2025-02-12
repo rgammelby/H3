@@ -29,12 +29,18 @@ namespace LagerstyringClassLibrary
         // OnModelCreating for instituting foreign keys
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // triggers for logging:
-            modelBuilder.Entity<DeviceOverview>()
-                .ToTable(tb => tb.HasTrigger("trg_LogLowStock"));
+             // triggers for logging:
+             modelBuilder.Entity<DeviceOverview>()
+                 .ToTable(tb => tb.HasTrigger("trg_LogLowStock"));
             
-            modelBuilder.Entity<User>()
-                .ToTable(tb => tb.HasTrigger("trgLogUser"));
+             modelBuilder.Entity<DeviceOverview>()
+                 .ToTable(tb => tb.HasTrigger("trgLogDeviceOverview"));
+            
+             modelBuilder.Entity<User>()
+                 .ToTable(tb => tb.HasTrigger("trgLogUser"));
+            
+             modelBuilder.Entity<SingleDevice>()
+                 .ToTable(tb => tb.HasTrigger("trgLogSingleDevice"));
 
             // Activity - ActivityType (Many-to-One)
             modelBuilder.Entity<Activity>()
