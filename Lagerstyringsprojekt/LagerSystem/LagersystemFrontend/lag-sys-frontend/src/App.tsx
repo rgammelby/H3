@@ -1,22 +1,23 @@
-import { useState } from 'react'
-import GetUser from './GetUser'
-import CreateUser from './CreateUser'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import HomePage from './HomePage';  // Import the HomePage component
+import CreateDevicePage from './CreateDevicePage';  // Import CreateDevicePage component
 
 function App() {
   return (
-    <>
-    <div style={{position: "absolute", left: "35%", top: "2%"}}>
-      <h1>Welcome to testing</h1>
-      <p>In here i will test different calls to our api "LagerstyringAPI"</p>
-    </div>
-    <div>
-      <GetUser />
-    </div>
-    <div>
-      <CreateUser />
-    </div>
-    </>
-  )
+    <Router>
+      <nav>
+        <Link to="/">Home</Link> | <Link to="/create-device">Create Device</Link>
+      </nav>
+
+      <Routes>
+        {/* Home Page Route */}
+        <Route path="/" element={<HomePage />} />
+
+        {/* Create Device Page Route */}
+        <Route path="/create-device" element={<CreateDevicePage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
