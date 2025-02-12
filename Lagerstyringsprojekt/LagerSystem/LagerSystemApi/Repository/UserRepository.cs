@@ -75,8 +75,8 @@ namespace LagerSystemApi.Repository
 
                 if (newUser == null) throw new Exception("Could not find user to be updated");
 
-                newUser.first_name = string.IsNullOrEmpty(user.firstname) != true ? user.firstname : newUser.first_name;
-                newUser.last_name = string.IsNullOrEmpty(user.lastname) != true ? user.lastname : newUser.last_name;
+                newUser.first_name = string.IsNullOrEmpty(user.first_name) != true ? user.first_name : newUser.first_name;
+                newUser.last_name = string.IsNullOrEmpty(user.last_name) != true ? user.last_name : newUser.last_name;
                 newUser.telephone = string.IsNullOrEmpty(user.telephone) != true ? user.telephone: newUser.telephone;
 
                 await _context.SaveChangesAsync();

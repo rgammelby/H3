@@ -71,11 +71,11 @@ namespace LagerSystemApi.TestRunner.FeatureTest
         {
             // Arrange
             var mockUser = _mockUsers[0];
-            var mockUpdateUser = new UpdateUserDTO { firstname = "Jens", lastname = "Bondegård", telephone = "10010010", password = "4321!" };
+            var mockUpdateUser = new UpdateUserDTO { first_name = "Jens", last_name = "Bondegård", telephone = "10010010", password = "4321!" };
 
             _user.Setup(service => service.Add(mockUser));
             _user.Setup(service => service.Update(mockUpdateUser));
-            _user.Setup(service => service.Get(mockUser.id)).ReturnsAsync(new OkObjectResult(mockUser));
+            _user.Setup(service => service.Get(mockUser.id)).ReturnsAsync(new OkObjectResult(mockUpdateUser));
 
             // Act
             await _user.Object.Add(mockUser);
@@ -84,10 +84,10 @@ namespace LagerSystemApi.TestRunner.FeatureTest
 
             // Assert
             var okObject = Assert.IsType<OkObjectResult>(user);
-            var returnValue = Assert.IsType<UserDTO>(okObject.Value);
+            var returnValue = Assert.IsType<UpdateUserDTO>(okObject.Value);
 
             Assert.NotNull(user);
-            Assert.Equal(mockUpdateUser.firstname, returnValue.first_name);
+            Assert.Equal(mockUpdateUser.first_name, returnValue.first_name);
             Assert.Equal(mockUpdateUser.password, returnValue.password);
         }
 
