@@ -1,138 +1,152 @@
 ﻿using LagerSystemApi.Controllers;
 using LagerSystemApi.Models.DTO;
+using LagerSystemApi.TestRunner.FeatureTest.T_Factories;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace LagerSystemApi.TestRunner.FeatureTest
 {
     public class UserFeatureTest
     {
-        
-        Mock<IUserController> _user;
+        private readonly Mock<IUserController> _user;
+        private readonly List<UserDTO> _mockUsers;
+
         public UserFeatureTest()
         {
             _user = new Mock<IUserController>();
+            _mockUsers = T_UserFactory.CreateUsers();
         }
 
         [Fact]
-        public async void CanUser_LogIn()
+        public async void T_CanUserLogIn()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
-            UserLogInDTO mockLogIn = new UserLogInDTO { email = "John@zbc.dk", password = "1234!" };
+            var mockUser = _mockUsers[0];
+            var mockLogIn = new UserLogInDTO { email = mockUser.email, password = mockUser.password };
+            var mockReturn = new LoggedInDTO { token = "fortyfive", message = "all goodie", status_code = 200 };
+
 
             _user.Setup(service => service.Add(mockUser));
-            _user.Setup(service => service.LogIn(mockLogIn));
+            _user.Setup(service => service.LogIn(mockLogIn)).ReturnsAsync(new OkObjectResult(mockReturn));
 
             // Act
-            _user.Object.Add(mockUser);
-            LoggedInDTO logIn = await _user.Object.LogIn(mockLogIn);
+            await _user.Object.Add(mockUser);
+            var logIn = await _user.Object.LogIn(mockLogIn);
 
             // Assert
-            Assert.NotNull(logIn);
-            Assert.True(logIn.status_code == 200);
+            var okObject = Assert.IsType<OkObjectResult>(logIn);
+            var returnValue = Assert.IsType<LoggedInDTO>(okObject.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.Equal(200, returnValue.status_code);
         }
 
         [Fact]
-        public async void CanYou_CreateA_User()
+        public async void T_CanCreateUser()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
+            var mockUser = _mockUsers[0];
 
             _user.Setup(service => service.Add(mockUser));
-            _user.Setup(service => service.Get(1));
+            _user.Setup(service => service.Get(mockUser.id)).ReturnsAsync(new OkObjectResult(mockUser));
 
             // Act
-            _user.Object.Add(mockUser);
-            UserDTO user = await _user.Object.Get(1);
+            await _user.Object.Add(mockUser);
+            var user = await _user.Object.Get(mockUser.id);
 
             // Assert
-            Assert.NotNull(user);
-            Assert.True(mockUser == user);
+            var okObject = Assert.IsType<OkObjectResult>(user);
+            var returnValue = Assert.IsType<UserDTO>(okObject.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.Equal(mockUser.email, returnValue.email);
         }
 
         [Fact]
-        public async void CanYou_UpdateA_User()
+        public async void T_CanUpdateUser()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
-            UpdateUserDTO mockUpdateUser = new UpdateUserDTO { firstname = "Jens", lastname = "Bondegård", telephone = "10010010", password = "4321!" };
+            var mockUser = _mockUsers[0];
+            var mockUpdateUser = new UpdateUserDTO { firstname = "Jens", lastname = "Bondegård", telephone = "10010010", password = "4321!" };
 
             _user.Setup(service => service.Add(mockUser));
             _user.Setup(service => service.Update(mockUpdateUser));
-            _user.Setup(service => service.Get(1));
+            _user.Setup(service => service.Get(mockUser.id)).ReturnsAsync(new OkObjectResult(mockUser));
 
             // Act
-            _user.Object.Add(mockUser);
-            _user.Object.Update(mockUpdateUser);
-            UserDTO user = await _user.Object.Get(1);
+            await _user.Object.Add(mockUser);
+            await _user.Object.Update(mockUpdateUser);
+            var user = await _user.Object.Get(mockUser.id);
 
             // Assert
+            var okObject = Assert.IsType<OkObjectResult>(user);
+            var returnValue = Assert.IsType<UserDTO>(okObject.Value);
+
             Assert.NotNull(user);
-            Assert.True(mockUpdateUser.firstname == user.first_name && mockUpdateUser.password == user.password);
+            Assert.Equal(mockUpdateUser.firstname, returnValue.first_name);
+            Assert.Equal(mockUpdateUser.password, returnValue.password);
         }
 
         [Fact]
-        public async void CanYou_ReadAll_Users()
+        public async void T_CanReadAllUsers()
         {
             // Arrange
-            UserDTO[] mockUsers = new UserDTO[]
-            {
-                new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" },
-                new UserDTO { id = 2, first_name = "poul", last_name = "joe", email = "JohnAdmin@zbc.dk", password = "1234!", telephone = "10101010", is_active = true, type = "admin" }
-            };
-
-            _user.Setup(service => service.Add(mockUsers[0]));
-            _user.Setup(service => service.GetAll());
+            _user.Setup(service => service.GetAll()).ReturnsAsync(new OkObjectResult(_mockUsers));
 
             // Act
-            for (int i = 0; i < mockUsers.Length; i++)
-            {
-                _user.Object.Add(mockUsers[i]);
-            }
-            UserDTO[] users = await _user.Object.GetAll();
+            var users = await _user.Object.GetAll();
 
             // Assert
-            Assert.NotNull(users);
-            Assert.True(users.Any(user => user.first_name == "poul"));
+            var okObject = Assert.IsType<OkObjectResult>(users);
+            var returnValue = Assert.IsType<List<UserDTO>>(okObject.Value);  // Changed to List<UserDTO>
+
+            Assert.NotNull(returnValue);
+            Assert.Contains(returnValue, user => user.first_name == "Poul");
         }
 
         [Fact]
-        public async void CanYou_ReadA_User()
+        public async void T_CanReadUser()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
+            var mockUser = _mockUsers[0];
 
-            _user.Setup(service => service.Add(mockUser));
-            _user.Setup(service => service.Get(mockUser.id));
+            _user.Setup(service => service.Get(mockUser.id)).ReturnsAsync(new OkObjectResult(mockUser));
 
             // Act
-            _user.Object.Add(mockUser);
-            UserDTO user = await _user.Object.Get(mockUser.id);
+            var user = await _user.Object.Get(mockUser.id);
 
             // Assert
-            Assert.NotNull(user);
-            Assert.True(mockUser == user);
+            var okObject = Assert.IsType<OkObjectResult>(user);
+            var returnValue = Assert.IsType<UserDTO>(okObject.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.Equal(mockUser.email, returnValue.email);
         }
 
         [Fact]
-        public async void CanYou_Disable_User()
+        public async void T_CanDisableUser()
         {
             // Arrange
-            UserDTO mockUser = new UserDTO { id = 1, first_name = "john", last_name = "doe", email = "John@zbc.dk", password = "1234!", telephone = "20202020", is_active = true, type = "user" };
+            var mockUser = _mockUsers[0];
+            mockUser.is_active = false;
 
-            _user.Setup(service => service.Add(mockUser));
             _user.Setup(service => service.Disable(mockUser.id));
-            _user.Setup(service => service.Get(mockUser.id));
+            _user.Setup(service => service.Get(mockUser.id)).ReturnsAsync(new OkObjectResult(mockUser));
 
             // Act
-            _user.Object.Add(mockUser);
-            _user.Object.Disable(mockUser.id);
-            UserDTO user = await _user.Object.Get(mockUser.id);
+            await _user.Object.Disable(mockUser.id);
+            var user = await _user.Object.Get(mockUser.id);
 
             // Assert
-            Assert.NotNull(user);
-            Assert.True(mockUser.is_active == user.is_active);
+            var okObject = Assert.IsType<OkObjectResult>(user);
+            var returnValue = Assert.IsType<UserDTO>(okObject.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.False(returnValue.is_active);
         }
-        
     }
 }

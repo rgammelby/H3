@@ -1,147 +1,106 @@
-﻿using LagerSystemApi.Services;
-using LagerSystemApi.Controllers;
+﻿using LagerSystemApi.Controllers;
 using LagerSystemApi.Models.DTO;
 using Moq;
+using Microsoft.AspNetCore.Mvc;
+using LagerSystemApi.TestRunner.FeatureTest.T_Factories;
 
 namespace LagerSystemApi.TestRunner.FeatureTest
 {
     public class ActivityFeatureTest
     {
-        Mock<IActivityController> _activity;
+        private readonly Mock<IActivityController> _activity;
+        private readonly List<ActivityDTO> _mockActivities;
+
         public ActivityFeatureTest()
         {
             _activity = new Mock<IActivityController>();
+            _mockActivities = T_ActivityFactory.CreateActivities();
         }
 
         [Fact]
-        public async void CanGet_All_ActivityHistory()
+        public async Task T_CanGetAllActivities()
         {
-            // Arrange
-            ActivityDTO[] mockActivity = new List<ActivityDTO>
-            {
-                new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-One", lifecycle_id = new Guid() ,created_at = new DateTime(2025, 3, 25), start_date = new DateTime(2025, 3, 25), end_date = new DateTime(2025, 5, 1) },
-                new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid() ,created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) }
-            }.ToArray();
+            _activity.Setup(service => service.GetAll()).ReturnsAsync(new OkObjectResult(_mockActivities));
 
-            _activity.Setup(service => service.Add(mockActivity[0]));
-            _activity.Setup(service => service.GetAll());
+            var result = await _activity.Object.GetAll();
 
-            // Act
-            for (int i = 0; i < mockActivity.Length; i++)
-            {
-                _activity.Object.Add(mockActivity[i]);
-            }
-            ActivityDTO[] activity = await _activity.Object.GetAll();
-            
-            // Assert
-            Assert.NotNull(activity);
-            Assert.Equal(mockActivity.Length, activity.Length);
-            Assert.True(activity[0].id == 1 && activity[1].id == 2);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<List<ActivityDTO>>(okResult.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.Equal(_mockActivities.Count, returnValue.Count);
         }
 
         [Fact]
-        public async void CanYou_GetActivity_ByDevice()
+        public async Task T_CanGetAllActivitiesByDeviceId()
         {
-            // Arrange
-            ActivityDTO[] mockActivity = new List<ActivityDTO> {
-                new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) },
-                new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) }
-            }.ToArray();
+            int deviceId = 1;
+            var expectedActivities = _mockActivities.Where(a => a.device_id == deviceId).ToList();
 
-            _activity.Setup(service => service.Add(mockActivity[0]));
-            _activity.Setup(service => service.GetByDeviceId(1));
+            _activity.Setup(service => service.GetByDeviceId(deviceId)).ReturnsAsync(new OkObjectResult(expectedActivities));
 
-            // Act
-            for(int i = 0; i < mockActivity.Length; i++)
-            {
-                _activity.Object.Add(mockActivity[i]);
-            }
+            var result = await _activity.Object.GetByDeviceId(deviceId);
 
-            ActivityDTO[] activities = await _activity.Object.GetByDeviceId(1);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<List<ActivityDTO>>(okResult.Value);
 
-            // Assert
-            Assert.NotNull(activities);
-            Assert.Equal(mockActivity.Length, activities.Length);
-            Assert.True(activities[0].id == 1 && activities[1].id == 2);
+            Assert.NotNull(returnValue);
+            Assert.Equal(expectedActivities.Count, returnValue.Count);
         }
 
         [Fact]
-        public async void CanGet_One_ActivityHistory()
+        public async Task T_CanGetOneActivity()
         {
-            // Arrange
-            ActivityDTO mockActivity = new ActivityDTO { id = 2, device_id = 2, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
+            int activityId = 1;
+            var expectedActivity = _mockActivities.First(a => a.id == activityId);
 
-            _activity.Setup(service => service.Add(mockActivity));
-            _activity.Setup(service => service.Get(1));
+            _activity.Setup(service => service.Get(activityId)).ReturnsAsync(new OkObjectResult(expectedActivity));
 
-            // Act
-            _activity.Object.Add(mockActivity);
-            ActivityDTO activity = await _activity.Object.Get(1);
+            var result = await _activity.Object.Get(activityId);
 
-            // Assert
-            Assert.NotNull(activity);
-            Assert.True(mockActivity.id == activity.id);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<ActivityDTO>(okResult.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.Equal(expectedActivity.notes, returnValue.notes);
         }
 
         [Fact]
-        public async void CheckIf_AbleTo_Create_ActivityHistory()
+        public async Task T_CanCreateActivity()
         {
-            // Arrange
-            ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
+            var newActivity = new ActivityDTO { id = 3, device_id = 3, activity_type = 2, notes = "New Activity", lifecycle_id = Guid.NewGuid(), created_at = DateTime.Now, start_date = DateTime.Now, end_date = DateTime.Now.AddMonths(1) };
 
-            _activity.Setup(service => service.Add(mockActivity));
-            _activity.Setup(service => service.Get(1));
+            _activity.Setup(service => service.Add(newActivity));
+            _activity.Setup(service => service.Get(newActivity.id)).ReturnsAsync(new OkObjectResult(newActivity));
 
-            // Act
-            _activity.Object.Add(mockActivity);
-            ActivityDTO activiity = await _activity.Object.Get(1);
+            await _activity.Object.Add(newActivity);
+            var result = await _activity.Object.Get(newActivity.id);
 
-            // Assert
-            Assert.NotNull(activiity);
-            Assert.True(mockActivity.id == activiity.id);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<ActivityDTO>(okResult.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.Equal(newActivity.notes, returnValue.notes);
         }
 
         [Fact]
-        public async void Can_Update_ActivityHistory()
+        public async Task T_CanUpdateActivity()
         {
-            // Arrange
-            ActivityDTO mockActivity = new ActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "No-Two", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 8, 29) };
-            UpdateActivityDTO updateActivity = new UpdateActivityDTO { id = 1, device_id = 1, activity_type = 1, notes = "is updated", lifecycle_id = new Guid(), created_at = new DateTime(2025, 5, 15), start_date = new DateTime(2025, 5, 15), end_date = new DateTime(2025, 10, 1) };
+            int activityId = 1;
+            var existingActivity = _mockActivities.First(a => a.id == activityId);
+            var updatedActivity = new UpdateActivityDTO { id = existingActivity.id, device_id = existingActivity.device_id, activity_type = 2, notes = "Updated Activity", lifecycle_id = existingActivity.lifecycle_id, created_at = existingActivity.created_at, start_date = existingActivity.start_date, end_date = existingActivity.end_date.AddMonths(1) };
 
-            _activity.Setup(service => service.Add(mockActivity));
-            _activity.Setup(service => service.Update(updateActivity));
-            _activity.Setup(service => service.Get(1));
+            _activity.Setup(service => service.Update(activityId, updatedActivity));
+            _activity.Setup(service => service.Get(activityId)).ReturnsAsync(new OkObjectResult(updatedActivity));
 
-            // Act
-            _activity.Object.Add(mockActivity);
-            _activity.Object.Update(updateActivity);
-            ActivityDTO activity = await _activity.Object.Get(1);
+            await _activity.Object.Update(activityId, updatedActivity);
+            var result = await _activity.Object.Get(activityId);
 
-            // Assert
-            Assert.NotNull(activity);
-            Assert.Equal(activity.notes, updateActivity.notes);
-            Assert.True(activity.notes == updateActivity.notes && activity.end_date == updateActivity.end_date && activity.activity_type == updateActivity.activity_type);
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnValue = Assert.IsType<UpdateActivityDTO>(okResult.Value);
+
+            Assert.NotNull(returnValue);
+            Assert.Equal(updatedActivity.notes, returnValue.notes);
         }
-
-        /*
-         * All of these below is basically to see if you can create a activity with a specific type, therefor the same as a test ono AddActivity
-        [Fact]
-        public void CheckIf_AbleTo_CreateBorrowActivity()
-        {
-
-        }
-
-        [Fact]
-        public void CheckIf_AbleTo_ExtendActivity()
-        {
-
-        }
-
-        [Fact]
-        public void CheckIf_AbleTo_ReturnActivity()
-        {
-
-        }
-        */
     }
 }
