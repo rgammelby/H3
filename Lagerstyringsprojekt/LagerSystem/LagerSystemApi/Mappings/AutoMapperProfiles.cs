@@ -17,7 +17,7 @@ namespace LagerSystemApi.Mappings
             // UpdateDeviceOverviewDTO: Used for updating an existing device
             CreateMap<DeviceOverview, UpdateDeviceOverviewDTO>().ReverseMap();
 
-            / Map between Device and DeviceDTO
+            // Map between Device and DeviceDTO
             // DeviceDTO: Used for retrieving data.
             CreateMap<DeviceDTO, SingleDevice>().ReverseMap();
 
