@@ -1,41 +1,48 @@
-﻿using LagerSystemApi.Models.DTO;
-using LagerSystemApi.Services;
+using LagerSystemApi.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LagerSystemApi.Controllers
 {
-    public interface ILogController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LogController : ControllerBase
     {
-        Task<LogDTO> Get(int id);
-        Task<LogDTO[]> GetAll();
-        Task<LogDTO[]> Search(string key);
+        private readonly ILogService _logService;
+        public LogController(ILogService logService)
+        {
+            _logService = logService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllLogs()
+        {
+            try
+            {
+                var logs = await _logService.GetAllLogs();
+
+                return Ok(logs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            //catch (NotFoundException ex) // Handle when no logs exist
+            //{
+            //    return NotFound(new { message = ex.Message });
+            //}
+            //catch (DatabaseException ex) // Handle database errors
+            //{
+            //    return StatusCode(500, new { message = "A database error occurred.", details = ex.Message });
+            //}
+            //catch (Exception ex) // Handle unexpected errors
+            //{
+            //    return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            //}
+        }
+
     }
-    public class LogController: ILogController
-    {
-        private Context _context;
-        private ILogService _log;
-        public LogController(Context context, ILogService log)
-        {
-            _context = context;
-            log = log;
-        }
 
-        [HttpGet("GetLog")]
-        public async Task<LogDTO> Get(int id)
-        {
-            return await _log.Get(id);
-        }
 
-        [HttpGet("GetAllLogs")]
-        public async Task<LogDTO[]> GetAll()
-        {
-            return await _log.GetAll();
-        }
-
-        [HttpGet("SearchLogs")]
-        public async Task<LogDTO[]> Search(string key)
-        {
-            return await _log.Search(key);
-        }
-    }
 }
