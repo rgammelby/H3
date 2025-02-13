@@ -14,7 +14,7 @@ namespace LagerSystemApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add Logger in dependency
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/rabga/Desktop/LagerStyringsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -43,13 +43,28 @@ namespace LagerSystemApi
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<PasswordService>();
             builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
+            builder.Services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
+            builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 
             // Registers all services with an instance of their repositories
-            builder.Services.AddScoped<IActivityService, ActivityService>();
+            //builder.Services.AddScoped<IActivityService, ActivityService>();
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ILogService, LogService>();
             builder.Services.AddScoped<IDeviceOverviewService, DeviceOverviewService>();
+            builder.Services.AddScoped<IStatusTypeService, StatusTypeService>();
+            builder.Services.AddScoped<ILocationService, LocationService>();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173") // Allow React frontend
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
+            });
 
             var app = builder.Build();
 
@@ -60,6 +75,7 @@ namespace LagerSystemApi
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowReactApp"); // Apply the CORS policy
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
