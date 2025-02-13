@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using LagerSystemApi.Interfaces;
 using LagerSystemApi.Models.DTO;
-using Microsoft.Extensions.Logging;
 
 namespace LagerSystemApi.Services
 {
@@ -9,12 +8,14 @@ namespace LagerSystemApi.Services
     {
 
         private readonly IDeviceOverviewRepository _deviceOverviewRepository;
+        private readonly IUploadImages _uploadImages;
         private readonly ILogger<DeviceOverviewService> _logger;
         private readonly IMapper _mapper;
 
-        public DeviceOverviewService(IDeviceOverviewRepository deviceOverviewRepository, ILogger<DeviceOverviewService> logger, IMapper mapper)
+        public DeviceOverviewService(IDeviceOverviewRepository deviceOverviewRepository, IUploadImages uploadImages, ILogger<DeviceOverviewService> logger, IMapper mapper)
         {
             _deviceOverviewRepository = deviceOverviewRepository;
+            _uploadImages = uploadImages;
             _logger = logger;
             _mapper = mapper;
         }
@@ -57,7 +58,7 @@ namespace LagerSystemApi.Services
                 // Validate input fields (e.g., device_type > 1, model is not empty).
                 if (addDeviceOverviewDto == null) throw new Exception("AddDeviceOverview failed: Input DTO is null.");
                 if (string.IsNullOrWhiteSpace(addDeviceOverviewDto.model)) throw new Exception("AddDeviceOverview failed: Model cannot be empty.");
-                if (addDeviceOverviewDto.device_type <= 1) throw new Exception($"AddDeviceOverview failed: DeviceType {addDeviceOverviewDto.device_type} is invalid. Must be > 1.");
+                if (addDeviceOverviewDto.device_type < 1) throw new Exception($"AddDeviceOverview failed: DeviceType {addDeviceOverviewDto.device_type} is invalid. Must be > 0.");
                 if (addDeviceOverviewDto.qty < 0 || addDeviceOverviewDto.available_qty < 0) throw new Exception($"AddDeviceOverview failed: Qty {addDeviceOverviewDto.qty} and AvailableQty {addDeviceOverviewDto.available_qty} must be >= 0.");
 
                 try
@@ -67,7 +68,7 @@ namespace LagerSystemApi.Services
 
                     if (existingDeviceOverview != null)
                     {
-                        throw new Exception($"DeviveOverview with Model {addDeviceOverviewDto?.model} and DeviceType {addDeviceOverviewDto.device_type} already exists.");
+                        throw new Exception($"DeviveOverview with Model {addDeviceOverviewDto?.model} and DeviceType {addDeviceOverviewDto?.device_type} already exists.");
 
                         //// Map new data from DTO while keeping the same ID
                         //_mapper.Map(addDeviceOverviewDto, existingDeviceOverview);
@@ -82,6 +83,12 @@ namespace LagerSystemApi.Services
                     // ---------------TODO : image -------------------------------------
                     // if user upload a picture, call gateway for pic-handling then save it to addDeviceOverviewDto
 
+                    string filePath = await _uploadImages.SaveImage(addDeviceOverviewDto.image);
+
+                    if (!string.IsNullOrEmpty(filePath))
+                    {
+                        addDeviceOverviewDto.image_path = filePath;
+                    }
 
                     var deviceOverview = _mapper.Map<DeviceOverview>(addDeviceOverviewDto);
 

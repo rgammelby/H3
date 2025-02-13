@@ -26,4 +26,8 @@
 	  <ProjectReference Include="..\LagersystemClassLibrary\LagerstyringClassLibrary.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="UploadImages\" />
+	</ItemGroup>
+
 </Project>

@@ -56,7 +56,7 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddDeviceOverview([FromBody] AddDeviceOverviewDTO addDeviceOverviewDto)
+        public async Task<IActionResult> AddDeviceOverview([FromForm] AddDeviceOverviewDTO addDeviceOverviewDto)
         {
             try
             {

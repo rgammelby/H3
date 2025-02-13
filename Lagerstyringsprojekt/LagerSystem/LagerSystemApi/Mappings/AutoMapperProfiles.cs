@@ -13,7 +13,10 @@ namespace LagerSystemApi.Mappings
             CreateMap<DeviceOverview, DeviceOverviewDTO>().ReverseMap();
 
             // AddDeviceOverviewDTO: Used for creating a new device
-            CreateMap<DeviceOverview, AddDeviceOverviewDTO>().ReverseMap();
+            CreateMap<AddDeviceOverviewDTO, DeviceOverview>()
+                .ForMember(dest => dest.image, opt => opt.MapFrom(src => src.image_path)) // Map ImagePath → Image
+                .ReverseMap()
+                .ForMember(dest => dest.image_path, opt => opt.MapFrom(src => src.image)); // Map back
 
             // UpdateDeviceOverviewDTO: Used for updating an existing device
             CreateMap<DeviceOverview, UpdateDeviceOverviewDTO>().ReverseMap();
