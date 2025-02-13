@@ -35,7 +35,6 @@ namespace LagerSystemApi
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                 .LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Information));
 
-
             // Registers all repositories with an instance of DBcontext
             builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
             builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
@@ -43,6 +42,8 @@ namespace LagerSystemApi
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
             builder.Services.AddScoped<IImageRepository, ImageRepository>();
+            builder.Services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
+            builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 
             // Registers all services with an instance of their repositories
             builder.Services.AddScoped<IActivityService, ActivityService>();
@@ -53,6 +54,19 @@ namespace LagerSystemApi
             builder.Services.AddScoped<IImageService, ImageService>();
             builder.Services.AddScoped<IUploadImages, UploadImageService>();
             builder.Services.AddScoped<PasswordService>();
+            builder.Services.AddScoped<IStatusTypeService, StatusTypeService>();
+            builder.Services.AddScoped<ILocationService, LocationService>();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173") // Allow React frontend
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
+            });
 
             var app = builder.Build();
 
@@ -62,10 +76,8 @@ namespace LagerSystemApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseCors(policy => policy
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            
+            app.UseCors("AllowReactApp"); // Apply the CORS policy
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
