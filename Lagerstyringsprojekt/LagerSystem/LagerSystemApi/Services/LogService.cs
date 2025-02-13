@@ -1,28 +1,37 @@
-﻿using LagerSystemApi.Models.DTO;
+using AutoMapper;
+using LagerSystemApi.Interfaces;
+using LagerSystemApi.Models.DTO;
 
 namespace LagerSystemApi.Services
 {
-    public interface ILogService
-    {
-        Task<LogDTO> Get(int id);
-        Task<LogDTO[]> GetAll();
-        Task<LogDTO[]> Search(string key);
-    }
     public class LogService: ILogService
     {
-        public Task<LogDTO> Get(int id)
+        private readonly ILogRepository _logRepository;
+        private readonly IMapper _mapper;
+        public LogService(ILogRepository logRepository, IMapper mapper)
         {
-            return null;
+            _logRepository = logRepository; 
+            _mapper = mapper;
         }
-
-        public Task<LogDTO[]> GetAll()
+        public async Task<List<LogDTO>> GetAllLogs()
         {
-            return null;
-        }
+            try
+            {
+                var logs = await _logRepository.GetAllLogs();
 
-        public Task<LogDTO[]> Search(string key)
-        {
-            return null;
+                // Handle empty or null lists
+                if (logs == null)
+                {
+                    return new List<LogDTO>(); // Return empty list instead of throwing an exception
+                }
+
+                return _mapper.Map<List<LogDTO>>(logs);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving logs from the database.", ex);
+            }
         }
     }
 }
