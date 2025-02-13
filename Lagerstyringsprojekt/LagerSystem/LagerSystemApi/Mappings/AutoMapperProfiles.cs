@@ -31,6 +31,9 @@ namespace LagerSystemApi.Mappings
 
             CreateMap<UpdateDeviceDTO, SingleDevice>()
                 .ForMember(dest => dest.Location, opt => opt.Ignore());  //  Ignore Navigation Property
+
+             // only mapping from Log (domain model) to LogDTO (Data Transfer Object).
+             CreateMap<Log, LogDTO>();
         }
     }
 }
