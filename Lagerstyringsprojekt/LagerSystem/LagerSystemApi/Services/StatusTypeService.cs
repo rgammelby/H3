@@ -24,6 +24,18 @@ namespace LagerSystemApi.Services
             var statusTypeDTOs = _mapper.Map<List<StatusTypeDTO>>(statusTypes);
             return statusTypeDTOs;
         }
+
+        public async Task<StatusTypeDTO> GetStatusTypeById(int id)
+        {
+            if (id <= 0) return null;
+
+            var statusType = await _statusTypeRepository.GetStatusTypeById(id);
+            if (statusType == null) return null;
+
+            var statusTypeDTO = _mapper.Map<StatusTypeDTO>(statusType);
+
+            return statusTypeDTO;
+        }
     }
 
 }

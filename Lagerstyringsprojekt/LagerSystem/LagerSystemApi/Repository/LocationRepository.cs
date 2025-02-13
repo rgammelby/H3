@@ -16,9 +16,19 @@ namespace LagerSystemApi.Repository
             return await _context.Cupboards.ToListAsync() ?? new List<LocationCupboard>();
         }
 
+        public async Task<LocationCupboard> GetCupboardById(int id)
+        {
+            return await _context.Cupboards.SingleOrDefaultAsync(d => d.id == id);
+        }
+
+
         public async Task<List<LocationRoom>> GetAllRooms()
         {
             return await _context.Rooms.ToListAsync() ?? new List<LocationRoom>();
+        }
+        public async Task<LocationRoom> GetRoomById(int id)
+        {
+            return await _context.Rooms.SingleOrDefaultAsync(d => d.id == id);
         }
     }
 }

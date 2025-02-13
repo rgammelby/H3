@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LagerSystemApi.Interfaces;
 using LagerSystemApi.Models.DTO;
+using LagerSystemApi.Repository;
 
 namespace LagerSystemApi.Services
 {
@@ -24,6 +25,18 @@ namespace LagerSystemApi.Services
             return cupboardDTOs;
         }
 
+        public async Task<LocationCupboardDTO> GetCupboardById(int id)
+        {
+            if (id <= 0) return null;
+
+            var cupboard = await _locationRepository.GetCupboardById(id);
+            if (cupboard == null) return null;
+
+            var cupboardDTO = _mapper.Map<LocationCupboardDTO>(cupboard);
+
+            return cupboardDTO;
+        }
+
         public async Task<List<LocationRoomDTO>> GetAllRooms()
         {
             var rooms = await _locationRepository.GetAllRooms();
@@ -31,6 +44,18 @@ namespace LagerSystemApi.Services
             // Ensure proper mapping from StatusType to StatusTypeDTO
             var roomDTOs = _mapper.Map<List<LocationRoomDTO>>(rooms);
             return roomDTOs;
+        }
+
+        public async Task<LocationRoomDTO> GetRoomById(int id)
+        {
+            if (id <= 0) return null;
+
+            var room = await _locationRepository.GetRoomById(id);
+            if (room == null) return null;
+
+            var roomDTO = _mapper.Map<LocationRoomDTO>(room);
+
+            return roomDTO;
         }
     }
 }

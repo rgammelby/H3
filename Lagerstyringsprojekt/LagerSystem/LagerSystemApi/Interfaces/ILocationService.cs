@@ -6,5 +6,7 @@ namespace LagerSystemApi.Interfaces
     {
         Task<List<LocationCupboardDTO>> GetAllCupboards();
         Task<List<LocationRoomDTO>> GetAllRooms();
+        Task<LocationCupboardDTO> GetCupboardById(int id);
+        Task<LocationRoomDTO> GetRoomById(int id);
     }
 }

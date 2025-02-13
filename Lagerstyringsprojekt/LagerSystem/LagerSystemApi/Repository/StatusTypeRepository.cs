@@ -16,5 +16,10 @@ namespace LagerSystemApi.Repository
         {
             return await _context.StatusTypes.ToListAsync() ?? new List<StatusType>();
         }
+
+        public async Task<StatusType> GetStatusTypeById(int id)
+        {
+            return await _context.StatusTypes.SingleOrDefaultAsync(d => d.id == id);
+        }
     }
 }
