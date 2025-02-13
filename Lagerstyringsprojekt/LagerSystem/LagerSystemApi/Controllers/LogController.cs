@@ -1,6 +1,7 @@
 ﻿using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using LagerSystemApi.Interfaces;
 
 namespace LagerSystemApi.Controllers
 {
