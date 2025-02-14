@@ -1,20 +1,9 @@
 ﻿using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Repository;
+using LagerSystemApi.Interfaces;
 
 namespace LagerSystemApi.Services
 {
-    public interface IActivityService
-    {
-        Task<ActivityDTO> Get(int id);
-        Task<ActivityDTO[]> GetAll();
-        Task<ActivityDTO[]> GetByDeviceId(int id);
-        Task<ActivityDTO[]> GetByLifecycleId(int id);
-        /*
-        Task<ActivityDTO[]> SearchByType(string type);
-        */
-        Task AddActivity(ActivityDTO activity);
-        Task UpdateActivity(UpdateActivityDTO activity);
-    }
     public class ActivityService : IActivityService
     {
         IActivityRepository _activity;
@@ -23,28 +12,72 @@ namespace LagerSystemApi.Services
             _activity = repo;
         }
 
-        public Task<ActivityDTO> Get(int id)
+        public async Task<ActivityDTO> Get(int id)
         {
-            if (id == 0) return null;
+            try
+            {
+                if (id <= 0) throw new Exception("Get failed: Not a valid id");
 
-            return _activity.Get(id);
+                ActivityDTO activity = await _activity.Get(id);
+
+                if (activity == null) throw new Exception($"No device foudn with id: {id}");
+
+                return activity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-        public Task<ActivityDTO[]> GetAll()
+        public async Task<ActivityDTO[]> GetAll()
         {
-            return _activity.GetAll();
+            try
+            {
+                ActivityDTO[] activity = await _activity.GetAll();
+
+                if (activity == null) throw new Exception("GetAll failed: no activities found");
+
+                return activity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<ActivityDTO[]> GetByDeviceId(int id)
+        public async Task<ActivityDTO[]> GetByDeviceId(int id)
         {
-            if (id == 0) return null;
-            return _activity.GetByDeviceId(id);
+            try
+            {
+                if (id <= 0) throw new Exception("GetByDeviceId failed: Not a valid id");
+                ActivityDTO[] activity = await _activity.GetByDeviceId(id);
+
+                if (activity == null) throw new Exception($"No activities found with device id: {id}");
+
+                return activity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<ActivityDTO[]> GetByLifecycleId(int id)
+        public async Task<ActivityDTO[]> GetByLifecycleId(int id)
         {
-            if (id == 0) return null;
+            try
+            {
+                if (id <= 0) throw new Exception("Not a valid lifecycle id");
 
-            return _activity.GetByLifecycleId(id);
+                ActivityDTO[] activity = await _activity.GetByLifecycleId(id);
+
+                if (activity == null) throw new Exception($"No activities fund with lifecycle id: {id}");
+
+                return activity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         /*
         public Task<ActivityDTO[]> SearchByTypes(string key)
@@ -57,11 +90,9 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (activity != null && !HasNullFields(activity))
-                {
-                    return await _activity.Add(activity);
-                }
-                return null;
+                if (activity == null || HasNullFields(activity)) throw new Exception("Some properties were not valid");
+
+                return await _activity.Add(activity);
             }
             catch (Exception ex)
             {
@@ -72,11 +103,9 @@ namespace LagerSystemApi.Services
         {
             try
             {
-                if (activity != null && !HasNullFields(activity))
-                {
-                    return await _activity.Update(activity);
-                }
-                return null;
+                if (activity == null || HasNullFields(activity)) throw new Exception("Some properties were not valid");
+
+                return await _activity.Update(activity);
             }
             catch (Exception ex)
             {

@@ -1,23 +1,11 @@
 ﻿using LagerSystemApi.Models.DTO;
 using LagerstyringClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
+using LagerSystemApi.Interfaces;
 
 namespace LagerSystemApi.Repository
 {
-    public interface IActivityRepository
-    {
-        Task<ActivityDTO> Add(ActivityDTO activity);
-        Task<UpdateActivityDTO> Update (UpdateActivityDTO activity);
-        Task<ActivityDTO> Get(int id);
-        Task<ActivityDTO[]> GetAll();
-        Task<ActivityDTO[]> GetByLifecycleId(int id);
-        Task<ActivityDTO[]> GetByDeviceId(int id);
-        /*
-        Task<ActivityDTO[]> SearchByType(string key);
-        */
-
-    }
-    public class ActivityRepository: IActivityRepository
+    public class ActivityRepository : IActivityRepository
     {
         private readonly Context _context;
         public ActivityRepository(Context db)
@@ -44,9 +32,9 @@ namespace LagerSystemApi.Repository
                 await _context.SaveChangesAsync();
                 return activity;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Add activity was not succesful");
+                throw new Exception($"Add activity was not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -70,9 +58,9 @@ namespace LagerSystemApi.Repository
                 await _context.SaveChangesAsync();
                 return activity;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Update activity was not succesful");
+                throw new Exception($"Update activity was not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -94,9 +82,9 @@ namespace LagerSystemApi.Repository
 
                 return activity;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving activity id: {id}, were not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -118,9 +106,9 @@ namespace LagerSystemApi.Repository
 
                 return activites;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving all activites were not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -142,9 +130,9 @@ namespace LagerSystemApi.Repository
 
                 return activities;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving activities with lifecycleId: {id}, were not succesful.\nError: {ex.Message}");
             }
         }
 
@@ -166,9 +154,9 @@ namespace LagerSystemApi.Repository
                 }).ToArrayAsync();
                 return activities;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Retrieving activities by device id: {id}, were not succesful.\nError: {ex.Message}");
             }
         }
 
