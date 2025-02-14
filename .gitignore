@@ -41,7 +41,7 @@ Lagerstyringsprojekt/LagerSystem/LagerSystemApi/.vs/
 *.VC.db
 
 # Ignore .vite folder from LagersystemFrontend
-H3/Lagerstyringsprojekt/LagerSystem/LagersystemFrontend/lag-sys-frontend/.vite/
+Lagerstyringsprojekt/LagerSystem/LagersystemFrontend/lag-sys-frontend/.vite/
 
 # Ignore test results
 TestResults/
