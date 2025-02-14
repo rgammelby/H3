@@ -78,6 +78,7 @@ namespace LagerSystemApi.Controllers
             }
         }
 
+        /*
         [HttpPut("UpdateActivity")]
         public async Task<IActionResult> Update([FromBody]UpdateActivityDTO activity)
         {
@@ -91,5 +92,6 @@ namespace LagerSystemApi.Controllers
                 return BadRequest($"Error updating activity. ");
             }
         }
+        */
     }
 }
