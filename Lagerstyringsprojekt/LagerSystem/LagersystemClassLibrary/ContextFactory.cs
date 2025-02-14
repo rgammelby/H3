@@ -13,7 +13,7 @@ namespace LagerstyringClassLibrary
         public Context CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<Context>();
-            optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Lagerstyring;Trusted_Connection=True;User Id=admin;Password=administrator;Encrypt=False;");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSqlLocalDb;Database=Lagerstyring;Integrated Security=True;Encrypt=False;");
 
             return new Context(optionsBuilder.Options);
         }
