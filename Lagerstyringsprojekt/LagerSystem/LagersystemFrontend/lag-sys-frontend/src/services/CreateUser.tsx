@@ -62,8 +62,9 @@ const CreateUser: React.FC = () => {
         try {
           const jsonResult = JSON.parse(result);
           setResponse(JSON.stringify(jsonResult, null, 2));
-        } catch (e) {
-          setResponse(`Error parsing JSON: ${e.message}`);
+        } catch (e: unknown) {
+          // TypeScript will now understand that `e` is an `Error` because we've narrowed its type
+          setResponse(`Error parsing JSON: ${(e as Error).message}`);
         }
       } else {
         setResponse("Success: User created, but no response data received.");
@@ -72,9 +73,13 @@ const CreateUser: React.FC = () => {
       if (error instanceof Error) {
         console.error("Error creating user:", error);
         setResponse(`Error: ${error.message}`);
+      } else {
+        // Fallback case for unknown errors
+        setResponse("An unknown error occurred.");
       }
     }
   };
+
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "10%" }}>

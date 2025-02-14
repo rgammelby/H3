@@ -60,7 +60,7 @@ const DeviceOverviewSelect: React.FC<DeviceOverviewSelectProps> = ({ onChange, v
       <option value="" disabled>Select Device Type</option>
       {deviceOverviews.map((deviceOverview) => (
         <option key={deviceOverview.id} value={deviceOverview.id}>
-          {deviceOverview.model} - {deviceOverview.device_type}
+          {deviceOverview.model}
         </option>
       ))}
     </select>

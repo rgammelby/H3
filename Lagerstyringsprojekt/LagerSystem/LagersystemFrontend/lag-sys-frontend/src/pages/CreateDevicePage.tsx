@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateDevice from './CreateDevice'; // Make sure to import this if needed
+import CreateDevice from '../services/CreateDevice'; // Make sure to import this if needed
 
 const CreateDevicePage = () => {
   return (
