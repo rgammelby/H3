@@ -1,0 +1,105 @@
+# Databaseskitse
+
+Dette er et overblik over vores nuværende databaseskitse. Alle er velkomne til at komme med indvendinger/tilføjelser/rettelser-
+
+## Tabeller
+
+### DeviceOverview
+
+DeviceOverview-tabellen dækker over alle typer af devices og dynamicaly opdaterer device antal ved hjælpe af triggers (after e.g. BorrowActivity and ReturnActivity, or DeviceStatus changed to Archived)
+Den vil indeholde f.eks. flere forskellige slags monitors, keyboards osv. Hver af deres navne, billeder og kvantiteter vil kunne findes i denne tabel. 
+
+|id|device_type|model|available_qty|qty|image|last_ordered|
+|---|---|---|---|---|---|---|
+|#seq|3|ThinkVision 9000|42|90|base64|25/1/2025|
+
+### SingleDevice
+
+SingleDevice-tabellen er en oversigt over hvert individuelle device. Hvis der findes 3 stk. Lenovo Whatever keyboards, vil hver af dem have en entry i denne tabel. Deres `type` kalder ud til DeviceType-tabellen. Deres `location` kalder ud til den samlede `Location`-tabel. `lifecycle`- og `booking`-ID'erne er unikke for hvert enkelte enhed.
+
+|id|deviceOverview_id|description|status|location|qr|is_archived|
+|---|---|---|---|---|---|---|
+|#seq|deviceOverview_id|blalbalbla|status_type_id|location_id|idk|true/false|
+
+## DeviceType
+
+|id|type_name|
+|---|---|
+|#seq|laptop|
+||desktop|
+||microfon set|
+||monitor|
+||server|
+||router|
+||switch|
+||webCam|
+||headset|
+||keyboard|
+||mousse|
+||...|
+
+# StatusType
+
+|id|status_type|
+|---|---|
+|#seq|Available|
+||Overdue|
+||Borrowed|
+||Unavailable|
+
+## Activity
+
+|id|device_id|activity_type|user_id|start_date|end_date|created_at|notes|lifecycle_id|
+|---|---|---|---|---|---|---|---|---|
+|#seq|213|1|userid||i dag|om en uge|22-01-2025 09:15|Booket til afhentning i dag|li-cy-123|
+
+## ActivityType
+
+|id|activity_type|
+|---|---|
+|#seq|Borrow|
+||Return|
+||Extend|
+||Late|
+
+OVERVEJ: Om vi skal introducere nye ActivityTypes;
+* Extend Overdue;
+* Return Overdue.
+
+Extend ActivityType.end_date
+
+### User
+
+User-tabellen er en oversigt over brugere i systemet, som har mulighed for at booke/låne devices. 
+
+|id|first_name|last_name|email|telephone|is_active|type|salt|hashedpwd|
+|---|---|---|---|---|---|---|---|---|
+|#seq|anne|petersen|ap@mail.dk|1234 5678|active/inactive|user/admin|salt|hashedpwd|
+
+### LocationRoom
+
+LocationRoom er en lille tabel, som indeholder alle de forskellige rumdesigneringer vi kan komme på.
+
+|id|designation|
+|---|---|
+
+### LocationCupboard
+
+LocationCupboard er ligeledes en lille tabel, som indeholder alle de forskellige skabsdesigneringer vi kan komme på.
+
+|id|designation|
+|---|---|
+
+### Location
+
+Location-tabellen er en tabel som samler rum- og skabsdesigneringer.
+
+|id|room_id|cupboard_id|
+|---|---|---|
+
+### Log
+
+Log-tabellen indeholder logs, og vil løbende bliver opdateret/fyldt, i takt med at programmets processer bliver brugt.
+
+|id|log_type|log_message|timestamp?|
+|---|---|---|---|
