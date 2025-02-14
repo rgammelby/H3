@@ -13,8 +13,17 @@ namespace LagerSystemApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Makes it possible to go through CORS policy
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+
             // Add Logger in dependency
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/rune1/desktop/LagerStryingsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -63,6 +72,7 @@ namespace LagerSystemApi
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowAllOrigins");
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
