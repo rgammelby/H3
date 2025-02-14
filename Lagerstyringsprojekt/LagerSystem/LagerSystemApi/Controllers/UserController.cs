@@ -36,7 +36,7 @@ namespace LagerSystemApi.Controllers
             return _user.AdminLogin(admin);
         }
 
-        [HttpGet("GetUser")]
+        [HttpGet("GetUser/{id:int}")]
         public async Task<UserDTO> Get(int id)
         {
             return await _user.Get(id);

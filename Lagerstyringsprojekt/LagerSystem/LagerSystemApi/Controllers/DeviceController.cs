@@ -44,7 +44,7 @@ namespace LagerSystemApi.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("GetAllDevices")]
         public async Task<IActionResult> GetAllDevices()
         {
             try
@@ -63,7 +63,7 @@ namespace LagerSystemApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AddDevice")]
         public async Task<IActionResult> AddNewDevice([FromBody] AddSingleDeviceDTO addSingleDeviceDTO)
         {
             try

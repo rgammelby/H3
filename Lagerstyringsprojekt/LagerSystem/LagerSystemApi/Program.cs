@@ -30,6 +30,17 @@ namespace LagerSystemApi
                 options.HttpsPort = 443; // Default HTTPS port
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173") // Allow React frontend
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
+            });
+
             // Register DbContext with SQL Server
             builder.Services.AddDbContext<Context>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -54,17 +65,7 @@ namespace LagerSystemApi
             builder.Services.AddScoped<IDeviceOverviewService, DeviceOverviewService>();
             builder.Services.AddScoped<IStatusTypeService, StatusTypeService>();
             builder.Services.AddScoped<ILocationService, LocationService>();
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowReactApp",
-                    policy =>
-                    {
-                        policy.WithOrigins("http://localhost:5173") // Allow React frontend
-                              .AllowAnyMethod()
-                              .AllowAnyHeader();
-                    });
-            });
+            builder.Services.AddScoped<IActivityService, ActivityService>();
 
             var app = builder.Build();
 

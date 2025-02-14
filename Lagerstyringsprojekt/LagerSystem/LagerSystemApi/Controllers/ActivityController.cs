@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Services;
+using LagerSystemApi.Interfaces;
 
 namespace LagerSystemApi.Controllers
 {
@@ -10,7 +11,7 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> GetAll();
         Task<IActionResult> GetByDeviceId(int id);
         Task<IActionResult> Add(ActivityDTO activity);
-        Task Update(UpdateActivityDTO activity);
+        Task<IActionResult> Update(UpdateActivityDTO activity);
     }
     public class ActivityController : ControllerBase, IActivityController
     {
@@ -78,7 +79,7 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPut("UpdateActivity")]
-        public async Task<IActionResult> Update(int id, [FromBody]UpdateActivityDTO activity)
+        public async Task<IActionResult> Update([FromBody]UpdateActivityDTO activity)
         {
             try
             {
@@ -87,7 +88,7 @@ namespace LagerSystemApi.Controllers
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                BadRequest($"Error updating activity with id: {id}");
+                return BadRequest($"Error updating activity. ");
             }
         }
     }
