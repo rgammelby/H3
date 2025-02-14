@@ -1,41 +1,46 @@
 ﻿using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using LagerSystemApi.Interfaces;
 
 namespace LagerSystemApi.Controllers
 {
-    public interface ILogController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LogController : ControllerBase
     {
-        Task<LogDTO> Get(int id);
-        Task<LogDTO[]> GetAll();
-        Task<LogDTO[]> Search(string key);
-    }
-    public class LogController: ILogController
-    {
-        private Context _context;
-        private ILogService _log;
-        public LogController(Context context, ILogService log)
+        private readonly ILogService _logService;
+        public LogController(ILogService logService)
         {
-            _context = context;
-            log = log;
+            _logService = logService;
         }
 
-        [HttpGet("GetLog")]
-        public async Task<LogDTO> Get(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetAllLogs()
         {
-            return await _log.Get(id);
-        }
+            try
+            {
+                var logs = await _logService.GetAllLogs();
 
-        [HttpGet("GetAllLogs")]
-        public async Task<LogDTO[]> GetAll()
-        {
-            return await _log.GetAll();
-        }
+                return Ok(logs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-        [HttpGet("SearchLogs")]
-        public async Task<LogDTO[]> Search(string key)
-        {
-            return await _log.Search(key);
+            //catch (NotFoundException ex) // Handle when no logs exist
+            //{
+            //    return NotFound(new { message = ex.Message });
+            //}
+            //catch (DatabaseException ex) // Handle database errors
+            //{
+            //    return StatusCode(500, new { message = "A database error occurred.", details = ex.Message });
+            //}
+            //catch (Exception ex) // Handle unexpected errors
+            //{
+            //    return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+            //}
         }
     }
 }

@@ -37,10 +37,10 @@ namespace LagerSystemApi.TestRunner.FeatureTest
                 new LogDTO { id = 2, log_message = "World!", log_type = "default" }
             };
 
-            _logService.Setup(service => service.GetAll());
+            _logService.Setup(service => service.GetAllLogs());
 
             // Act
-            var logs = await _logService.Object.GetAll();
+            var logs = await _logService.Object.GetAllLogs();
 
             // Assert
             Assert.NotNull(logs);
