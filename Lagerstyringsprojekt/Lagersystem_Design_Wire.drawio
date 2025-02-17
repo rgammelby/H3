@@ -23,7 +23,7 @@
             <mxRectangle width="120" height="20" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="HwyITPesuGRFu8R_fq9K-389" value="Borrow" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="HwyITPesuGRFu8R_fq9K-386" vertex="1">
+        <mxCell id="HwyITPesuGRFu8R_fq9K-389" value="Status" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;" parent="HwyITPesuGRFu8R_fq9K-386" vertex="1">
           <mxGeometry x="235" width="115" height="20" as="geometry">
             <mxRectangle width="115" height="20" as="alternateBounds" />
           </mxGeometry>
