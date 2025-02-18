@@ -5,6 +5,7 @@ import GetAllDevicesPage from './pages/GetAllDevicesPage'; // Make sure to impor
 import GetUserPage from './pages/GetUserPage';
 import GetallActivitiesPage from './pages/GetAllActivitiesPage';
 import GetAllDeviceOverviewsPage from './pages/GetAllDeviceOverviewsPage';
+import CreateDeviceOverviewPage from './pages/CreateDeviceOverviewPage';
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Link to="/get-all-devices">Get all devices</Link> |
         <Link to ="/get-user">Get User</Link> |
         <Link to="/get-all-activities">Get all activities</Link> |
-        <Link to="/get-all-deviceoverviews">Get all deviceoverviews</Link>
+        <Link to="/get-all-deviceoverviews">Get all deviceoverviews</Link> |
+        <Link to="/create-deviceoverview">Create deviceoverview</Link>
       </nav>
 
       <Routes>
@@ -36,6 +38,9 @@ function App() {
         
         {/* Get All DeviceOverviews Route */}
         <Route path="/get-all-deviceoverviews" element={<GetAllDeviceOverviewsPage />} />
+
+        {/* Create DeviceOverview Route */}
+        <Route path="/create-deviceoverview" element={<CreateDeviceOverviewPage />} />
       </Routes>
     </Router>
   );
