@@ -7,10 +7,10 @@ namespace LagerSystemApi.TestRunner.FeatureTest
 {
     public class LogFeatureTest
     {
-        Mock<ILogController> _logService;
+        Mock<LogController> _logService;
         public LogFeatureTest()
         {
-            _logService = new Mock<ILogController>();
+            _logService = new Mock<LogController>();
         }
         //[Fact]
         //public async void T_CanCreateLog()

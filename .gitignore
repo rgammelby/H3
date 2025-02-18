@@ -40,6 +40,10 @@ Lagerstyringsprojekt/LagerSystem/LagerSystemApi/.vs
 *.tlog
 *.VC.db
 
+# ignore node modules
+node_modules
+Lagerstyringsprojekt/LagerSystem/MainFrontEnd/node_modules
+
 
 
 # Ignore test results
