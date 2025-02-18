@@ -14,7 +14,7 @@ namespace LagerSystemApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add Logger in dependency
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/twan/source/ApiLogs/LagerStryingsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -44,6 +44,7 @@ namespace LagerSystemApi
             builder.Services.AddScoped<IImageRepository, ImageRepository>();
             builder.Services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+            builder.Services.AddScoped<IDeviceTypeRepository, DeviceTypeRepository>();
 
             // Registers all services with an instance of their repositories
             builder.Services.AddScoped<IActivityService, ActivityService>();
@@ -56,6 +57,7 @@ namespace LagerSystemApi
             builder.Services.AddScoped<PasswordService>();
             builder.Services.AddScoped<IStatusTypeService, StatusTypeService>();
             builder.Services.AddScoped<ILocationService, LocationService>();
+            builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();    
 
             builder.Services.AddCors(options =>
             {
