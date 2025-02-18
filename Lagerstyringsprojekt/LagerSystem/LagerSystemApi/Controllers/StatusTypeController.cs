@@ -1,4 +1,4 @@
-using LagerSystemApi.Interfaces;
+﻿using LagerSystemApi.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LagerSystemApi.Controllers
@@ -11,7 +11,9 @@ namespace LagerSystemApi.Controllers
         {
             Task<IActionResult> GetAllStatusTypes();
         }
+
         private readonly IStatusTypeService _statusTypeService;
+
         public StatusTypeController(IStatusTypeService statusTypeService)
         {
             _statusTypeService = statusTypeService;

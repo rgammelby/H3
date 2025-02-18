@@ -2,7 +2,7 @@
 {
     public class DeviceTypeDTO
     {
-        public int device_id { get; set; }
-        public string device_type { get; set; }
+        public int id { get; set; }
+        public string type_name { get; set; }
     }
 }

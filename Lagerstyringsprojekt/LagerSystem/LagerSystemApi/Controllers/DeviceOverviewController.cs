@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using LagerSystemApi.Interfaces;
 using LagerSystemApi.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace LagerSystemApi.Controllers
 {
@@ -11,11 +12,13 @@ namespace LagerSystemApi.Controllers
     {
         private readonly IDeviceOverviewService _deviceOverviewService;
         private readonly ILogger<DeviceOverviewController> _logger;
+        // private readonly Context db;
 
         public DeviceOverviewController(IDeviceOverviewService deviceOverviewService, ILogger<DeviceOverviewController> logger)
         {
             _deviceOverviewService = deviceOverviewService;
             _logger = logger;
+            // this.db = db;
         }
 
         [HttpGet("{id:int}")]
@@ -45,6 +48,17 @@ namespace LagerSystemApi.Controllers
         {
             try
             {
+
+                //var res = await db.DeviceOverview.Select(x => new
+                //{
+                //    x.model,
+                //    x.id,
+                //    x.Devices,
+                //    x.image
+                //}).ToListAsync();
+
+                //return Ok(res);
+
                 var deviceOverviews = await _deviceOverviewService.GetAllDeviceOverviews();
                 return Ok(deviceOverviews);
             }

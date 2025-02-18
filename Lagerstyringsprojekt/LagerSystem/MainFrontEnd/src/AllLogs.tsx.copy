@@ -1,0 +1,80 @@
+import './App.css'
+
+import React, { useState, useEffect } from 'react';
+
+// define Log class
+interface Log {
+    id: number;
+    log_type: string;
+    log_message: string;
+    // Often dates come as strings in JSON format.
+    timestamp: string;
+}   
+
+const Logs: React.FC = () => {
+    // Holds the list of logs fetched from the API. 
+    // It starts as an empty array.
+    const [logs, setLogs] = useState<Log[]>([]);
+    // A boolean to know if the data is still being fetched. 
+    // Starts as true
+    const [loading, setLoading] = useState<boolean>(true);
+    //olds any error message if the fetching fails.
+    // It starts as null (meaning no error).
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        fetch('https://localhost:7093/api/log')
+            .then(res => {
+                // check if the response is successful
+                if (!res.ok) {
+                    throw new Error('Failed to fetch logs');
+                }
+                // convert the response to json
+                return res.json();
+            })
+            .then(data => {
+                // Print the fetched JSON data to the console for debugging.
+                console.log('Fetched data:', data);
+
+                // update state with fetched data
+                setLogs(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                // if there is an error, update the error state
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []);
+    // // The empty array means this effect runs only once when the component mounts.
+
+    if (loading) {
+        return <h1>Loading logs...</h1>;
+    }
+
+    // If there was an error, display it.
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    // Once data is fetched, display the list of devices.
+    return (
+        <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Log List</h1>
+        <ul>
+          {logs.map((log) => (
+            <li key={log.id} className="border p-2 my-2 rounded">
+              <p><strong>Type:</strong> {log.log_type}</p>
+              <p><strong>Message:</strong> {log.log_message}</p>
+              <p><strong>Timestamp:</strong> {log.timestamp}</p>
+              <button className="btn btn-primary">Primary Button</button>
+                <button className="btn btn-secondary">Secondary Button</button>
+
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+}
+
+export default Logs;

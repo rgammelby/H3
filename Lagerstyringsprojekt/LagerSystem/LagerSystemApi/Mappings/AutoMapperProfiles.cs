@@ -41,6 +41,9 @@ namespace LagerSystemApi.Mappings
             CreateMap<LocationCupboard, LocationCupboardDTO>().ReverseMap();
             // retrieve location room data
             CreateMap<LocationRoom, LocationRoomDTO>().ReverseMap();
+
+            // Mapping deviceType and DTO
+            CreateMap<DeviceType, DeviceTypeDTO>().ReverseMap();
              
         }
     }
