@@ -11,7 +11,7 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> GetAll();
         Task<IActionResult> GetByDeviceId(int id);
         Task<IActionResult> Add(ActivityDTO activity);
-        Task<IActionResult> Update(UpdateActivityDTO activity);
+        //Task<IActionResult> Update(UpdateActivityDTO activity);
     }
     public class ActivityController : ControllerBase, IActivityController
     {

@@ -14,7 +14,7 @@ namespace LagerSystemApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add Logger in dependency
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/rune1/Desktop/LagerStyringsLog.txt"));
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/Desktop/LagerStyringsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -52,21 +52,22 @@ namespace LagerSystemApi
             builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
             builder.Services.AddScoped<ILogRepository, LogRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<PasswordService>();
             builder.Services.AddScoped<IDeviceOverviewRepository, DeviceOverviewRepository>();
             builder.Services.AddScoped<IStatusTypeRepository, StatusTypeRepository>();
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
             builder.Services.AddScoped<IImageRepository, ImageRepository>();
 
             // Registers all services with an instance of their repositories
-            //builder.Services.AddScoped<IActivityService, ActivityService>();
+            builder.Services.AddScoped<IActivityService, ActivityService>();
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ILogService, LogService>();
             builder.Services.AddScoped<IDeviceOverviewService, DeviceOverviewService>();
             builder.Services.AddScoped<IStatusTypeService, StatusTypeService>();
             builder.Services.AddScoped<ILocationService, LocationService>();
-            builder.Services.AddScoped<IActivityService, ActivityService>();
+            builder.Services.AddScoped<IUploadImages, UploadImageService>();
+            builder.Services.AddScoped<IImageService, ImageService>();
+            builder.Services.AddScoped<PasswordService>();
 
             var app = builder.Build();
 
