@@ -1,6 +1,6 @@
 import './App.css'
 import { themeChange } from "theme-change";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AdminLayout from "./layouts/AdminLayout";
@@ -16,18 +16,39 @@ import Home from "./pages/user/Home";
 //import MyBorrows from "./pages/user/MyBorrows";
 import InfoScreen from "./pages/public/InfoScreen";
 import Login from "./pages/auth/Login";
+import { AuthModal } from "./pages/auth/AuthModal";
+// Imports pageheader uses on all sites
+import { PageHeader } from './components/layout/PageHeader';
 // import Register from "./pages/auth/Register";
 // import ForgotPassword from "./pages/auth/ForgotPassword";
 
 const App = () => {
+  const [authModal, setAuthModal] = useState<{ isOpen: boolean; view: "login" | "register" | null }>({
+    isOpen: false,
+    view: null,
+  });
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const openModal = (view: "login" | "register") => {
+    setAuthModal({ isOpen: true, view });
+  };
+
+  const closeModal = () => {
+    setAuthModal({ isOpen: false, view: null });
+  };
+
   // Initialize themeChange on page load
   useEffect(() => {
     themeChange(false);
   }, []);
 
   return (
-    <>
+    <div className='pt-10'>
     <Router>
+      <div className="fixed top-0 left-0 right-0 bg-white z-50 shadow-md h-16 flex items-center px-4">
+        <PageHeader toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} openModal={openModal} />
+      </div>
       <Routes>
         {/* Public Layout (for /public/* pages) default page*/}
         <Route path="/" element={<PublicLayout />}>
@@ -35,7 +56,7 @@ const App = () => {
         </Route>
 
          {/* AdminLayout: dashboard  */}
-         <Route path="/dashboard" element={<AdminLayout />}>
+         <Route path="/dashboard" element={<AdminLayout isSidebarOpen={isSidebarOpen} />}>
           <Route index element={<Dashboard />} />
           <Route path="/dashboard/logs" element={<LogManagement />} />
           <Route path="/dashboard/devices" element={<DeviceManagement />} />
@@ -94,7 +115,10 @@ const App = () => {
           </div>
         </div>
       </div> */}
-    </>
+
+      {/* Auth Modal (Global) */}
+      <AuthModal isOpen={authModal.isOpen} view={authModal.view} closeModal={closeModal} />
+    </div>
   )
 }
 

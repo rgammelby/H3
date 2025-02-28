@@ -13,12 +13,35 @@ namespace LagerSystemApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", policy =>
+                {
+                    policy.WithOrigins("http://localhost:8081")  // React Native web's origin
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
+            /*
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(5105);
+
+                options.ListenAnyIP(7093, listenOptions =>
+                {
+                    listenOptions.UseHttps(); //
+                });
+            });
+            */
+
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.ListenAnyIP(5000); // Adjust port as needed
+            });
+
             // Add Logger in dependency
-<<<<<<< HEAD
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/rune1/desktop/LagerStryingsLog.txt"));
-=======
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/twan/source/ApiLogs/LagerStryingsLog.txt"));
->>>>>>> 695704f4f916b07c142248470421a116675ad802
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -28,11 +51,13 @@ namespace LagerSystemApi
             // Register AutoMapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
+            /*
             // Enforce HTTPS
             builder.Services.AddHttpsRedirection(options =>
             {
                 options.HttpsPort = 443; // Default HTTPS port
             });
+            */
 
             // Register DbContext with SQL Server
             builder.Services.AddDbContext<Context>(options =>
@@ -65,10 +90,10 @@ namespace LagerSystemApi
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowReactApp",
+                options.AddPolicy("AllowAllOrigins",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:5173") // Allow React frontend
+                        policy.AllowAnyOrigin() // Allow React frontend
                               .AllowAnyMethod()
                               .AllowAnyHeader();
                     });
@@ -82,9 +107,10 @@ namespace LagerSystemApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            
-            app.UseCors("AllowReactApp"); // Apply the CORS policy
-            app.UseHttpsRedirection();
+
+            app.UseCors("AllowAllOrigins");
+            //app.UseCors("AllowReactApp"); // Apply the CORS policy
+            //app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
 

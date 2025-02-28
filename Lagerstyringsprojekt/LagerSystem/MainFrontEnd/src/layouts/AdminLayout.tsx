@@ -1,17 +1,11 @@
 import { Outlet } from "react-router-dom";
-import PageHeader from "../components/layout/PageHeader";
 import Sidebar from "../components/layout/SideBar";
 import { useState } from "react";
 
-const MainLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+const MainLayout = ({isSidebarOpen = false}) => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Navbar at the top with toggle function */}
-      <div className="fixed top-0 left-0 right-0 bg-white z-50 shadow-md h-16 flex items-center px-4">
-                <PageHeader toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
-      </div>
      
       {/* Sidebar & Main Content Wrapper */}
       <div className="flex flex-1 pt-16">
