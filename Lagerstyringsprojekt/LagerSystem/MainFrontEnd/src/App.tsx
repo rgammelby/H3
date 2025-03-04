@@ -19,6 +19,9 @@ import Login from "./pages/auth/Login";
 import { AuthModal } from "./pages/auth/AuthModal";
 // Imports pageheader uses on all sites
 import { PageHeader } from './components/layout/PageHeader';
+import DeviceOverviewPage from './pages/admin/DeviceOverviewPage';
+import DevicePage from './pages/admin/DevicePage';
+import UserPage from './pages/admin/UserPage';
 // import Register from "./pages/auth/Register";
 // import ForgotPassword from "./pages/auth/ForgotPassword";
 
@@ -59,8 +62,11 @@ const App = () => {
          <Route path="/dashboard" element={<AdminLayout isSidebarOpen={isSidebarOpen} />}>
           <Route index element={<Dashboard />} />
           <Route path="/dashboard/logs" element={<LogManagement />} />
-          <Route path="/dashboard/devices" element={<DeviceManagement />} />
-          <Route path="/dashboard/deviceOverviews" element={<DeviceOverviewManagement />} />
+          {/* <Route path="/dashboard/devices" element={<DeviceManagement />} /> */}
+          <Route path="/dashboard/devices" element={<DevicePage />} />
+          {/* <Route path="/dashboard/deviceOverviews" element={<DeviceOverviewManagement />} /> */}
+          <Route path="/dashboard/deviceOverviews" element={<DeviceOverviewPage />} />
+          <Route path="/dashboard/user" element={<UserPage />} />
         </Route>
 
         {/* User Layout (for /user/* pages) */}

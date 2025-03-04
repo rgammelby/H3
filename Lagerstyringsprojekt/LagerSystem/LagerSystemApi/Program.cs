@@ -41,7 +41,7 @@ namespace LagerSystemApi
             });
 
             // Add Logger in dependency
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/rune1/desktop/LagerStryingsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
