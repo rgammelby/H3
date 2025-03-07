@@ -9,3 +9,11 @@ export interface IUser{
     type: string;
     salt: string;   
 }
+
+export interface IEditUser{
+    id: number;
+    first_name: string;
+    last_name: string;
+    telephone: string;
+    password: string;
+}

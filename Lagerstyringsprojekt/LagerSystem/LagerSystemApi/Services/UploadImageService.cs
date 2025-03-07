@@ -42,5 +42,59 @@ namespace LagerSystemApi.Services
                 return null;
             }
         }
+        public async Task<bool> DeleteImage(string file)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(file))
+                {
+                    return false;
+                }
+
+                // Extract only the file name (avoiding folder path issues)
+                string fileName = Path.GetFileName(file);
+
+                // Correct file path
+                string file_path = Path.Combine(_uploadFolder, fileName);
+
+                if (File.Exists(file_path))
+                {
+                    // Ensure the file is not locked before deleting
+                    bool isFileFree = IsFileAccessible(file_path);
+                    if (!isFileFree)
+                    {
+                        return false;
+                    }
+
+                    await Task.Delay(100);
+                    File.Delete(file_path);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        // Helper function to check if file is accessible
+        private bool IsFileAccessible(string filePath)
+        {
+            try
+            {
+                using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    return true;
+                }
+            }
+            catch (IOException)
+            {
+                return false; // File is still locked
+            }
+        }
     }
 }

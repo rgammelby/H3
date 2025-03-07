@@ -23,7 +23,7 @@ namespace LagerSystemApi.Repository
         {
             _context = db;
         }
-        
+
         //public async Task<LoggedInDTO> Login(UserLogInDTO user)
         //{
         //    try
@@ -77,7 +77,7 @@ namespace LagerSystemApi.Repository
 
                 newUser.first_name = string.IsNullOrEmpty(user.first_name) != true ? user.first_name : newUser.first_name;
                 newUser.last_name = string.IsNullOrEmpty(user.last_name) != true ? user.last_name : newUser.last_name;
-                newUser.telephone = string.IsNullOrEmpty(user.telephone) != true ? user.telephone: newUser.telephone;
+                newUser.telephone = string.IsNullOrEmpty(user.telephone) != true ? user.telephone : newUser.telephone;
 
                 await _context.SaveChangesAsync();
             }
@@ -91,15 +91,20 @@ namespace LagerSystemApi.Repository
         {
             try
             {
-                User newUser = await _context.Users.Where(db => db.id == id).FirstOrDefaultAsync();
+                var user = await _context.Users.FirstOrDefaultAsync(db => db.id == id);
 
-                newUser.is_active = false;
+                if (user == null)
+                {
+                    throw new KeyNotFoundException($"User with ID {id} not found.");
+                }
+
+                user.is_active = false;
 
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Unexpected error while disabling user_id: {id}.\nError: {ex.Message}");
+                throw new Exception($"Unexpected error while disabling user_id: {id}.", ex);
             }
         }
 
@@ -121,7 +126,8 @@ namespace LagerSystemApi.Repository
                     type = user.type,
                     salt = user.salt
                 };
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception($"Unexpected error while getting user by e-mail address: {email}.\nError: {ex.Message}");
             }

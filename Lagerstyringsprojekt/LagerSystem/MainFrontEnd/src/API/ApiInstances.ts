@@ -8,7 +8,9 @@ import StatusTypeApi from "./StatustypeApi";
 import UserApi from "./UserApi";
 import DeviceApi from "./DeviceApi";
 
-const apiClient = new ApiClient("http://192.168.1.19:5000/");
+const url: string = "http://10.108.162.53:5000/";
+
+const apiClient = new ApiClient(url);
 
 export const DeviceOverview = new DeviceOverviewApi(apiClient);
 
@@ -25,3 +27,7 @@ export const Log = new LogApi(apiClient);
 export const StatusType = new StatusTypeApi(apiClient);
 
 export const User = new UserApi(apiClient);
+
+export const Image = (id: number) => {
+    return `${url}api/Image/${id}`;
+}

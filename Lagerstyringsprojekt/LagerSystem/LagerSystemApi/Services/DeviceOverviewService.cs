@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LagerSystemApi.Interfaces;
 using LagerSystemApi.Models.DTO;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LagerSystemApi.Services
 {
@@ -112,8 +113,8 @@ namespace LagerSystemApi.Services
         {
             // Input Validation
             if (updateDeviceOverviewDto == null) throw new Exception("UpdateDeviceOverview failed: Input DTO is null.");
-            if (string.IsNullOrWhiteSpace(updateDeviceOverviewDto.model)) throw new Exception("UpdateDeviceOverview failed: Model cannot be empty.");
-            if (updateDeviceOverviewDto.device_type <= 0) throw new Exception($"UpdateDeviceOverview failed: DeviceType {updateDeviceOverviewDto.device_type} is invalid. Must be > 0.");
+            //if (string.IsNullOrWhiteSpace(updateDeviceOverviewDto.model)) throw new Exception("UpdateDeviceOverview failed: Model cannot be empty.");
+            //if (updateDeviceOverviewDto.device_type <= 0) throw new Exception($"UpdateDeviceOverview failed: DeviceType {updateDeviceOverviewDto.device_type} is invalid. Must be > 0.");
 
             try
             {
@@ -122,17 +123,45 @@ namespace LagerSystemApi.Services
                 if (existingDeviceOverview == null) throw new Exception($"UpdateDeviceOverview failed: Device with ID {id} not found.");
 
                 // ---------------TODO : image -------------------------------------
-                // if user upload a picture, call gateway for pic-handling then save it to addDeviceOverviewDto
+                // if user uploads a picture, call gateway for pic-handling then save it to addDeviceOverviewDto
+                string file_path = "";
+                string old_file_path = existingDeviceOverview.image;
 
-                // -------------- Can admin change qty, available_qty direct?--------------------
+                if (updateDeviceOverviewDto.image != null)
+                {
+                    file_path = await _uploadImages.SaveImage(updateDeviceOverviewDto.image);
+                    if (file_path == null) throw new Exception("Error saving new images");
+
+                    existingDeviceOverview.image = file_path; // Update only if a new image is uploaded
+                }
+                // -------------- Can admin change qty, available_qty directly?--------------------
                 // Preserve qty and available_qty (DO NOT UPDATE)
                 // int existingQty = existingDeviceOverview.qty;
                 // int existingAvailableQty = existingDeviceOverview.available_qty;
 
-                //  Update fields from DTO while keeping qty and available_qty unchanged
-                _mapper.Map(updateDeviceOverviewDto, existingDeviceOverview);
+                // Ensure critical fields retain their existing values if they are null in the DTO
+                updateDeviceOverviewDto.model ??= existingDeviceOverview.model;
+                updateDeviceOverviewDto.device_type = updateDeviceOverviewDto.device_type > 0 ? updateDeviceOverviewDto.device_type : existingDeviceOverview.device_type;
+                updateDeviceOverviewDto.qty = updateDeviceOverviewDto.qty > 0 ? updateDeviceOverviewDto.qty : existingDeviceOverview.qty;
+                updateDeviceOverviewDto.available_qty = updateDeviceOverviewDto.available_qty > 0 ? updateDeviceOverviewDto.available_qty : existingDeviceOverview.available_qty;
 
-                // -------------- Can admin change qty, available_qty direct?--------------------
+                //  Update fields from DTO while keeping qty and available_qty unchanged
+                Console.WriteLine("Image before: " + existingDeviceOverview.image);
+                _mapper.Map(updateDeviceOverviewDto, existingDeviceOverview);
+                if (!file_path.IsNullOrEmpty())
+                {
+                    existingDeviceOverview.image = file_path;
+                    // Deletes old image, if no errors occur
+                    bool delete = await _uploadImages.DeleteImage(existingDeviceOverview.image);
+
+                    if (!delete) throw new Exception("Error while deleting image");
+                }
+                else
+                {
+                    existingDeviceOverview.image = old_file_path;
+                }
+                Console.WriteLine("Image after: " + existingDeviceOverview.image);
+                // -------------- Can admin change qty, available_qty directly?--------------------
                 // existingDeviceOverview.qty = existingQty;
                 // existingDeviceOverview.available_qty = existingAvailableQty;
                 existingDeviceOverview.last_ordered = DateTime.UtcNow; // Update last ordered date
@@ -142,12 +171,12 @@ namespace LagerSystemApi.Services
 
                 // return dto
                 return _mapper.Map<DeviceOverviewDTO>(updatedDevciceOverview);
-
             }
             catch (Exception ex)
             {
                 throw new Exception($"Service Error: Failed to update device overview with ID {id}.\nError: {ex.Message}");
             }
         }
+
     }
 }

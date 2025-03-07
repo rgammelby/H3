@@ -6,3 +6,12 @@ export interface IAllDeviceOverview {
     available_qty: number;
     last_ordered: string;
 }
+
+export interface IUpdateDeviceOverview {
+    id: number;
+    model: string;
+    device_type: number;
+    image: string;
+    qty: number;
+    last_ordered: string;
+}
