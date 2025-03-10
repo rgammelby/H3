@@ -1,4 +1,6 @@
 ﻿using LagerSystemApi.Interfaces;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace LagerSystemApi.Services
 {
@@ -9,7 +11,7 @@ namespace LagerSystemApi.Services
 
         public UploadImageService(ILogger<UploadImageService> logger)
         {
-            // Ensures that the folder exist before tryign to save a image in it
+            // Ensures that the folder exists before trying to save an image in it
             if (!Directory.Exists(_uploadFolder))
             {
                 Directory.CreateDirectory(_uploadFolder);
@@ -38,10 +40,11 @@ namespace LagerSystemApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogInformation($"Error while saving image: {file.FileName}.\nError: {ex.Message}");
+                _logger.LogError($"Error while saving image: {file.FileName}.\nError: {ex.Message}");
                 return null;
             }
         }
+
         public async Task<bool> DeleteImage(string file)
         {
             try
@@ -51,49 +54,58 @@ namespace LagerSystemApi.Services
                     return false;
                 }
 
-                // Extract only the file name (avoiding folder path issues)
+                // Extract the file name from the path (avoid folder path issues)
                 string fileName = Path.GetFileName(file);
 
                 // Correct file path
-                string file_path = Path.Combine(_uploadFolder, fileName);
+                string filePath = Path.Combine(_uploadFolder, fileName);
 
-                if (File.Exists(file_path))
+                if (File.Exists(filePath))
                 {
                     // Ensure the file is not locked before deleting
-                    bool isFileFree = IsFileAccessible(file_path);
+                    bool isFileFree = IsFileAccessible(filePath);
                     if (!isFileFree)
                     {
+                        _logger.LogWarning($"File is locked: {filePath}");
                         return false;
                     }
 
+                    // Wait a little to ensure any file system cache is cleared
                     await Task.Delay(100);
-                    File.Delete(file_path);
+
+                    // Delete the file
+                    File.Delete(filePath);
+                    _logger.LogInformation($"Successfully deleted the image: {filePath}");
                     return true;
                 }
                 else
                 {
+                    _logger.LogWarning($"File not found: {filePath}");
                     return false;
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error while deleting image: {file}. Error: {ex.Message}");
                 return false;
             }
         }
 
-        // Helper function to check if file is accessible
+        // Helper function to check if the file is accessible
         private bool IsFileAccessible(string filePath)
         {
             try
             {
-                using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
+                // Try opening the file with exclusive access to check if it is locked
+                using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
                 {
                     return true;
                 }
             }
             catch (IOException)
             {
-                return false; // File is still locked
+                // File is locked or inaccessible
+                return false;
             }
         }
     }

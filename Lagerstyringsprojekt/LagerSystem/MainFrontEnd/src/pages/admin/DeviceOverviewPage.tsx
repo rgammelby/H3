@@ -2,31 +2,46 @@ import React, { useEffect, useState } from "react";
 import { DeviceOverview, DeviceType, Image } from "../../API/ApiInstances";
 import { IAllDeviceOverview, IUpdateDeviceOverview } from "../../Interfaces/DeviceOverview";
 import { IDeviceTypes } from "../../Interfaces/DeviceTypes";
+import SelectOverview from "../../components/ui/SelectOverview";
 
 function DeviceOverviewPage() {
   const [OVERVIEWDATA, setOverview] = useState<IAllDeviceOverview[]>([]);
   const [DEVICETYPES, setDeviceTypes] = useState<IDeviceTypes[]>([]);
   const [SELECTEDIMAGE, setSelectedImage] = useState<string | null>(null);
   const [SELECTEDOVERVIEW, setSelectedOverview] = useState<IAllDeviceOverview | null>(null);
-  const [OVERVIEWUPDATE, setOverviewUpdate] = useState<IUpdateDeviceOverview | null>(null);
-  const [INPUTDATA, setInputData] = useState<IUpdateDeviceOverview | null>(null);
+  const [AMOUNT, setAmount] = useState<number | null>();
+  const [MODEL, setModel] = useState<string | null>();
   const [INPUTIMAGE, setInputImage] = useState<File | null>();
+  const [SELECTEDTYPE, setSelectedType] = useState<string | null>();
 
   const updateOverview = async () => {
     try {
-      if (OVERVIEWUPDATE === null) return;
+      if (SELECTEDOVERVIEW == null) return;
 
       const formdata = new FormData();
-      formdata.append("model", OVERVIEWUPDATE.model);
-      formdata.append("device_type", OVERVIEWUPDATE.device_type.toString());
-      formdata.append("image", INPUTIMAGE, INPUTIMAGE?.name);
-      formdata.append("qty", OVERVIEWUPDATE.qty.toString());
-      formdata.append("last_ordered", OVERVIEWUPDATE.last_ordered);
+      formdata.append("model", MODEL ? MODEL : "");
+      formdata.append("device_type", SELECTEDTYPE ? SELECTEDTYPE : "");
+      formdata.append("image", INPUTIMAGE ? INPUTIMAGE : "");
+      formdata.append("qty", AMOUNT ? AMOUNT.toString() : "");
+      formdata.append("last_ordered", "");
 
-      const reponse: IUpdateDeviceOverview = await DeviceOverview.updateDeviceOverview();
+      for (const pair of formdata.entries()) {
+        console.log(pair[0] + ": " + pair[1]);
+      }
+
+      const reponse: IUpdateDeviceOverview = await DeviceOverview.updateDeviceOverview(
+        SELECTEDOVERVIEW.id,
+        formdata
+      );
     } catch (ex) {
       console.error(ex);
     }
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    setSelectedType(value);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,37 +158,15 @@ function DeviceOverviewPage() {
         </div>
       )}
       {SELECTEDOVERVIEW && (
-        <div
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-          className="w-screen h-screen z-999 flex fixed inset-0 items-center justify-center"
-          onClick={() => setSelectedOverview(null)}
-        >
-          <div
-            className="w-100 h-auto bg-white rounded-sm flex flex-col justify-center items-center p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h1 className="text-2xl font-medium text-center mb-5">Opdater Enheds overblik</h1>
-            <div className="w-full flex flex-col items-center">
-              <label className="block text-l font-medium text-gray-700 mb-2">Model:</label>
-              <input
-              type="text"
-              className="w-64 p-2 border rounded mb-5"
-              onChange={}
-              />
-              <label className="block text-l font-medium text-gray-700 mb-2">Enheds type:</label>
-              <select className="w-64 p-2 border rounded mb-5">
-                <option value="">None</option>
-                {/* Add your options here */}
-              </select>
-
-              <label className="block text-l font-medium text-gray-700 mb-2">Billed:</label>
-              <input type="file" className="w-64 p-2 border rounded mb-5" />
-
-              <label className="block text-l font-medium text-gray-700 mb-2">Antal:</label>
-              <input type="number" className="w-64 p-2 border rounded mb-5" />
-            </div>
-          </div>
-        </div>
+        <SelectOverview
+          cancelModal={() => setSelectedOverview(null)}
+          handleSelectChange={handleSelectChange}
+          setAmount={setAmount}
+          setModel={setModel}
+          setImage={handleFileChange}
+          updateOverview={updateOverview}
+          deviceTypes={DEVICETYPES}
+        />
       )}
     </div>
   );

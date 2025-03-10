@@ -111,72 +111,74 @@ namespace LagerSystemApi.Services
         }
         public async Task<DeviceOverviewDTO?> UpdateDeviceOverview(int id, UpdateDeviceOverviewDTO updateDeviceOverviewDto)
         {
+            string new_file_path = "";
             // Input Validation
-            if (updateDeviceOverviewDto == null) throw new Exception("UpdateDeviceOverview failed: Input DTO is null.");
-            //if (string.IsNullOrWhiteSpace(updateDeviceOverviewDto.model)) throw new Exception("UpdateDeviceOverview failed: Model cannot be empty.");
-            //if (updateDeviceOverviewDto.device_type <= 0) throw new Exception($"UpdateDeviceOverview failed: DeviceType {updateDeviceOverviewDto.device_type} is invalid. Must be > 0.");
+            if (updateDeviceOverviewDto == null)
+                throw new Exception("UpdateDeviceOverview failed: Input DTO is null.");
 
             try
             {
                 var existingDeviceOverview = await _deviceOverviewRepository.GetDeviceOverviewById(id);
 
-                if (existingDeviceOverview == null) throw new Exception($"UpdateDeviceOverview failed: Device with ID {id} not found.");
+                if (existingDeviceOverview == null)
+                    throw new Exception($"UpdateDeviceOverview failed: Device with ID {id} not found.");
 
-                // ---------------TODO : image -------------------------------------
-                // if user uploads a picture, call gateway for pic-handling then save it to addDeviceOverviewDto
-                string file_path = "";
-                string old_file_path = existingDeviceOverview.image;
+                // Preserve the old image path in case it's needed later
+                string oldFilePath = existingDeviceOverview.image;
 
+                // If a new image is uploaded, process it
                 if (updateDeviceOverviewDto.image != null)
                 {
-                    file_path = await _uploadImages.SaveImage(updateDeviceOverviewDto.image);
-                    if (file_path == null) throw new Exception("Error saving new images");
+                    // Save the new image and get the file path
+                    string newFilePath = await _uploadImages.SaveImage(updateDeviceOverviewDto.image);
+                    new_file_path = newFilePath;
+                    if (newFilePath == null)
+                        throw new Exception("Error saving new image");
 
-                    existingDeviceOverview.image = file_path; // Update only if a new image is uploaded
+                    // Update the image path with the new file path
+                    existingDeviceOverview.image = newFilePath;
+
+                    // Delete the old image
+                    bool deleteSuccess = await _uploadImages.DeleteImage(oldFilePath);
+                    if (!deleteSuccess)
+                    {
+                        _logger.LogWarning($"Failed to delete the old image: {oldFilePath}");
+                    }
                 }
-                // -------------- Can admin change qty, available_qty directly?--------------------
-                // Preserve qty and available_qty (DO NOT UPDATE)
-                // int existingQty = existingDeviceOverview.qty;
-                // int existingAvailableQty = existingDeviceOverview.available_qty;
+                // Else, the image remains unchanged, no need to modify it
 
-                // Ensure critical fields retain their existing values if they are null in the DTO
+                // Update other fields (e.g., model, qty, available_qty, etc.)
                 updateDeviceOverviewDto.model ??= existingDeviceOverview.model;
                 updateDeviceOverviewDto.device_type = updateDeviceOverviewDto.device_type > 0 ? updateDeviceOverviewDto.device_type : existingDeviceOverview.device_type;
                 updateDeviceOverviewDto.qty = updateDeviceOverviewDto.qty > 0 ? updateDeviceOverviewDto.qty : existingDeviceOverview.qty;
                 updateDeviceOverviewDto.available_qty = updateDeviceOverviewDto.available_qty > 0 ? updateDeviceOverviewDto.available_qty : existingDeviceOverview.available_qty;
 
-                //  Update fields from DTO while keeping qty and available_qty unchanged
-                Console.WriteLine("Image before: " + existingDeviceOverview.image);
+                // Map the DTO to the existing deviceOverview entity
                 _mapper.Map(updateDeviceOverviewDto, existingDeviceOverview);
-                if (!file_path.IsNullOrEmpty())
+
+                // Update the last ordered date
+                existingDeviceOverview.last_ordered = DateTime.UtcNow;
+
+                existingDeviceOverview.image = new_file_path;
+
+                // Ensure that the 'image' field is set properly before saving
+                if (existingDeviceOverview.image == null)
                 {
-                    existingDeviceOverview.image = file_path;
-                    // Deletes old image, if no errors occur
-                    bool delete = await _uploadImages.DeleteImage(existingDeviceOverview.image);
-
-                    if (!delete) throw new Exception("Error while deleting image");
+                    throw new Exception("Image path is null, which is not allowed.");
                 }
-                else
-                {
-                    existingDeviceOverview.image = old_file_path;
-                }
-                Console.WriteLine("Image after: " + existingDeviceOverview.image);
-                // -------------- Can admin change qty, available_qty directly?--------------------
-                // existingDeviceOverview.qty = existingQty;
-                // existingDeviceOverview.available_qty = existingAvailableQty;
-                existingDeviceOverview.last_ordered = DateTime.UtcNow; // Update last ordered date
 
-                // get the updated domain model
-                var updatedDevciceOverview = await _deviceOverviewRepository.UpdateDeviceOverview(existingDeviceOverview);
+                _logger.LogInformation($"Updating image: {existingDeviceOverview.image}");
 
-                // return dto
-                return _mapper.Map<DeviceOverviewDTO>(updatedDevciceOverview);
+                // Perform the update in the database
+                var updatedDeviceOverview = await _deviceOverviewRepository.UpdateDeviceOverview(existingDeviceOverview);
+
+                // Return the updated DTO
+                return _mapper.Map<DeviceOverviewDTO>(updatedDeviceOverview);
             }
             catch (Exception ex)
             {
                 throw new Exception($"Service Error: Failed to update device overview with ID {id}.\nError: {ex.Message}");
             }
         }
-
     }
 }
