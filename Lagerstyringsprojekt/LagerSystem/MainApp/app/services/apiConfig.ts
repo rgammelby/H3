@@ -38,3 +38,27 @@ export const fetchData = async <T>(endpoint: string): Promise<T | null>=> {
         return null;
     }
 };
+
+// POST (or any request with a body) requires a second argument
+// The second argument is an object with the method, headers, and body properties
+export const postData = async <T>(
+  endpoint: string, 
+  data: T
+): Promise<T | null> => {
+    const API_URL = `${API_BASE_URL}${endpoint}`;
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        if(!response.ok) throw new Error(response.statusText);
+        return await response.json() as T; // Convert the response to type T
+    } catch (error) {
+        console.error(`API post error (${endpoint}): `, error);
+        return null;
+    }
+}
