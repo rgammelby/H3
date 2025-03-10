@@ -41,6 +41,14 @@ const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
                     📋 Device Overview
                 </Link>
 
+                <Link to="/dashboard/user"
+                    className={`py-2 px-4 rounded-md ${
+                        location.pathname === "/dashboard/user" ? "bg-blue-500 text-white" : "hover:bg-gray-200"
+                    }`}
+                >
+                    👤 Users
+                </Link>
+
                 <Link to="/dashboard/logs"
                     className={`py-2 px-4 rounded-md ${
                         location.pathname === "/dashboard/logs" ? "bg-blue-500 text-white" : "hover:bg-gray-200"

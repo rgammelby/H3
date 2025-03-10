@@ -10,8 +10,8 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> Get(int id);
         Task<IActionResult> GetAll();
         Task<IActionResult> Add(UserDTO user);
-        Task Update(UpdateUserDTO user);
-        Task Disable(int id);
+        Task<IActionResult> Update(UpdateUserDTO user);
+        Task<IActionResult> Disable(int id);
     }
     public class UserController: ControllerBase, IUserController
     {
@@ -109,32 +109,32 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPut("UpdateUser")]
-        public async Task Update(UpdateUserDTO user)
+        public async Task<IActionResult> Update(UpdateUserDTO user)
         {
             try
             {
                 await _user.UpdateUser(user);
-                Ok();
+                return Ok();
             }
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                BadRequest("Error updating user");
+                return BadRequest("Error updating user");
             }
         }
 
         [HttpPut("DisableUser")]
-        public async Task Disable(int id)
+        public async Task<IActionResult> Disable(int id)
         {
             try
             {
                 await _user.Disable(id);
-                Ok();
+                return Ok();
             }
             catch (Exception ex)
             {
                 _logger.LogInformation(ex.Message);
-                BadRequest($"Error while disabling user with id: {id}");
+                return BadRequest($"Error while disabling user with id: {id}");
             }
         }
     }

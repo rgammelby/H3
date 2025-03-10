@@ -19,8 +19,10 @@ namespace LagerSystemApi.Mappings
                 .ForMember(dest => dest.image_path, opt => opt.MapFrom(src => src.image)); // Map back
 
             // UpdateDeviceOverviewDTO: Used for updating an existing device
-            CreateMap<DeviceOverview, UpdateDeviceOverviewDTO>().ReverseMap();
-
+            CreateMap<UpdateDeviceOverviewDTO, DeviceOverview>()
+                .ForMember(dest => dest.image, opt => opt.MapFrom(src => src.image_path)) // Ensure image_path → image
+                .ReverseMap()
+                .ForMember(dest => dest.image_path, opt => opt.MapFrom(src => src.image)); // Ensure image → image_path
 
             CreateMap<DeviceDTO, SingleDevice>().ReverseMap();
 

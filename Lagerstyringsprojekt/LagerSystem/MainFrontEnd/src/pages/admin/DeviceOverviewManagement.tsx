@@ -108,10 +108,10 @@ const DeviceOverviewManagement = () => {
                                 </td>
                                 <td>
                                     <img 
-                                        src={ `https://localhost:7093/api/Image/${device.id}`} 
+                                        src={ `http://http://192.168.1.19:5000/api/Image/${device.id}`} 
                                         alt="Device" 
                                         className="w-12 h-12 rounded"
-                                        onClick={() => setSelectedImage(`https://localhost:7093/api/Image/${device.id}`)}
+                                        onClick={() => setSelectedImage(`http://http://192.168.1.19:5000/api/Image/${device.id}`)}
                                      />
                                 </td>
                                 <td>{device.qty}</td>
@@ -120,7 +120,7 @@ const DeviceOverviewManagement = () => {
                                 <td>
                                 <button
                                     className="btn btn-ghost btn-xs ml-2"
-                                    onClick={() => setSelectedImage(`https://localhost:7093/api/Image/${device.id}`)}
+                                    onClick={() => setSelectedImage(`http://http://192.168.1.19:5000/api/Image/${device.id}`)}
                                 >
                                     Show Details
                                 </button>

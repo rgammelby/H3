@@ -171,7 +171,7 @@ namespace LagerSystemApi.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

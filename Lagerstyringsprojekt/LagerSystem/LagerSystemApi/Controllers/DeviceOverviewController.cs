@@ -97,7 +97,7 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDeviceOverview(int id, [FromBody] UpdateDeviceOverviewDTO updateDeviceOverviewDto)
+        public async Task<IActionResult> UpdateDeviceOverview(int id, [FromForm] UpdateDeviceOverviewDTO updateDeviceOverviewDto)
         {
             try
             {
