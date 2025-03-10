@@ -13,17 +13,9 @@ namespace LagerSystemApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowLocalhost", policy =>
-                {
-                    policy.WithOrigins("http://localhost:8081")  // React Native web's origin
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                });
-            });
+           
 
-            /*
+            
             builder.WebHost.ConfigureKestrel(options =>
             {
                 options.ListenAnyIP(5105);
@@ -34,7 +26,7 @@ namespace LagerSystemApi
                 });
             });
 
-            */
+            
 
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
@@ -42,7 +34,7 @@ namespace LagerSystemApi
             });
 
             // Add Logger in dependency
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/desktop/LagerStryingsLog.txt"));
+            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/twan/source/ApiLogs/LagerStryingsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -119,8 +111,6 @@ namespace LagerSystemApi
 
             //  forced HTTPS redirection:
             // app.UseHttpsRedirection();
-
-           
             app.UseAuthorization();
             app.MapControllers();
 
