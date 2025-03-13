@@ -179,5 +179,42 @@ namespace LagerSystemApi.Services
                 throw;
             }
         }
+
+
+        public async Task<DeviceTypeDTO> GetDeviceTypeById(int id)
+        {
+            if (id <= 0)
+            {
+                _logger.LogWarning($"GetDeviceTypeById failed: Invalid ID {id}.");
+                return null;
+            }
+            try
+            {
+                var deviceType = await _deviceOverviewRepository.GetDeviceTypeById(id);
+                if (deviceType == null)
+                {
+                    _logger.LogWarning($"DeviceOverview with id {id} not found.");
+                    return null;
+                }
+
+                return _mapper.Map<DeviceTypeDTO>(deviceType);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Service Error: Failed to retrieve device overview with ID {id}");
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateDeviceQuantity(int id, int quantity)
+        {
+            return await _deviceOverviewRepository.UpdateDeviceQuantity(id, quantity);
+        }
+
+        public async Task<bool> DecrementAvailableQuantity(int id)
+        {
+            return await _deviceOverviewRepository.DecrementAvailableQuantity(id);
+        }
+
     }
 }

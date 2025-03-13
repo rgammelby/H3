@@ -100,6 +100,12 @@ namespace LagerSystemApi.Services
                 return null;
             }
 
+            // TODO:
+            // Update DeviceOverview.qty and DeviceOverview.available_qty += SingleDevice.qty
+            // where DeviceOverview.id == SingleDevice.device_overview_id
+
+          
+
             // Set default values if null or empty
             newDeviceDto.description ??= "No description provided";
             newDeviceDto.qr ??= "";

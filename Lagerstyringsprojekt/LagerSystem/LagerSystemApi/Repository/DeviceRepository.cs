@@ -24,15 +24,15 @@ namespace LagerSystemApi.Repository
         public async Task<List<SingleDevice>> GetSingleDevicesByModel(string model)
         {
             var deviceOverviewIds = await _context.DeviceOverview
-                                                  .Where(d => d.model.Contains(model))
+                                                  .Where(d => EF.Functions.Like(d.model, $"%{model}%"))
                                                   .Select(d => d.id)
                                                   .ToListAsync();
 
-            return await _context.SingleDevices
-                                  .Where(s => deviceOverviewIds.Contains(s.id))
-                                  .ToListAsync();
+            var devices = await _context.SingleDevices
+                                         .Where(s => deviceOverviewIds.Contains(s.device_overview_id))
+                                         .ToListAsync();
+            return devices;
         }
-
 
         public async Task<SingleDevice?> GetDeviceById(int id)
         {

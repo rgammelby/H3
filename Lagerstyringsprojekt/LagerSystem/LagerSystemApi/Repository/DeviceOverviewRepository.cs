@@ -2,6 +2,7 @@
 global using LagerstyringClassLibrary.Models;
 using LagerSystemApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using LagerSystemApi.Models.DTO;
 
 namespace LagerSystemApi.Repository
 {
@@ -99,6 +100,55 @@ namespace LagerSystemApi.Repository
                 _logger.LogError(ex, $"Error retrieving device overview for Model '{model}' and DeviceType {deviceType}");
                 return null;
             }
+        }
+
+        public async Task<DeviceType> GetDeviceTypeById(int id)
+        {
+            try
+            {
+                return await _context.DeviceTypes.SingleOrDefaultAsync(d => d.id == id);
+            }
+            catch (DbUpdateException dbEx)
+            {
+                _logger.LogError(dbEx, $"Database error while retrieving device type with ID {id}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Unexpected error while retrieving device type with ID {id}");
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateDeviceQuantity(int id, int quantity)
+        {
+            var device = await _context.DeviceOverview.FindAsync(id);
+
+            if (device == null)
+            {
+                return false; // Device not found
+            }
+
+            device.qty += quantity;
+            device.available_qty += quantity;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DecrementAvailableQuantity(int id)
+        {
+            var device = await _context.DeviceOverview.FindAsync(id);
+
+            if (device == null)
+            {
+                return false;
+            }
+
+            device.available_qty--;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
