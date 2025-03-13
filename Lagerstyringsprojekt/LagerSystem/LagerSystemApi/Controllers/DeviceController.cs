@@ -143,6 +143,7 @@ namespace LagerSystemApi.Controllers
         [HttpGet("{model}")]
         public async Task<IActionResult> GetSingleDevicesByModel(string model)
         {
+            Console.WriteLine($"Origin: {Request.Headers["Origin"]}");
             try
             {
                 if (string.IsNullOrEmpty(model)) return BadRequest(new { message = "No models corresponding with search term. " });
