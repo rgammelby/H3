@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Device, DeviceOverview, DeviceType, Location, StatusType } from "../../API/ApiInstances";
+import { Device, DeviceOverview, DeviceType, Location, StatusType, Image } from "../../API/ApiInstances";
 import { IDevice } from "../../Interfaces/Device";
 import { IAllDeviceOverview } from "../../Interfaces/DeviceOverview";
 import { IDeviceTypes } from "../../Interfaces/DeviceTypes";
 import { IStatusTypes } from "../../Interfaces/StatusType";
 import { ICupboards } from "../../Interfaces/Location";
 import { IRoom } from "../../Interfaces/Location";
+import DeviceModal from "../../components/ui/DeviceModal";
+import UpdateDevice from "../../components/ui/UpdateDevice";
 
 function DevicePage(){
     const [DEVICES, setDevices] = useState<IDevice[]>([]);
@@ -14,6 +16,9 @@ function DevicePage(){
     const [STATUSTYPES, setStatusTypes] = useState<IStatusTypes[]>([]);
     const [ROOMS, setRooms] = useState<IRoom[]>([]);
     const [CUPBOARDS, setCupboards] = useState<ICupboards[]>([]);
+    const [DEVICEMODAL, setDeviceModal] = useState<boolean>(false);
+    const [UPDATEDEVICEMODAL, setUpdateDeviceModal] = useState<boolean>(false);
+    const [SINGLEDEVICE, setSingleDevice] = useState<IDevice>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,13 +54,13 @@ function DevicePage(){
             <thead className="bg-base-200">
                 <tr>
                 <th>#</th>
-                <th>DeviceID</th>
+                <th>EnhedsID</th>
+                <th>Billed</th>
                 <th>Model</th>
-                <th>Device Type</th>
+                <th>Enheds Type</th>
                 <th>Status</th>
-                <th>Location</th>
-                <th>QR Code</th>
-                <th>Actions</th>
+                <th>Lokation</th>
+                <th>Aktion</th>
                 </tr>
             </thead>
 
@@ -74,9 +79,23 @@ function DevicePage(){
                 const room = ROOMS.find((r) => r.id === cupboard?.room_id);
 
                 return (
-                    <tr key={device.id} className="hover:bg-base-300">
+                    <tr
+                    onClick={() => {
+                        setDeviceModal(true);
+                        setSingleDevice(device);
+                     }}
+                    key={device.id}
+                    className="hover:bg-base-300 cursor-pointer">
                     <th>{index + 1}</th>
                     <td>{device.id}</td>
+                    <td>
+                        {
+                            overview && overview !== undefined && overview.id ? (
+                                <img src={Image(overview.id)} className="w-25 h-auto" />
+                            ) :
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg" style={{width: "25", height: "auto"}} />
+                        }
+                    </td>
                     <td className="font-semibold flex items-center gap-3">
                         {overview && (
                         <div className="flex-flex-col">
@@ -95,11 +114,16 @@ function DevicePage(){
                     <td>
                         {room?.designation || "Unknown"} - {cupboard?.designation || "Unknown"}
                     </td>
-                    <td>
-                        <span className="text-blue-500">{device.qr}</span>
-                    </td>
-                    <td>
-                        <button className="btn btn-sm btn-primary">Update</button>
+                    <td onClick={(e) => e.stopPropagation()}>
+                        <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => {
+                            setUpdateDeviceModal(true);
+                            setSingleDevice(device);
+                        }}
+                        >
+                            Update
+                        </button>
                     </td>
                     </tr>
                 );
@@ -107,6 +131,16 @@ function DevicePage(){
             </tbody>
             </table>
         </div>
+        {
+            DEVICEMODAL && SINGLEDEVICE && (
+            <DeviceModal cancelModal={() => setDeviceModal(false)} device={SINGLEDEVICE} />
+            )
+        }
+        {
+            UPDATEDEVICEMODAL && SINGLEDEVICE && (
+                <UpdateDevice cancelModal={() => setUpdateDeviceModal(false)} />
+            )
+        }
     </div>
     )
 }

@@ -109,7 +109,7 @@ function DeviceOverviewPage() {
                   <img
                     src={Image(device.id)}
                     alt="Device"
-                    className="w-12 h-12 rounded"
+                    className="w-20 h-auto rounded"
                     onClick={() => setSelectedImage(Image(device.id))}
                   />
                 </td>

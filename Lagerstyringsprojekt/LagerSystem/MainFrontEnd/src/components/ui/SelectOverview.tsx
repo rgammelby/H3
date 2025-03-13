@@ -58,7 +58,7 @@ const SelectOverview: React.FC<SelectProps> = ({
           <label className="block text-l font-medium text-gray-700 mb-2">Billed:</label>
           <input
             type="file"
-            className="w-64 p-2 border rounded mb-5"
+            className="file-input bg-white"
             onChange={(e) => setImage(e)}
           />
 

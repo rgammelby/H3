@@ -11,6 +11,10 @@ class DeviceApi {
     async fetchAllDevices(): Promise<IDevice[]>{
         return this.client.request<IDevice[]>("api/Device");
     }
+
+    async updateDevice(id: number, device: IDevice) : Promise<IDevice>{
+        return this.client.request<IDevice>("")
+    }
 }
 
 export default DeviceApi;
