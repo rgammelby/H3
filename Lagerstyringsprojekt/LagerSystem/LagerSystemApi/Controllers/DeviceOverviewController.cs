@@ -108,6 +108,56 @@ namespace LagerSystemApi.Controllers
                 _logger.LogError(ex, $"Controller Error: Failed to update device overview with ID {id}");
                 return StatusCode(500, "Internal server error.");
             }
+
         }
+
+        [HttpGet("GetDeviceTypeByID/{id:int}")]
+        public async Task<IActionResult> GetDeviceTypeById(int id)
+        {
+            try
+            {
+                var deviceType = await _deviceOverviewService.GetDeviceTypeById(id);
+                if (deviceType == null)
+                {
+                    _logger.LogWarning($"Device Type with ID {id} not found.");
+                    return NotFound($"Device Type with ID {id} not found.");
+                }
+
+                return Ok(deviceType);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Controller Error: Failed to retrieve device type with ID {id}");
+                return StatusCode(500, "Internal server error.");
+            }
+        }
+
+        [HttpPost("UpdateDeviceQuantity")]
+        public async Task<IActionResult> UpdateDeviceQuantity(int id, int quantity)
+        {
+            var updated = await _deviceOverviewService.UpdateDeviceQuantity(id, quantity);
+
+            if (!updated)
+            {
+                return NotFound($"DeviceOverview with ID {id} not found.");
+            }
+
+            return NoContent(); // 204 No Content (successful update, no return body)
+        }
+
+        [HttpGet("DecrementAvailableQuantity/{id:int}")]
+        public async Task<IActionResult> DecrementAvailableQuantity(int id)
+        {
+            var updated = await _deviceOverviewService.DecrementAvailableQuantity(id);
+
+            if (!updated)
+            {
+                return NotFound($"DeviceOverview with ID {id} not found.");
+            }
+
+            return NoContent();
+        }
+
     }
 }
