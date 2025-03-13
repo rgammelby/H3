@@ -2,6 +2,10 @@
 using LagerstyringClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using LagerSystemApi.Interfaces;
+<<<<<<< HEAD
+=======
+using Microsoft.AspNetCore.Mvc;
+>>>>>>> a86a474 (full branches for new activitytype endpoint)
 
 namespace LagerSystemApi.Repository
 {
@@ -133,6 +137,33 @@ namespace LagerSystemApi.Repository
             catch (Exception ex)
             {
                 throw new Exception($"Retrieving activities with lifecycleId: {id}, were not succesful.\nError: {ex.Message}");
+<<<<<<< HEAD
+=======
+            }
+        }
+
+        public async Task<ActivityDTO[]> GetActivitiesByUserId(int id)
+        {
+            try
+            {
+                ActivityDTO[] activities = await _context.Activities.Where(db => db.user_id == id).Select(db => new ActivityDTO
+                {
+                    id = id,
+                    notes = db.notes,
+                    activity_type = db.activity_type,
+                    created_at = db.created_on,
+                    start_date = db.start_date,
+                    end_date = db.end_date,
+                    lifecycle_id = db.lifecycle_id,
+                    device_id = db.device_id,
+
+                }).ToArrayAsync();
+                return activities;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Retrieving activities by device id: {id}, were not succesful.\nError: {ex.Message}");
+>>>>>>> a86a474 (full branches for new activitytype endpoint)
             }
         }
 
@@ -158,6 +189,11 @@ namespace LagerSystemApi.Repository
             {
                 throw new Exception($"Retrieving activities by device id: {id}, were not succesful.\nError: {ex.Message}");
             }
+        }
+
+        public async Task<List<ActivityType>> GetAllActivityTypes()
+        {
+            return await _context.ActivityTypes.ToListAsync() ?? new List<ActivityType>();
         }
 
         /*
