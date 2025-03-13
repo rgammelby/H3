@@ -12,7 +12,7 @@ export interface UserLogin {
     password: string;
 }
 
-export interface UserToken {
+export interface UserLoginResponse {
     token: string;	
     message: string;
     status_code: number;

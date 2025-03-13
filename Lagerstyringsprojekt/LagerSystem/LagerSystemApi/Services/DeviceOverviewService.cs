@@ -13,12 +13,21 @@ namespace LagerSystemApi.Services
         private readonly ILogger<DeviceOverviewService> _logger;
         private readonly IMapper _mapper;
 
-        public DeviceOverviewService(IDeviceOverviewRepository deviceOverviewRepository, IUploadImages uploadImages, ILogger<DeviceOverviewService> logger, IMapper mapper)
+        private readonly IDeviceService _deviceService;
+
+        public DeviceOverviewService(IDeviceOverviewRepository deviceOverviewRepository, IUploadImages uploadImages, ILogger<DeviceOverviewService> logger, IMapper mapper, IDeviceService deviceService)
         {
             _deviceOverviewRepository = deviceOverviewRepository;
             _uploadImages = uploadImages;
             _logger = logger;
             _mapper = mapper;
+            _deviceService = deviceService;
+        }
+
+        // decrement quatity
+        public async Task<bool> DecrementAvailableQuantity(int id)
+        {
+            return await _deviceOverviewRepository.DecrementAvailableQuantity(id);
         }
         public async Task<DeviceOverviewDTO?> GetDeviceOverviewById(int id)
         {
@@ -96,6 +105,24 @@ namespace LagerSystemApi.Services
                     //  save deviceOverview to db
                     await _deviceOverviewRepository.AddDeviceOverview(deviceOverview);
 
+                    // auto create available devices based on the quatity inserted
+                    for (int i = 0; i < addDeviceOverviewDto.qty; i ++)
+                    {
+                        // Build an AddSingleDeviceDTO
+                        var addDeviceDto = new AddSingleDeviceDTO
+                        {
+                            status = 1, // "available" by default
+                            location = 1, // as default
+                            device_overview_id = deviceOverview.id,
+                            description = $"SingelDevice for {deviceOverview.model} - item { i + 1 }",
+                            is_archived = false
+                        };
+
+                        // You call the service to persist the device
+                        await _deviceService.AddDevice(addDeviceDto);
+                        // ^ You don't store the returned DeviceDTO in a variable if you don't need it.
+                    }
+
                     // map the saved deviceOverview to deviceOverviewDto then return
                     return _mapper.Map<DeviceOverviewDTO>(deviceOverview);
                 }
@@ -111,43 +138,59 @@ namespace LagerSystemApi.Services
         }
         public async Task<DeviceOverviewDTO?> UpdateDeviceOverview(int id, UpdateDeviceOverviewDTO updateDeviceOverviewDto)
         {
-            // Input Validation
+            // 1. Basic validation
             if (updateDeviceOverviewDto == null) throw new Exception("UpdateDeviceOverview failed: Input DTO is null.");
             //if (string.IsNullOrWhiteSpace(updateDeviceOverviewDto.model)) throw new Exception("UpdateDeviceOverview failed: Model cannot be empty.");
             //if (updateDeviceOverviewDto.device_type <= 0) throw new Exception($"UpdateDeviceOverview failed: DeviceType {updateDeviceOverviewDto.device_type} is invalid. Must be > 0.");
 
             try
             {
+                // 2. Get the existing record from DB
                 var existingDeviceOverview = await _deviceOverviewRepository.GetDeviceOverviewById(id);
 
                 if (existingDeviceOverview == null) throw new Exception($"UpdateDeviceOverview failed: Device with ID {id} not found.");
 
-                // ---------------TODO : image -------------------------------------
-                // if user uploads a picture, call gateway for pic-handling then save it to addDeviceOverviewDto
+                // 3. Handle optional new image upload 
                 string file_path = "";
-                string old_file_path = existingDeviceOverview.image;
+                string old_file_path = existingDeviceOverview.image; // store old path
 
                 if (updateDeviceOverviewDto.image != null)
                 {
+                    // Save the new image
                     file_path = await _uploadImages.SaveImage(updateDeviceOverviewDto.image);
                     if (file_path == null) throw new Exception("Error saving new images");
 
                     existingDeviceOverview.image = file_path; // Update only if a new image is uploaded
                 }
-                // -------------- Can admin change qty, available_qty directly?--------------------
-                // Preserve qty and available_qty (DO NOT UPDATE)
-                // int existingQty = existingDeviceOverview.qty;
-                // int existingAvailableQty = existingDeviceOverview.available_qty;
 
-                // Ensure critical fields retain their existing values if they are null in the DTO
+                // 4. Store the old quantity before mapping
+                int oldQty = existingDeviceOverview.qty;
+                int oldAvailableQty = existingDeviceOverview.available_qty;
+
+                // ─────────────────────────────────────────────────────────────────────────
+                // 5. PARTIAL UPDATE FALLBACK LOGIC for certain fields
+                //    (We keep the old values if the DTO doesn’t provide valid ones.)
+                // ─────────────────────────────────────────────────────────────────────────
+                // If the user doesn't supply a 'model', keep the existing one.
                 updateDeviceOverviewDto.model ??= existingDeviceOverview.model;
+
+                // If the user sets 'device_type' to 0 or less, keep the old one.
                 updateDeviceOverviewDto.device_type = updateDeviceOverviewDto.device_type > 0 ? updateDeviceOverviewDto.device_type : existingDeviceOverview.device_type;
-                updateDeviceOverviewDto.qty = updateDeviceOverviewDto.qty > 0 ? updateDeviceOverviewDto.qty : existingDeviceOverview.qty;
                 updateDeviceOverviewDto.available_qty = updateDeviceOverviewDto.available_qty > 0 ? updateDeviceOverviewDto.available_qty : existingDeviceOverview.available_qty;
 
-                //  Update fields from DTO while keeping qty and available_qty unchanged
+                //     NOTE: We do NOT do fallback for 'qty' here because we treat it
+                //       as "the number of new items to add" (explained below).
+                //       If the user doesn't provide it (or it's zero),
+                //       we won't add any new SingleDevices.
+                // updateDeviceOverviewDto.qty = updateDeviceOverviewDto.qty > 0 ? updateDeviceOverviewDto.qty : existingDeviceOverview.qty;
+
+                
                 Console.WriteLine("Image before: " + existingDeviceOverview.image);
+
+                // 6. Now map the (cleaned-up) DTO onto the existing entity
                 _mapper.Map(updateDeviceOverviewDto, existingDeviceOverview);
+
+                // 7. If we have a new image, replace the old one
                 if (!file_path.IsNullOrEmpty())
                 {
                     existingDeviceOverview.image = file_path;
@@ -161,9 +204,42 @@ namespace LagerSystemApi.Services
                     existingDeviceOverview.image = old_file_path;
                 }
                 Console.WriteLine("Image after: " + existingDeviceOverview.image);
-                // -------------- Can admin change qty, available_qty directly?--------------------
-                // existingDeviceOverview.qty = existingQty;
-                // existingDeviceOverview.available_qty = existingAvailableQty;
+
+                // ─────────────────────────────────────────────────────────────────────────
+                // 8. Interpret 'updateDeviceOverviewDto.qty' as "add more items"
+                //    If the user says qty=5, we add 5 to the old total and create 5 new SingleDevices.
+                // ─────────────────────────────────────────────────────────────────────────
+
+                //  if qty is null, treat it as 0 (i.e., “no additional items”).
+                int qtyToAdd = updateDeviceOverviewDto.qty ?? 0;  // This is the increment
+                if (qtyToAdd > 0)
+                {
+                    // Increase the total by 'qtyToAdd'
+                    existingDeviceOverview.qty = oldQty + qtyToAdd;
+                    existingDeviceOverview.available_qty = oldAvailableQty + qtyToAdd;
+
+                    // Create 'qtyToAdd' new SingleDevice records
+                    for (int i = 0; i < qtyToAdd; i++)
+                    {
+                        var addDeviceDto = new AddSingleDeviceDTO
+                        {
+                            status = 1,   // e.g., "available"
+                            location = 1, // or pass from your DTO if you want partial updates for location
+                            device_overview_id = existingDeviceOverview.id,
+                            description = $"SingleDevice for {existingDeviceOverview.model} - item {oldQty + i + 1}",
+                            is_archived = false
+                        };
+
+                        // Usedevice service to create each SingleDevice
+                        await _deviceService.AddDevice(addDeviceDto);
+                    }
+                }
+                else
+                {
+                    // If qty <= 0, do nothing (no new devices).
+                }
+
+
                 existingDeviceOverview.last_ordered = DateTime.UtcNow; // Update last ordered date
 
                 // get the updated domain model

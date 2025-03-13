@@ -14,7 +14,22 @@ namespace LagerSystemApi.Repository
             _context = db;
             _logger = logger;
         }
+        public async Task<bool> DecrementAvailableQuantity(int id)
+        {
+            var device = await _context.DeviceOverview.FindAsync(id);
 
+            if (device == null)
+            {
+                return false;
+            }
+
+            device.available_qty--;
+            device.qty--;
+            
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
         public async Task<DeviceOverview?> GetDeviceOverviewById(int id)
         {
             try

@@ -180,14 +180,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     borrowButton: {
-        paddingVertical: 6,
-        paddingHorizontal: 12,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
         borderRadius: 6,
         marginTop: 10,
     },
     borrowButtonText: {
         color: "white",
         fontWeight: "bold",
+        fontSize: 16,
     },
     dateContainer: {
         marginTop: 50,

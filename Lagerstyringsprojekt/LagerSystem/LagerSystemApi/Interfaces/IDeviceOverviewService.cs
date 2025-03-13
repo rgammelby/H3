@@ -1,4 +1,5 @@
 ﻿using LagerSystemApi.Models.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LagerSystemApi.Interfaces
 {
@@ -8,5 +9,6 @@ namespace LagerSystemApi.Interfaces
         Task<DeviceOverviewDTO?> GetDeviceOverviewById(int id);    // Fetch a deviceOverview (DTO)
         Task<DeviceOverviewDTO?> AddDeviceOverview(AddDeviceOverviewDTO addDeviceOverviewDto);
         Task<DeviceOverviewDTO?> UpdateDeviceOverview(int id, UpdateDeviceOverviewDTO updateDeviceOverviewDto);
+        Task<bool> DecrementAvailableQuantity(int id);
     }
 }

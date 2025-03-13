@@ -13,14 +13,23 @@ export default function DeviceOverviewScreen() {
   if (!context) {
     return <ActivityIndicator />;
   }
+  
+  // for search
+  const [searchQuery, setSearchQuery] = useState("");  // Search input state
+
+  // Filter devices based on searchQuery
+  const filteredDevices = context.deviceList.filter((item) =>
+    item.deviceOverviewDetail?.model?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.deviceOverviewDetail?.deviceTypeDetail?.type_name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
    // Group items into pairs for 2 per row
    // cretaes an empty list and fills it with pairs of devices
    // context.deviceList = [ A, B, C, D, E ];
    // groupedDevices = [ [A, B], [C, D], [E] ];
    const groupedDevices = [];
-   for (let i = 0; i < context.deviceList.length; i += 2) {
-     groupedDevices.push(context.deviceList.slice(i, i + 2));
+   for (let i = 0; i < filteredDevices.length; i += 2) {
+     groupedDevices.push(filteredDevices.slice(i, i + 2));
    }
 
    // Track selected device for modal
@@ -31,6 +40,18 @@ export default function DeviceOverviewScreen() {
     <View style={styles.container}>
       <Text style={styles.header}>All Devices</Text>
 
+       {/* Search Bar */}
+       <TextInput
+          style={styles.searchInput}
+          placeholder="Search by model or type..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+
+ {/* Show message if no devices found */}
+ {filteredDevices.length === 0 ? (
+          <Text style={styles.noDeviceText}>No devices found</Text>
+        ) : (
       <ScrollView>
         {groupedDevices.map((pair, index) => (
           <View key={index} style={styles.row}>
@@ -75,6 +96,7 @@ export default function DeviceOverviewScreen() {
           </View>
         ))}
       </ScrollView>
+       )}
     </View>
     
     {/* Device Detail Modal - Uses separate DeviceDetail component */}
@@ -158,5 +180,19 @@ availabilityDot: {
   borderRadius: 20, // Circle shape
   marginRight: 5,
 },
-
+searchInput: {
+  backgroundColor: "#fff",
+  padding: 10,
+  borderRadius: 8,
+  borderWidth: 1,
+  borderColor: "#ddd",
+  fontSize: 16,
+  marginBottom: 15,
+},
+noDeviceText: {
+  textAlign: "center",
+  fontSize: 18,
+  color: "#888",
+  marginTop: 20,
+},
 });

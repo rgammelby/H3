@@ -6,7 +6,7 @@ namespace LagerSystemApi.Repository
 {
     public interface IActivityRepository
     {
-        Task<ActivityDTO> Add(ActivityDTO activity);
+        Task<Activity> Add(Activity activity);
         Task<UpdateActivityDTO> Update (UpdateActivityDTO activity);
         Task<ActivityDTO> Get(int id);
         Task<ActivityDTO[]> GetAll();
@@ -15,6 +15,7 @@ namespace LagerSystemApi.Repository
         /*
         Task<ActivityDTO[]> SearchByType(string key);
         */
+        Task<List<ActivityType>> GetAllActivityTypes();
 
     }
     public class ActivityRepository: IActivityRepository
@@ -24,23 +25,15 @@ namespace LagerSystemApi.Repository
         {
             _context = db;
         }
-        public async Task<ActivityDTO> Add(ActivityDTO activity)
+        public async Task<List<ActivityType>> GetAllActivityTypes()
+        {
+            return await _context.ActivityTypes.ToListAsync() ?? new List<ActivityType>();
+        }
+        public async Task<Activity> Add(Activity activity)
         {
             try
             {
-                Activity newActivity = new Activity
-                {
-                    device_id = activity.device_id,
-                    user_id = activity.user_id,
-                    activity_type = activity.activity_type,
-                    created_on = DateTime.Now,
-                    start_date = activity.start_date,
-                    end_date = activity.end_date,
-                    lifecycle_id = activity.lifecycle_id,
-                    notes = activity.notes,
-                };
-
-                _context.Activities.Add(newActivity);
+                _context.Activities.Add(activity);
                 await _context.SaveChangesAsync();
                 return activity;
             }
@@ -90,6 +83,7 @@ namespace LagerSystemApi.Repository
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
                     device_id = db.device_id,
+                    user_id = db.user_id,
                 }).FirstAsync();
 
                 return activity;
@@ -114,6 +108,7 @@ namespace LagerSystemApi.Repository
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
                     device_id = db.device_id,
+                    user_id = db.user_id,
                 }).ToArrayAsync();
 
                 return activites;

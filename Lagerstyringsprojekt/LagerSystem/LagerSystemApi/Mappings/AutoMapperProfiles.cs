@@ -47,6 +47,8 @@ namespace LagerSystemApi.Mappings
             // Mapping deviceType and DTO
             CreateMap<DeviceType, DeviceTypeDTO>().ReverseMap();
              
+            CreateMap<Activity, ActivityDTO>().ReverseMap();
+            CreateMap<ActivityType, ActivityTypeDTO>().ReverseMap();
         }
     }
 }

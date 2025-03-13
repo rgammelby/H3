@@ -21,6 +21,20 @@ namespace LagerSystemApi.Controllers
             // this.db = db;
         }
 
+        // when archived one device, both available_qty and qty of the deviceOverview decrements
+        [HttpGet("DecrementAvailableQuantity/{id:int}")]
+        public async Task<IActionResult> DecrementAvailableQuantity(int id)
+        {
+            var updated = await _deviceOverviewService.DecrementAvailableQuantity(id);
+
+            if (!updated)
+            {
+                return NotFound($"DeviceOverview with ID {id} not found.");
+            }
+
+            return NoContent();
+        }
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetDeviceOverviewById(int id)
         {

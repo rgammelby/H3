@@ -1,7 +1,14 @@
-import { Tabs } from 'expo-router';
+import { Tabs, Redirect } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import { useAuth } from '../context/AuthContext'; // add a token check here, incase someone without token tries to access this page by using the url directly
 export default function TabLayout() {
+  const { token } = useAuth();
+
+  // If no token, redirect to (auth)/login
+  if (!token) {
+    return <Redirect href='/(auth)/login' />;
+  }
+
   return (
     <Tabs 
        screenOptions={{
@@ -46,9 +53,9 @@ export default function TabLayout() {
         }} 
       />
       <Tabs.Screen 
-        name="about" 
+        name="myPage" 
         options={{ 
-            title: 'Abouttt',
+            title: 'My Page',
             tabBarIcon:({ color, focused }) => (
                 <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} size={24} color={color} />
             ),

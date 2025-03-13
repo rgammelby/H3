@@ -76,10 +76,10 @@ export const DeviceProvider = ({ children }: {children : ReactNode}) => {
                         ...overview,
                         deviceTypeDetail: deviceTypes.find( type => type.id === overview.device_type) || undefined,
                         image: overview.image.startsWith("/")
-                            ? `${API_BASE_URL}image/${overview.id}` // Prepend API_BASE_URL to relative image paths
+                            ? `${API_BASE_URL}api/image/${overview.id}` // Prepend API_BASE_URL to relative image paths
                             : overview.image
                     })) || [];// Return empty array if `deviceOverviews` is empty
-
+                    
                     setDeviceOverviewList(enrichedDeviceOverviews || []); // Still ensures the list is never null
                     
                 }  else {

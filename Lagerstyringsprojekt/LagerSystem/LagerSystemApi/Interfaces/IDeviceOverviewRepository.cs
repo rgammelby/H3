@@ -7,5 +7,6 @@
         Task<List<DeviceOverview>> GetAllDeviceOverviews();
         Task<DeviceOverview> AddDeviceOverview(DeviceOverview deviceOverview);
         Task<DeviceOverview> UpdateDeviceOverview(DeviceOverview deviceOverview);
+        Task<bool> DecrementAvailableQuantity(int id);
     }
 }

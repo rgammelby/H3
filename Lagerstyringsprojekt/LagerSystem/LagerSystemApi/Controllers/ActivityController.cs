@@ -9,8 +9,9 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> Get(int id);
         Task<IActionResult> GetAll();
         Task<IActionResult> GetByDeviceId(int id);
-        Task<IActionResult> Add(ActivityDTO activity);
+        Task<IActionResult> Add(AddActivityDTO activity);
         Task Update(int id, UpdateActivityDTO activity);
+
     }
     public class ActivityController : ControllerBase, IActivityController
     {
@@ -64,11 +65,26 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPost("AddActivity")]
-        public async Task<IActionResult> Add(ActivityDTO activity)
+        public async Task<IActionResult> Add(AddActivityDTO activity)
         {
             try
             {
-                return Ok(await _activity.AddActivity(activity));
+                // We'll return the newly created (or updated) activity as a DTO
+                ActivityDTO result; 
+
+                if (activity.activity_type == 1)
+                {
+                    result = await _activity.BorrowDeviceAsync(activity);
+                }
+                else if (activity.activity_type == 2)
+                {
+                    result = await _activity.ReturnDeviceAsync(activity);
+                }
+                else
+                {
+                    return BadRequest("Invalid activity type. Must be 1 (borrow) or 2 (return).");
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -89,6 +105,20 @@ namespace LagerSystemApi.Controllers
             {
                 _logger.LogInformation(ex.Message);
                 BadRequest($"Error updating activity with id: {id}");
+            }
+        }
+
+        [HttpGet("GetAllActivityTypes")]
+        public async Task<IActionResult> GetAllActivityTypes()
+        {
+            try
+            {
+                return Ok(await _activity.GetAllActivityTypes());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error getting all activity types. ");
             }
         }
     }

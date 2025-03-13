@@ -227,6 +227,7 @@ namespace LagerSystemApi.Services
 
                 // Update only `is_archived`
                 device.is_archived = true;
+                device.status = 4;
 
                 await _deviceRepository.UpdateDevice(device);
 
