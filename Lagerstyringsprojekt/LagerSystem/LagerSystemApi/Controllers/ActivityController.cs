@@ -11,7 +11,8 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> GetAll();
         Task<IActionResult> GetByDeviceId(int id);
         Task<IActionResult> Add(ActivityDTO activity);
-        //Task<IActionResult> Update(UpdateActivityDTO activity);
+        Task<IActionResult> Update(UpdateActivityDTO activity);
+        Task<IActionResult> GetActivitiesByUserId(int id);
     }
     public class ActivityController : ControllerBase, IActivityController
     {
@@ -33,6 +34,20 @@ namespace LagerSystemApi.Controllers
             {
                 _logger.LogInformation(ex.Message);
                 return BadRequest($"Error getting activity with id: {id}");
+            }
+        }
+
+        [HttpGet("GetActivitiesByUserId/{id:int}")]
+        public async Task<IActionResult> GetActivitiesByUserId(int id)
+        {
+            try
+            {
+                return Ok(await _activity.GetActivitiesByUserId(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error getting activities by device id: {id}");
             }
         }
 
@@ -65,7 +80,7 @@ namespace LagerSystemApi.Controllers
         }
 
         [HttpPost("AddActivity")]
-        public async Task<IActionResult> Add(ActivityDTO activity)
+        public async Task<IActionResult> Add([FromBody]ActivityDTO activity)
         {
             try
             {
@@ -90,6 +105,20 @@ namespace LagerSystemApi.Controllers
             {
                 _logger.LogInformation(ex.Message);
                 return BadRequest($"Error updating activity. ");
+            }
+        }
+
+        [HttpGet("GetAllActivityTypes")]
+        public async Task<IActionResult> GetAllActivityTypes()
+        {
+            try
+            {
+                return Ok(await _activity.GetAllActivityTypes());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error getting all activity types. ");
             }
         }
         */
