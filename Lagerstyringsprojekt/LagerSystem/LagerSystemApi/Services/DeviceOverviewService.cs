@@ -180,5 +180,35 @@ namespace LagerSystemApi.Services
                 throw new Exception($"Service Error: Failed to update device overview with ID {id}.\nError: {ex.Message}");
             }
         }
+        public async Task<bool> UpdateDeviceQuantity(int id, int quantity)
+        {
+            try
+            {
+                if (id <= 0) throw new Exception($"Id can not be less than 0");
+                if (quantity <= 0) throw new Exception($"Quantity can not be less than 0");
+                return await _deviceOverviewRepository.UpdateDeviceQuantity(id, quantity);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"DeviceOverviewService Error: Failed to update quantity with ID {id}.\nError: {ex.Message}.");
+            }
+        }
+
+        public async Task<bool> DecrementAvailableQuantity(int id)
+        {
+            try
+            {
+                DeviceOverview overview = await _deviceOverviewRepository.GetDeviceOverviewById(id);
+
+                if (overview == null) throw new Exception($"Failed to get deviceoverview there for can't see if possible for decrement");
+                if (overview.available_qty <= 0) throw new Exception($"Failed to decrement available quantity because it can't be less than 0");
+
+                return await _deviceOverviewRepository.DecrementAvailableQuantity(id);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"DeviceOverviewService Error: Failed to Decrement with ID {id}.\nError: {ex.Message}.");
+            }
+        }
     }
 }

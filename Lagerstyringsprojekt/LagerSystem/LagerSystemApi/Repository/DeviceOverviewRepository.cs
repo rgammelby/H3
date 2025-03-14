@@ -92,5 +92,35 @@ namespace LagerSystemApi.Repository
                 throw new Exception($"Error retrieving device overview for Model '{model}' and DeviceType {deviceType}\nError: {ex.Message}");
             }
         }
+        public async Task<bool> UpdateDeviceQuantity(int id, int quantity)
+        {
+            var device = await _context.DeviceOverview.FindAsync(id);
+
+            if (device == null)
+            {
+                return false; // Device not found
+            }
+
+            device.qty += quantity;
+            device.available_qty += quantity;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DecrementAvailableQuantity(int id)
+        {
+            var device = await _context.DeviceOverview.FindAsync(id);
+
+            if (device == null)
+            {
+                return false;
+            }
+
+            device.available_qty--;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

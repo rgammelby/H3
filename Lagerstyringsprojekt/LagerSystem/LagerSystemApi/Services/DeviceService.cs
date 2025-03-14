@@ -161,7 +161,9 @@ namespace LagerSystemApi.Services
                 // Validate input
                 if (updateDeviceDto == null) throw new Exception("UpdateDevice failed: deviceDTO is null.");
                 if (id <= 0) throw new Exception($"UpdateDevice failed: Invalid device ID {id}.");
-
+                if (updateDeviceDto.device_overview_id <= 0) throw new Exception($"UpdateDevice failed: Invalid device overview ID {updateDeviceDto.device_overview_id}.");
+                if (updateDeviceDto.status <= 0) throw new Exception($"UpdateDevice failed: Invalid device status ID {updateDeviceDto.status}.");
+                if (updateDeviceDto.location <= 0) throw new Exception($"UpdateDevice failed: Invalid device location ID {updateDeviceDto.location}.");
                 // get domain model by id
                 var device = await _deviceRepository.GetDeviceById(id);
 

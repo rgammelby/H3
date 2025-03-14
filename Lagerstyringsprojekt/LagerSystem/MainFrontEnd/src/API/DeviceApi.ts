@@ -1,5 +1,5 @@
 import ApiClient from "./ApiClient";
-import { IDevice } from "../Interfaces/Device";
+import { IDevice, IDeviceForm } from "../Interfaces/Device";
 
 class DeviceApi {
     private client: ApiClient;
@@ -12,8 +12,12 @@ class DeviceApi {
         return this.client.request<IDevice[]>("api/Device");
     }
 
-    async updateDevice(id: number, device: IDevice) : Promise<IDevice>{
-        return this.client.request<IDevice>("")
+    async addDevice(device: IDeviceForm): Promise<IDevice>{
+        return this.client.request<IDevice>("api/Device", "POST", device);
+    }
+
+    async updateDevice(id: number, device: IDeviceForm) : Promise<IDevice>{
+        return this.client.request<IDevice>(`api/Device?id=${id}`, "PUT", device)
     }
 }
 

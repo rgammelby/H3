@@ -8,6 +8,9 @@ namespace LagerSystemApi.Mappings
         public AutoMapperProfiles() 
         {
 
+            // Map between ActivityDTO and Activity
+            CreateMap<ActivityDTO, Activity>();
+
             // Map between DeviceOverview and DeviceOverviewDTO
             // DeviceOverviewDTO: Used for retrieving data.
             CreateMap<DeviceOverview, DeviceOverviewDTO>().ReverseMap();

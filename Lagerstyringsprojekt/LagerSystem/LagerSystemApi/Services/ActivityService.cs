@@ -1,4 +1,6 @@
-﻿using LagerSystemApi.Models.DTO;
+﻿using AutoMapper;
+using LagerSystemApi.Interfaces;
+using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Repository;
 
 namespace LagerSystemApi.Services
@@ -14,13 +16,87 @@ namespace LagerSystemApi.Services
         */
         Task<ActivityDTO> AddActivity(ActivityDTO activity);
         Task UpdateActivity(UpdateActivityDTO activity);
+        Task<List<ActivityTypeDTO>> GetAllActivityTypes();
+        Task<ActivityDTO?> BorrowDeviceAsync(AddActivityDTO dto);
+        Task<ActivityDTO?> ReturnDeviceAsync(AddActivityDTO dto);
     }
     public class ActivityService : IActivityService
     {
-        IActivityRepository _activity;
-        public ActivityService(IActivityRepository repo)
+        private readonly IActivityRepository _activity;
+        private readonly IMapper _mapper;
+
+        // inject device and deviceoverview to update device status and available_qty in deviceOverview
+        private readonly IDeviceRepository _deviceRepo;
+        private readonly IDeviceOverviewRepository _deviceOverviewRepo;
+        public ActivityService(IActivityRepository repo, IMapper mapper, IDeviceOverviewRepository deviceOverviewRepo, IDeviceRepository deviceRepo)
         {
             _activity = repo;
+            _mapper = mapper;
+            _deviceOverviewRepo = deviceOverviewRepo;
+            _deviceRepo = deviceRepo;
+        }
+
+        // Borrow activity:
+        public async Task<ActivityDTO?> BorrowDeviceAsync(AddActivityDTO addActivityDTO)
+        {
+            // 1. check device availability
+            var device = await _deviceRepo.GetDeviceById(addActivityDTO.device_id);
+            var deviceOverview = await _deviceOverviewRepo.GetDeviceOverviewById(device.device_overview_id);
+
+            if (device == null || device.status != 1 || device.is_archived == true)
+            {
+                throw new Exception("Device not found or not available.");
+            }
+
+            // 2. generate new lifeCycleId to borrow
+            addActivityDTO.lifecycle_id = Guid.NewGuid();
+
+            // 3. create a domain model
+            var activityEntity = new Activity
+            {
+                device_id = addActivityDTO.device_id,
+                activity_type = addActivityDTO.activity_type,
+                user_id = addActivityDTO.user_id,
+                start_date = addActivityDTO.start_date,
+                end_date = addActivityDTO.end_date,
+                created_on = DateTime.Now,
+                notes = addActivityDTO.notes,
+                lifecycle_id = addActivityDTO.lifecycle_id,
+            };
+            // 4. Save via repository (which returns the saved domain entity)
+            var savedActivity = await _activity.Add(activityEntity);
+
+            // 5. Update device status
+            device.status = 3; // Borrowed
+            deviceOverview.available_qty--;
+
+            // 6. update and save in db
+            await _deviceOverviewRepo.UpdateDeviceOverview(deviceOverview);
+            await _deviceRepo.UpdateDevice(device);
+
+            // 7. return dto
+            return _mapper.Map<ActivityDTO>(savedActivity);
+
+        }
+        // Return activity:
+        public async Task<ActivityDTO?> ReturnDeviceAsync(AddActivityDTO addActivityDTO)
+        {
+            return null;
+        }
+        public async Task<List<ActivityTypeDTO>> GetAllActivityTypes()
+        {
+            try
+            {
+                var activityTypes = await _activity.GetAllActivityTypes();
+
+                var activityTypeDTOs = _mapper.Map<List<ActivityTypeDTO>>(activityTypes);
+
+                return activityTypeDTOs;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"ActivityService Error: Error while trying to get all activity types");
+            }
         }
 
         public async Task<ActivityDTO> Get(int id)
@@ -103,7 +179,9 @@ namespace LagerSystemApi.Services
             {
                 if (activity == null || HasNullFields(activity)) throw new Exception("Some properties were not valid");
 
-                return await _activity.Add(activity);
+                Activity addActivity = _mapper.Map<Activity>(activity);
+
+                return _mapper.Map<ActivityDTO>(await _activity.Add(addActivity));
             }
             catch (Exception ex)
             {

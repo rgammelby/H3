@@ -91,5 +91,19 @@ namespace LagerSystemApi.Controllers
                 BadRequest($"Error updating activity with id: {id}");
             }
         }
+
+        [HttpGet("GetAllActivityTypes")]
+        public async Task<IActionResult> GetAllActivityTypes()
+        {
+            try
+            {
+                return Ok(await _activity.GetAllActivityTypes());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error getting all activity types. ");
+            }
+        }
     }
 }

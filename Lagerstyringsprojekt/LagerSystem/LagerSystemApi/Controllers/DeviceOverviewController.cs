@@ -123,5 +123,46 @@ namespace LagerSystemApi.Controllers
                 return StatusCode(500, "Internal server error.");
             }
         }
+        [HttpPost("UpdateDeviceQuantity")]
+        public async Task<IActionResult> UpdateDeviceQuantity(int id, int quantity)
+        {
+            try
+            {
+                var updated = await _deviceOverviewService.UpdateDeviceQuantity(id, quantity);
+
+                if (!updated)
+                {
+                    return NotFound($"DeviceOverview with ID {id} not found.");
+                }
+
+                return NoContent(); // 204 No Content (successful update, no return body)
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"DeviceOverviewController Error: failed to update device quantity.\n{ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("DecrementAvailableQuantity/{id:int}")]
+        public async Task<IActionResult> DecrementAvailableQuantity(int id)
+        {
+            try
+            {
+                var updated = await _deviceOverviewService.DecrementAvailableQuantity(id);
+
+                if (!updated)
+                {
+                    return NotFound($"DeviceOverview with ID {id} not found.");
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"DeviceOverviewController Error: Faiked to decrement quantity on device overview with ID {id}.\n{ex.Message}");
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

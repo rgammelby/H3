@@ -2,21 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Location, Device, StatusType } from "../../API/ApiInstances";
 import { ICupboards, IRoom } from "../../Interfaces/Location";
 import { IStatusTypes } from "../../Interfaces/StatusType";
+import { IDevice, IDeviceForm } from "../../Interfaces/Device";
 
 interface props {
   cancelModal: (e: boolean) => void;
+  selectedDevice: IDevice;
 }
 
-const UpdateDevice: React.FC<props> = ({ cancelModal }) => {
+const UpdateDevice: React.FC<props> = ({ cancelModal, selectedDevice }) => {
   const [ROOMS, setRooms] = useState<IRoom[]>([]);
   const [CUPBOARDS, setCupboards] = useState<ICupboards[]>([]);
   const [STATUSTYPE, setStatusType] = useState<IStatusTypes[]>([]);
+  const [DESCRIPTION, setDescription] = useState<string>("");
   const [SELECTEDLOCATION, setSelectedLocation] = useState<number>(0);
+  const [SELECTEDTYPE, setSelectedType] = useState<number>(0);
   const [ISDROPDOWNOPEN, setIsDropdownOpen] = useState(false);
 
   const updateDevice = async() => {
     try{
+      const body: IDeviceForm = {
+        device_overview_id: selectedDevice.device_overview_id,
+        is_archived: selectedDevice.is_archived,
+        description: DESCRIPTION,
+        status: SELECTEDTYPE,
+        location: SELECTEDLOCATION,
+        qr: selectedDevice.qr,
+      }
 
+      await Device.updateDevice(selectedDevice.id, body);
+
+      cancelModal(false);
     }
     catch (e){
       console.error(e);
@@ -48,7 +63,11 @@ const UpdateDevice: React.FC<props> = ({ cancelModal }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <p>Beskrivelse</p>
-        <input type="text" className="w-64 p-2 border rounded mb-5" />
+        <input
+        type="text"
+        className="w-64 p-2 border rounded mb-5"
+        onChange={(e) => setDescription(e.target.value)}
+        />
         <p>Lokation</p>
 
         {/* Custom Dropdown */}
@@ -96,7 +115,7 @@ const UpdateDevice: React.FC<props> = ({ cancelModal }) => {
           )}
         </div>
         <p>Status</p>
-        <select className="w-64 p-2 border rounded mb-5">
+        <select className="w-64 p-2 border rounded mb-5" onChange={(e) => setSelectedType(parseInt(e.target.value))}>
           <option value="">None</option>
           {
             STATUSTYPE && (
@@ -108,6 +127,7 @@ const UpdateDevice: React.FC<props> = ({ cancelModal }) => {
         </select>
         <button
         className="btn btn-medium btn-smooth btn-primary"
+        onClick={updateDevice}
         >
           Opdater
         </button>

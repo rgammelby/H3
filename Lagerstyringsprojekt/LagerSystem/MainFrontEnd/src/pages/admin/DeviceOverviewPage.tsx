@@ -69,13 +69,14 @@ function DeviceOverviewPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4 text-center">📦 Device Overview</h1>
-
-      <div className="overflow-x-auto shadow-lg rounded-lg">
-        <table className="table w-full table-zebra">
-          {/* Table Head */}
+      <div className="sticky top-16 bg-[#f0e0c0] p-4 z-50 shadow-md flex items-center justify-between">
+        <button className="btn btn-outline btn-success mb-2">Tilføj</button>
+        <h1 className="text-3xl font-bold text-brown-700 flex-1 text-center">📦 Device Overview</h1>
+      </div>
+      <div className="mt-4">
+      <table className="table w-full table-zebra">
           <thead className="bg-base-200">
-            <tr>
+            <tr className="sticky top-36 bg-[#f3ddba]">
               <th>#</th>
               <th>Model</th>
               <th>Device Type</th>
@@ -141,7 +142,7 @@ function DeviceOverviewPage() {
         <div
           onClick={() => setSelectedImage(null)}
           style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-          className="fixed inset-0 flex items-center justify-center"
+          className="fixed inset-0 z-999 flex items-center justify-center"
         >
           <div
             onClick={(e) => e.stopPropagation()}

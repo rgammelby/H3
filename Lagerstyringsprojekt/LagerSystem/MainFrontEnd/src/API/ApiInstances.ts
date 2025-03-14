@@ -8,7 +8,7 @@ import StatusTypeApi from "./StatustypeApi";
 import UserApi from "./UserApi";
 import DeviceApi from "./DeviceApi";
 
-const url: string = "http://10.108.169.63:5000/";
+const url: string = "http://10.108.162.46:5000/";
 
 const apiClient = new ApiClient(url);
 
