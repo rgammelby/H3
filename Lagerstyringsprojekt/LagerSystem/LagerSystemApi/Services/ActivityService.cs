@@ -66,6 +66,7 @@ namespace LagerSystemApi.Services
                 notes = addActivityDTO.notes,
                 lifecycle_id = addActivityDTO.lifecycle_id,
             };
+
             // 4. Save via repository (which returns the saved domain entity)
             var savedActivity = await _activity.Add(activityEntity);
            
@@ -84,7 +85,58 @@ namespace LagerSystemApi.Services
         // Return activity:
         public async Task<ActivityDTO?> ReturnDeviceAsync(AddActivityDTO addActivityDTO)
         {
-            return null;
+            // 1. check device status == 3/2
+            var device = await _deviceRepo.GetDeviceById(addActivityDTO.device_id);
+            var deviceOverview = await _deviceOverviewRepo.GetDeviceOverviewById(device.device_overview_id);
+
+            if(deviceOverview == null || device == null || device.status == 1 || device.status == 4)
+            {
+                throw new Exception("Device not found or cannot be returned.");
+            }
+
+            // 2. find the corresponding borrow activity:
+            // 2.1 get list of activities with the same device_id 
+            var allActivity = await _activity.GetByDeviceId(device.id);
+
+            // 2.2  Filter to only borrow activities (activity_type == 1),
+            //      then sort by the creation date descending
+            var latestBorrowActivity = allActivity
+                .Where(a => a.activity_type == 1)
+                .OrderByDescending(a => a.created_at)
+                .FirstOrDefault();
+
+            // 3. Now latestBorrowActivity is the most recent borrow for that device
+            if (latestBorrowActivity == null)
+            {
+                throw new Exception("No borrow record found for this device.");
+            }
+
+            // 4. create a domain model for the borrowed device
+            var activityEntity = new Activity
+            {
+                device_id = latestBorrowActivity.device_id,
+                activity_type = 2,
+                user_id = latestBorrowActivity.user_id,
+                start_date = latestBorrowActivity.start_date,
+                end_date = DateTime.Now,
+                created_on = DateTime.Now,
+                notes = addActivityDTO.notes,
+                lifecycle_id = latestBorrowActivity.lifecycle_id,
+            };
+
+            // 5. save the return activity
+            var savedReturnActivity = await _activity.Add(activityEntity);
+
+            // 6. update device status and available_qty
+            device.status = 1;
+            deviceOverview.available_qty++;
+
+            // 7. save the changes
+            await _deviceRepo.UpdateDevice(device);
+            await _deviceOverviewRepo.UpdateDeviceOverview(deviceOverview);
+
+            // 8. return the newly created return activivty
+            return _mapper.Map<ActivityDTO>(savedReturnActivity);
         }
 
         public async Task<List<ActivityTypeDTO>> GetAllActivityTypes()

@@ -133,6 +133,7 @@ namespace LagerSystemApi.Repository
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
                     device_id = db.device_id,
+                    user_id = db.user_id,
                 }).ToArrayAsync();
 
                 return activities;
@@ -157,6 +158,7 @@ namespace LagerSystemApi.Repository
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
                     device_id = db.device_id,
+                    user_id = db.user_id,
 
                 }).ToArrayAsync();
                 return activities;

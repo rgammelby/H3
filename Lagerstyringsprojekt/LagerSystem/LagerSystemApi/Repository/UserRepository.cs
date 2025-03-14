@@ -114,7 +114,13 @@ namespace LagerSystemApi.Repository
             {
                 User user = await _context.Users.Where(db => db.email == email).FirstOrDefaultAsync();
 
-                return new UserDTO
+                // nul check to avoid nullreference ex
+                if (user == null)
+                {
+                    throw new Exception($"User with email {email} not found.");
+                }
+
+                UserDTO userToLogin = new UserDTO
                 {
                     id = user.id,
                     first_name = user.first_name,
@@ -126,6 +132,7 @@ namespace LagerSystemApi.Repository
                     type = user.type,
                     salt = user.salt
                 };
+                return userToLogin;
             }
             catch (Exception ex)
             {
