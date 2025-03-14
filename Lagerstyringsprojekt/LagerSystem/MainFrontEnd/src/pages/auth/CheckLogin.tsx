@@ -11,7 +11,7 @@ import React, { useEffect } from 'react';
      // If user is not logged in, set the expected path only if it's not already the login page
      if (!isLoggedIn) {
        // Only set expectedPath if the current path isn't already the login page
-       if (window.location.pathname !== '/login') {
+       if (window.location.pathname !== '/') {
          localStorage.setItem('expectedPath', window.location.pathname);
        }
        // Redirect to login page

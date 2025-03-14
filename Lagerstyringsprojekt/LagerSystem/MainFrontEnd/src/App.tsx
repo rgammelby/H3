@@ -22,6 +22,7 @@ import { PageHeader } from './components/layout/PageHeader';
 import DeviceOverviewPage from './pages/admin/DeviceOverviewPage';
 import DevicePage from './pages/admin/DevicePage';
 import UserPage from './pages/admin/UserPage';
+import UserProfile from './pages/user/Profile';
 // import Register from "./pages/auth/Register";
 // import ForgotPassword from "./pages/auth/ForgotPassword";
 
@@ -56,6 +57,7 @@ const App = () => {
         {/* Public Layout (for /public/* pages) default page*/}
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<InfoScreen />} />
+          <Route path="/home/profile" element={<UserProfile />} />
         </Route>
 
          {/* AdminLayout: dashboard  */}
