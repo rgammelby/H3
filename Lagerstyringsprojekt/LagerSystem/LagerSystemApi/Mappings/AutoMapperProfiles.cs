@@ -30,7 +30,16 @@ namespace LagerSystemApi.Mappings
             // retrieve location room data
 
             CreateMap<LocationRoom, LocationRoomDTO>().ReverseMap();
-            
+
+            CreateMap<Activity, ActivityDTO>().ReverseMap();
+
+            CreateMap<ActivityType, ActivityTypeDTO>().ReverseMap();
+
+            CreateMap<StatusType, StatusTypeDTO>().ReverseMap();
+
+            CreateMap<User, UserDTO>().ReverseMap();
+
+            CreateMap<User, UserLogInDTO>().ReverseMap();
 
             CreateMap<DeviceDTO, SingleDevice>().ReverseMap();
 

@@ -60,8 +60,8 @@ namespace LagerSystemApi.Controllers
             await _user.AddUser(user);
         }
 
-        [HttpPut("UpdateUser")]
-        public async Task Update(UpdateUserDTO user)
+        [HttpPost("UpdateUser")]
+        public async Task Update([FromBody] UpdateUserDTO user)
         {
             await _user.UpdateUser(user);
         }

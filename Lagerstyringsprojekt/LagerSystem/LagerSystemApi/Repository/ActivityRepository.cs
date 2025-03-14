@@ -2,10 +2,7 @@
 using LagerstyringClassLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using LagerSystemApi.Interfaces;
-<<<<<<< HEAD
-=======
 using Microsoft.AspNetCore.Mvc;
->>>>>>> a86a474 (full branches for new activitytype endpoint)
 
 namespace LagerSystemApi.Repository
 {
@@ -82,6 +79,7 @@ namespace LagerSystemApi.Repository
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
                     device_id = db.device_id,
+                    user_id = db.user_id,
                 }).FirstAsync();
 
                 return activity;
@@ -106,6 +104,7 @@ namespace LagerSystemApi.Repository
                     end_date = db.end_date,
                     lifecycle_id = db.lifecycle_id,
                     device_id = db.device_id,
+                     user_id = db.user_id,
                 }).ToArrayAsync();
 
                 return activites;
@@ -137,8 +136,7 @@ namespace LagerSystemApi.Repository
             catch (Exception ex)
             {
                 throw new Exception($"Retrieving activities with lifecycleId: {id}, were not succesful.\nError: {ex.Message}");
-<<<<<<< HEAD
-=======
+
             }
         }
 
@@ -163,7 +161,6 @@ namespace LagerSystemApi.Repository
             catch (Exception ex)
             {
                 throw new Exception($"Retrieving activities by device id: {id}, were not succesful.\nError: {ex.Message}");
->>>>>>> a86a474 (full branches for new activitytype endpoint)
             }
         }
 
@@ -195,6 +192,36 @@ namespace LagerSystemApi.Repository
         {
             return await _context.ActivityTypes.ToListAsync() ?? new List<ActivityType>();
         }
+
+        public async Task<ActivityTypeDTO> GetActivityTypeById(int id)
+        {
+            try
+            {
+                // Fetch the activity type based on the given ID
+                ActivityTypeDTO activityType = await _context.ActivityTypes
+                    .Where(db => db.id == id)
+                    .Select(db => new ActivityTypeDTO
+                    {
+                        id = db.id,
+                        activity_type = db.activity_type,
+                    })
+                    .FirstOrDefaultAsync(); // Return null if no record is found
+
+                // Check if activityType is null (no matching record found)
+                if (activityType == null)
+                {
+                    throw new Exception($"No activity type found with id: {id}");
+                }
+
+                return activityType;
+            }
+            catch (Exception ex)
+            {
+                // Provide more descriptive error message
+                throw new Exception($"Retrieving activity type with id: {id} was not successful.\nError: {ex.Message}");
+            }
+        }
+
 
         /*
          * Will be used when we have made EF Core

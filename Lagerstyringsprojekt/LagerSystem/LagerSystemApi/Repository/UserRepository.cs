@@ -149,10 +149,10 @@ namespace LagerSystemApi.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while getting user from user_id: {id}\nError: ", ex.Message);
-                return null;
+                throw new Exception($"Unexpected error while getting user from user_id: {id}.\nError: {ex.Message}");
             }
         }
+
 
         public async Task<UserDTO[]> GetAll()
         {

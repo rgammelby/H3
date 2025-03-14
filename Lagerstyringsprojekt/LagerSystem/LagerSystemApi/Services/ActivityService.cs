@@ -1,10 +1,7 @@
 ﻿using LagerSystemApi.Models.DTO;
 using LagerSystemApi.Repository;
 using LagerSystemApi.Interfaces;
-<<<<<<< HEAD
-=======
 using AutoMapper;
->>>>>>> a86a474 (full branches for new activitytype endpoint)
 
 namespace LagerSystemApi.Services
 {
@@ -69,14 +66,12 @@ namespace LagerSystemApi.Services
             }
         }
 
-<<<<<<< HEAD
-        public async Task<ActivityDTO[]> GetByLifecycleId(int id)
-        {
-            try
-            {
-                if (id <= 0) throw new Exception("Not a valid lifecycle id");
+        //public async Task<ActivityDTO[]> GetByLifecycleId(int id)
+        //{
+        //    try
+        //    {
+        //        if (id <= 0) throw new Exception("Not a valid lifecycle id");
 
-=======
         public async Task<ActivityDTO[]> GetActivitiesByUserId(int id)
         {
             try
@@ -100,7 +95,6 @@ namespace LagerSystemApi.Services
             {
                 if (id <= 0) throw new Exception("Not a valid lifecycle id");
 
->>>>>>> a86a474 (full branches for new activitytype endpoint)
                 ActivityDTO[] activity = await _activity.GetByLifecycleId(id);
 
                 if (activity == null) throw new Exception($"No activities fund with lifecycle id: {id}");
@@ -125,10 +119,7 @@ namespace LagerSystemApi.Services
             {
                 if (activity == null || HasNullFields(activity)) throw new Exception("Some properties were not valid");
 
-<<<<<<< HEAD
-=======
                 activity.lifecycle_id = Guid.NewGuid();
->>>>>>> a86a474 (full branches for new activitytype endpoint)
                 return await _activity.Add(activity);
             }
             catch (Exception ex)
@@ -181,6 +172,24 @@ namespace LagerSystemApi.Services
             var activityTypeDTOs = _mapper.Map<List<ActivityTypeDTO>>(activityTypes);
 
             return activityTypeDTOs;
+        }
+
+        public async Task<ActivityTypeDTO> GetActivityTypeById(int id)
+        {
+            try
+            {
+                if (id <= 0) throw new Exception("Get failed: Not a valid id");
+
+                ActivityTypeDTO activity = await _activity.GetActivityTypeById(id);
+
+                if (activity == null) throw new Exception($"No device foudn with id: {id}");
+
+                return activity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

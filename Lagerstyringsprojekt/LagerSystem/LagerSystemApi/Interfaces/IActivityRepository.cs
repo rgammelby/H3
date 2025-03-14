@@ -1,8 +1,5 @@
 ﻿using LagerSystemApi.Models.DTO;
-<<<<<<< HEAD
-=======
 using Microsoft.AspNetCore.Mvc;
->>>>>>> a86a474 (full branches for new activitytype endpoint)
 
 namespace LagerSystemApi.Interfaces
 {
@@ -14,14 +11,8 @@ namespace LagerSystemApi.Interfaces
         Task<ActivityDTO[]> GetAll();
         Task<ActivityDTO[]> GetByLifecycleId(int id);
         Task<ActivityDTO[]> GetByDeviceId(int id);
-        /*
-        Task<ActivityDTO[]> SearchByType(string key);
-        */
-<<<<<<< HEAD
-=======
         Task<List<ActivityType>> GetAllActivityTypes();
         Task<ActivityDTO[]> GetActivitiesByUserId(int id);
->>>>>>> a86a474 (full branches for new activitytype endpoint)
-
+        Task<ActivityTypeDTO> GetActivityTypeById(int id);
     }
 }

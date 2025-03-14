@@ -100,7 +100,7 @@ namespace LagerstyringClassLibrary
             Seeder.Seed(modelBuilder);
         }
 
-        public string conn = "Server=(localdb)\\MSSqlLocalDb;Database=Lagerstyring;Integrated Security=True;Encrypt=False;";
+        public string conn = "Server=localhost\\SQLEXPRESS;Database=Lagerstyring;Trusted_Connection=True;User Id=admin;Password=administrator;Encrypt=False";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

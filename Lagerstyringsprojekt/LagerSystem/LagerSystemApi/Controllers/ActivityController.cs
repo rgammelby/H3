@@ -23,6 +23,7 @@ namespace LagerSystemApi.Controllers
             _activity = service;
             _logger = logger;
         }
+
         [HttpGet("GetActivity")]
         public async Task<IActionResult> Get(int id)
         {
@@ -51,7 +52,7 @@ namespace LagerSystemApi.Controllers
             }
         }
 
-        [HttpGet("GetDeviceById")]
+        [HttpGet("GetActivityByDeviceId")]
         public async Task<IActionResult> GetByDeviceId(int id)
         {
             try
@@ -93,7 +94,6 @@ namespace LagerSystemApi.Controllers
             }
         }
 
-        /*
         [HttpPut("UpdateActivity")]
         public async Task<IActionResult> Update([FromBody]UpdateActivityDTO activity)
         {
@@ -121,6 +121,19 @@ namespace LagerSystemApi.Controllers
                 return BadRequest($"Error getting all activity types. ");
             }
         }
-        */
+
+        [HttpGet("ActivityType/{id:int}")]
+        public async Task<IActionResult> GetActivityTypeById(int id)
+        {
+            try
+            {
+                return Ok(await _activity.GetActivityTypeById(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error getting activity with id: {id}");
+            }
+        }
     }
 }

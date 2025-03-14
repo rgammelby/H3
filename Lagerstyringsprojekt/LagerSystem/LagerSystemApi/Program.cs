@@ -14,7 +14,7 @@ namespace LagerSystemApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add Logger in dependency
-            builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/Desktop/LagerStyringsLog.txt"));
+            //builder.Logging.AddProvider(new FileLoggerProvider("C://Users/zbcrvsa/Desktop/LagerStyringsLog.txt"));
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -24,22 +24,38 @@ namespace LagerSystemApi
             // Register AutoMapper
             builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
+            //builder.WebHost.ConfigureKestrel(options =>
+            //{
+            //    options.ListenAnyIP(5105);
+
+            //    options.ListenAnyIP(7093);
+            //});
+
             // Enforce HTTPS
-            builder.Services.AddHttpsRedirection(options =>
-            {
-                options.HttpsPort = 443; // Default HTTPS port
-            });
+            //builder.Services.AddHttpsRedirection(options =>
+            //{
+            //    options.HttpsPort = 443; // Default HTTPS port
+            //});
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowReactApp",
-                    policy =>
-                    {
-                        policy.WithOrigins("http://localhost:5173") // Allow React frontend
-                              .AllowAnyMethod()
-                              .AllowAnyHeader();
-                    });
+                //options.AddPolicy("AllowAll",
+                //    policy =>
+                //    {
+                //        policy.WithOrigins() // Allow All
+                //              .AllowAnyMethod()
+                //              .AllowAnyHeader();
+                //    });
+                options.AddPolicy("AllowAllOrigins",
+                   policy =>
+                   {
+                       policy.AllowAnyOrigin() //  Allow all clients (React Native, Expo, Browsers)
+                             .AllowAnyMethod()
+                             .AllowAnyHeader();
+                   });
+
             });
+
 
             // Register DbContext with SQL Server
             builder.Services.AddDbContext<Context>(options =>
@@ -78,8 +94,8 @@ namespace LagerSystemApi
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowReactApp"); // Apply the CORS policy
-            app.UseHttpsRedirection();
+            app.UseCors("AllowAllOrigins"); // Apply the CORS policy
+            //app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
 
