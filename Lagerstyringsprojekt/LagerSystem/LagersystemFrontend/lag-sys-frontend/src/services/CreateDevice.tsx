@@ -39,7 +39,7 @@ const CreateDevice: React.FC = () => {
   const createDevice = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://localhost:7093/api/Device/AddDevice", {
+      const response = await fetch("http://localhost:7093/api/Device/AddDevice", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

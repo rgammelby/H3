@@ -15,7 +15,7 @@ function GetAllDeviceOverviews() {
     const [SHOW, setShow] = useState<boolean>(false);
 
     const GetDeviceOverviews = async () => {
-        const response = await fetch('https://localhost:7093/api/DeviceOverview', { method: "GET" });
+        const response = await fetch('http://localhost:7093/api/DeviceOverview', { method: "GET" });
         const data = await response.json();
         setOverviews(data);  // Assuming the response is an array of devices
     };
@@ -37,7 +37,7 @@ function GetAllDeviceOverviews() {
                     {OVERVIEWS.map((overview) => (
                         <div key={overview.id}>
                             <h3>{overview.model}</h3>
-                            <img src={`https://localhost:7093/api/Image/${overview.id}`} alt={overview.model} style={{width: "256px", height: "auto"}}/>
+                            <img src={`http://localhost:7093/api/Image/${overview.id}`} alt={overview.model} style={{width: "256px", height: "auto"}}/>
                             <p>Quantity: {overview.available_qty}</p>
                         </div>
                     ))}

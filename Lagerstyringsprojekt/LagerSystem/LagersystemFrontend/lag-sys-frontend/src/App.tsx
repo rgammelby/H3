@@ -6,6 +6,8 @@ import GetUserPage from './pages/GetUserPage';
 import GetallActivitiesPage from './pages/GetAllActivitiesPage';
 import GetAllDeviceOverviewsPage from './pages/GetAllDeviceOverviewsPage';
 import CreateDeviceOverviewPage from './pages/CreateDeviceOverviewPage';
+import Login from './services/Login';
+import UserProfile from './services/UserProfile';
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
         <Link to ="/get-user">Get User</Link> |
         <Link to="/get-all-activities">Get all activities</Link> |
         <Link to="/get-all-deviceoverviews">Get all deviceoverviews</Link> |
-        <Link to="/create-deviceoverview">Create deviceoverview</Link>
+        <Link to="/create-deviceoverview">Create deviceoverview</Link> |
+        <Link to="/login">Log in</Link> |
+        <Link to="/user-profile">Profile</Link>
       </nav>
 
       <Routes>
@@ -41,6 +45,12 @@ function App() {
 
         {/* Create DeviceOverview Route */}
         <Route path="/create-deviceoverview" element={<CreateDeviceOverviewPage />} />
+
+        {/* Login route */}
+        <Route path="/login" element={<Login /> } />
+
+        {/* User profile route */}
+        <Route path="/user-profile" element={<UserProfile />} />
       </Routes>
     </Router>
   );

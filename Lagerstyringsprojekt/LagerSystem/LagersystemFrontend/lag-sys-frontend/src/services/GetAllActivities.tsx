@@ -33,35 +33,36 @@ function GetAllActivities() {
 
     const fetchAllActivities = async () => {
         try {
-            const response = await fetch("https://localhost:7093/GetAllActivities");
+            const response = await fetch("http://localhost:7093/GetAllActivities");
             if (!response.ok) {
                 throw new Error("Failed to fetch activities");
             }
             const activitiesData: Activity[] = await response.json();
             setActivities(activitiesData);
+            console.log("activitiesData: ", activitiesData);
 
             // Fetch related data: users, devices, and activity types
             const fetchUserPromises = activitiesData.map((activity) =>
-                fetch(`https://localhost:7093/GetUser/${activity.user_id}`)
+                fetch(`http://localhost:7093/GetUser/${activity.user_id}`)
                     .then((userResponse) => userResponse.json())
                     .then((userData) => {
-                        return { [activity.user_id]: userData.name }; // Assuming 'name' is the correct property
+                        return { [activity.user_id]: userData.first_name + " " + userData.last_name };
                     })
             );
 
             const fetchDevicePromises = activitiesData.map((activity) =>
-                fetch(`https://localhost:7093/api/Device/${activity.device_id}`)
+                fetch(`http://localhost:7093/api/Device/${activity.device_id}`)
                     .then((deviceResponse) => deviceResponse.json())
                     .then((deviceData) => {
-                        return { [activity.device_id]: deviceData.name }; // Assuming 'name' is the correct property
+                        return { [activity.device_id]: deviceData.description };
                     })
             );
 
             const fetchActivityTypePromises = activitiesData.map((activity) =>
-                fetch(`https://localhost:7093/ActivityType/${activity.activity_type}`)
+                fetch(`http://localhost:7093/ActivityType/${activity.activity_type}`)
                     .then((activityTypeResponse) => activityTypeResponse.json())
                     .then((activityTypeData) => {
-                        return { [activity.activity_type]: activityTypeData.description }; // Assuming 'description' is the correct property
+                        return { [activity.activity_type]: activityTypeData.activity_type }; // Assuming 'description' is the correct property
                     })
             );
 

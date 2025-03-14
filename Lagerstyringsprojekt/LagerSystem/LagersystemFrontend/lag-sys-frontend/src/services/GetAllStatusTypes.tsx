@@ -16,7 +16,7 @@ const GetAllStatusTypes: React.FC<StatusTypeSelectProps> = ({ value, onChange })
   useEffect(() => {
     const fetchStatusTypes = async () => {
       try {
-        const response = await fetch("https://localhost:7093/GetAllStatusTypes");
+        const response = await fetch("http://localhost:7093/GetAllStatusTypes");
         if (!response.ok) throw new Error("Failed to fetch status types");
 
         const data: StatusType[] = await response.json();

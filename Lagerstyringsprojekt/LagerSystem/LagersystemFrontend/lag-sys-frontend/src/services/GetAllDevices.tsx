@@ -32,7 +32,7 @@ function GetAllDevices() {
     // Fetch all devices
     const fetchAllDevices = async () => {
         try {
-            const response = await fetch("https://localhost:7093/api/Device/GetAllDevices");
+            const response = await fetch("http://localhost:7093/api/Device/GetAllDevices");
             if (!response.ok) {
                 throw new Error("Failed to fetch devices");
             }
@@ -42,7 +42,7 @@ function GetAllDevices() {
 
             // Prepare promises for the related data (status, cupboard, device overview)
             const fetchStatusPromises = devicesData.map((device) =>
-                fetch(`https://localhost:7093/GetStatusTypeById/${device.status}`)
+                fetch(`http://localhost:7093/GetStatusTypeById/${device.status}`)
                     .then((statusResponse) => statusResponse.json())
                     .then((statusData) => {
                         return { [device.status]: statusData.status_type };
@@ -50,7 +50,7 @@ function GetAllDevices() {
             );
 
             const fetchCupboardPromises = devicesData.map((device) =>
-                fetch(`https://localhost:7093/GetCupboardById/${device.location}`)
+                fetch(`http://localhost:7093/GetCupboardById/${device.location}`)
                     .then((cupboardResponse) => cupboardResponse.json())
                     .then(async (cupboardData) => {
                         const cupboardDesignation = cupboardData.designation || "Unknown Cupboard";
@@ -59,7 +59,7 @@ function GetAllDevices() {
                         let roomDesignation = "Unknown Room";  // Default room designation
                         if (roomId) {
                             try {
-                                const roomResponse = await fetch(`https://localhost:7093/GetRoomById/${roomId}`);
+                                const roomResponse = await fetch(`http://localhost:7093/GetRoomById/${roomId}`);
                                 if (roomResponse.ok) {
                                     const roomData = await roomResponse.json();
                                     roomDesignation = roomData.designation || "Unknown Room";
@@ -75,7 +75,7 @@ function GetAllDevices() {
             
 
             const fetchDeviceOverviewPromises = devicesData.map((device) =>
-                fetch(`https://localhost:7093/api/DeviceOverview/${device.device_overview_id}`)
+                fetch(`http://localhost:7093/api/DeviceOverview/${device.device_overview_id}`)
                     .then((deviceOverviewResponse) => deviceOverviewResponse.json())
                     .then((deviceOverviewData) => {
                         return { [device.device_overview_id]: deviceOverviewData.model };

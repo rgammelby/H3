@@ -25,7 +25,7 @@ const DeviceOverviewSelect: React.FC<DeviceOverviewSelectProps> = ({ onChange, v
   useEffect(() => {
     const fetchDeviceOverviews = async () => {
       try {
-        const response = await fetch("https://localhost:7093/api/DeviceOverview");
+        const response = await fetch("http://localhost:7093/api/DeviceOverview");
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

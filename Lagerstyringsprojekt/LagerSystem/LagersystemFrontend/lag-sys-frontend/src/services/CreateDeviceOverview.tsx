@@ -11,7 +11,7 @@ const CreateDeviceOverview: React.FC = () => {
 
     const addDeviceOverview = async (formData: FormData) => {
         try {
-            const response = await fetch('https://localhost:7093/api/DeviceOverview', {
+            const response = await fetch('http://localhost:7093/api/DeviceOverview', {
                 method: 'POST',
                 body: formData, // No need to set Content-Type; browser will handle it
             });

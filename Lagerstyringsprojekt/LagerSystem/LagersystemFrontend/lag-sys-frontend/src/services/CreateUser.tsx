@@ -43,7 +43,7 @@ const CreateUser: React.FC = () => {
     try {
       console.log("Sending request with data:", formData);
 
-      const response = await fetch("https://localhost:7093/AddUser", {
+      const response = await fetch("http://localhost:7093/AddUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

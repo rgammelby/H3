@@ -9,7 +9,7 @@ function GetUser() {
         setInput(userInput); // Update state (not just a variable)
 
         try {
-            let response = await fetch(`https://localhost:7093/GetUser/${userInput}`, {
+            let response = await fetch(`http://localhost:7093/GetUser/${userInput}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

@@ -22,8 +22,8 @@ const GetAllLocations: React.FC<LocationSelectProps> = ({ value, onChange }) => 
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const cupboardResponse = await fetch("https://localhost:7093/GetAllCupboards");
-        const roomResponse = await fetch("https://localhost:7093/GetAllRooms");
+        const cupboardResponse = await fetch("http://localhost:7093/GetAllCupboards");
+        const roomResponse = await fetch("http://localhost:7093/GetAllRooms");
 
         if (!cupboardResponse.ok || !roomResponse.ok) throw new Error("Failed to fetch cupboards or rooms");
 
