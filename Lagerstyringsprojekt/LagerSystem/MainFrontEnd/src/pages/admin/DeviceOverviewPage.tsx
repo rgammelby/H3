@@ -3,6 +3,7 @@ import { DeviceOverview, DeviceType, Image } from "../../API/ApiInstances";
 import { IAllDeviceOverview, IUpdateDeviceOverview } from "../../Interfaces/DeviceOverview";
 import { IDeviceTypes } from "../../Interfaces/DeviceTypes";
 import SelectOverview from "../../components/ui/SelectOverview";
+import AddDeviceOverviewModal from "../../components/ui/AddDeviceOverviewModal";
 
 function DeviceOverviewPage() {
   const [OVERVIEWDATA, setOverview] = useState<IAllDeviceOverview[]>([]);
@@ -11,6 +12,7 @@ function DeviceOverviewPage() {
   const [SELECTEDOVERVIEW, setSelectedOverview] = useState<IAllDeviceOverview | null>(null);
   const [AMOUNT, setAmount] = useState<number | null>();
   const [MODEL, setModel] = useState<string | null>();
+  const [ADDMODAL, setAddModal] = useState<boolean>(false);
   const [INPUTIMAGE, setInputImage] = useState<File | null>();
   const [SELECTEDTYPE, setSelectedType] = useState<string | null>();
 
@@ -70,7 +72,12 @@ function DeviceOverviewPage() {
   return (
     <div className="p-6">
       <div className="sticky top-16 bg-[#f0e0c0] p-4 z-50 shadow-md flex items-center justify-between">
-        <button className="btn btn-outline btn-success mb-2">Tilføj</button>
+        <button
+        className="btn btn-outline btn-success mb-2"
+        onClick={() => setAddModal(true)}
+        >
+          Tilføj
+        </button>
         <h1 className="text-3xl font-bold text-brown-700 flex-1 text-center">📦 Device Overview</h1>
       </div>
       <div className="mt-4">
@@ -89,7 +96,6 @@ function DeviceOverviewPage() {
           </thead>
 
           {/* Table Body */}
-
           <tbody>
             {OVERVIEWDATA.map((device, index) => (
               <tr key={device.id} className="hover:bg-base-300">
@@ -158,6 +164,8 @@ function DeviceOverviewPage() {
           </div>
         </div>
       )}
+
+      {/* DeviceOverview Update */}
       {SELECTEDOVERVIEW && (
         <SelectOverview
           cancelModal={() => setSelectedOverview(null)}
@@ -169,6 +177,13 @@ function DeviceOverviewPage() {
           deviceTypes={DEVICETYPES}
         />
       )}
+
+      {/* DeviceOverview Add */}
+      {ADDMODAL && (
+        <AddDeviceOverviewModal cancelModal={() => setAddModal(false)} />
+      )
+
+      }
     </div>
   );
 }

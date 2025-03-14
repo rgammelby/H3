@@ -12,6 +12,10 @@ class DeviceOverviewApi {
         return this.client.request<IAllDeviceOverview[]>("api/DeviceOverview");
     }
 
+    async addDeviceOverview(body: FormData): Promise<IAllDeviceOverview> {
+        return this.client.requestFormData("api/DeviceOverview", "POST", body);
+    }
+
     async updateDeviceOverview(id: number, formData: FormData): Promise<IUpdateDeviceOverview> {
         return this.client.requestFormData<IUpdateDeviceOverview>(`api/DeviceOverview/${id}`, "PUT", formData);
     }
