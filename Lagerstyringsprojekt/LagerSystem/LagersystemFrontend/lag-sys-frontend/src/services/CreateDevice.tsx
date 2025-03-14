@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DeviceOverviewSelect from "./DeviceOverviewSelect.tsx";
 import GetAllStatusTypes from "./GetAllStatusTypes";
 import GetAllLocations from "./GetAllLocations";
+import CheckLogin from './CheckLogin';
 
 interface FormData {
   "device_overview_id": number;
@@ -58,6 +59,7 @@ const CreateDevice: React.FC = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "10%" }}>
+            <CheckLogin />
       <form onSubmit={createDevice} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         <DeviceOverviewSelect value={formData["device_overview_id"]} onChange={handleChange} />
         <input

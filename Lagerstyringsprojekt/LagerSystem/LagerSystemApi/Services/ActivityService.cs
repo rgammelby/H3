@@ -119,7 +119,6 @@ namespace LagerSystemApi.Services
             {
                 if (activity == null || HasNullFields(activity)) throw new Exception("Some properties were not valid");
 
-                activity.lifecycle_id = Guid.NewGuid();
                 return await _activity.Add(activity);
             }
             catch (Exception ex)
