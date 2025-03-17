@@ -5,8 +5,8 @@
 import { AppRegistry, Platform } from "react-native";
 
 // const API_URL = "https://10.0.2.2:7093/api/Log";
-const LOCAL_IP = "10.108.137.20"; // ZBC
-// const LOCAL_IP = "192.168.0.198"; // home
+// const LOCAL_IP = "10.108.137.20"; // ZBC
+const LOCAL_IP = "192.168.0.198"; // home
 // const LOCAL_IP = "172.20.10.3"; // hotspot
 
 export const API_BASE_URL =

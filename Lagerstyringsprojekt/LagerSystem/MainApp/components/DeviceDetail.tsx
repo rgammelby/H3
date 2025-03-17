@@ -1,10 +1,16 @@
 import { Modal, View, Text, Pressable, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState, useContext } from 'react';
 import DeviceOverviewImage from './DeviceOverviewImage';
 import { Device } from "@/app/types/deviceRelated";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Platform } from "react-native";
+
+import { createBorrowActivity } from "@/app/services/activityService"; 
+
+import { DeviceContext } from "@/app/context/DeviceContext";
+import { useAuth } from "@/app/context/AuthContext"; //  Auth context
+import { AddActivity } from "@/app/types/activityRelated"; // The interface
 
 type Props = PropsWithChildren<{
   isVisible: boolean;
@@ -16,11 +22,17 @@ export default function ModalView({ isVisible, onClose, device }: Props) {
    
     if (!device) return null; // Prevent rendering if no device is selected
 
+    // Get the device context, use to update devicelist if borrow is successful
+    const deviceContext = useContext(DeviceContext);
+
+    
     const today = new Date();
     // endDate starts as null, meaning the condition if (endDate) is false.
     // This ensures that only the "Borrow" button appears at first.
     const [endDate, setEndDate] = useState<Date | null>(null);;
     const [showPicker, setShowPicker] = useState(false);
+
+    const { user } = useAuth(); // Get the user from the context
 
     const handleDateChange = (event: any, selectedDate?: Date) => {
         if (event.type === "dismissed") {
@@ -38,6 +50,55 @@ export default function ModalView({ isVisible, onClose, device }: Props) {
             setShowPicker(true); // Show the picker again
         }
     };
+
+    async function handleConfirmBorrow() {
+       try {
+        if (!user) { 
+            Alert.alert("Error", "No user logged in");
+            return;
+        }
+           
+        if (!endDate) {
+            Alert.alert("Error", "No end date selected");
+            return;
+        }
+        
+        if (!device) {
+            Alert.alert("Error", "No device selected");
+            return;
+        }
+
+        // build addActivity object
+        const addActivity: AddActivity = {
+            user_id: user.id,
+            device_id: device.id,
+            activity_type: 1, // Borrow
+            start_date: today,
+            end_date: endDate,
+            created_at: today,
+            notes: "Borrowing device",
+        };
+
+        // Call service function to create the new borrow activity
+        await createBorrowActivity(addActivity);
+
+        if (!deviceContext) {
+            // The context is not ready yet—maybe return or do something else
+            console.log("DeviceContext is null. Not calling fetchDevices.");
+            return;
+        }
+    
+        // refresh the device list
+        deviceContext.fetchDevices();
+        
+        // If successful, show a message and close the modal
+        Alert.alert("Success", "Device borrowed successfully!");
+        onClose();
+      } catch (err) {
+        console.error("Borrow failed:", err);
+        Alert.alert("Error", "Could not borrow device. Please try again.");
+      }
+    }
 
     return (
         <Modal animationType="slide" transparent={true} visible={isVisible} onRequestClose={onClose}>
@@ -79,7 +140,7 @@ export default function ModalView({ isVisible, onClose, device }: Props) {
                                 <TouchableOpacity 
                                     style={[styles.borrowButton, { backgroundColor: "green" }]} 
                                     onPress={() => {
-                                        console.log("Borrow confirmed!");
+                                        handleConfirmBorrow();
                                         onClose();
                                     }}
                                     >

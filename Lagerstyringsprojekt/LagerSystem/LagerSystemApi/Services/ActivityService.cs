@@ -11,6 +11,7 @@ namespace LagerSystemApi.Services
         Task<ActivityDTO> Get(int id);
         Task<ActivityDTO[]> GetAll();
         Task<ActivityDTO[]> GetByDeviceId(int id);
+        Task<ActivityDTO[]> GetByUserId(int id);
         Task<ActivityDTO[]> GetByLifecycleId(int id);
         /*
         Task<ActivityDTO[]> SearchByType(string type);
@@ -189,6 +190,24 @@ namespace LagerSystemApi.Services
                 ActivityDTO[] activity = await _activity.GetByDeviceId(id);
 
                 if (activity == null) throw new Exception($"No activities found with device id: {id}");
+
+                return activity;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public async Task<ActivityDTO[]> GetByUserId(int id)
+        {
+            try
+            {
+                if (id <= 0) throw new Exception("GetByUserId failed: Not a valid id");
+                ActivityDTO[] activity = await _activity.GetByUserId(id);
+
+                if (activity == null) throw new Exception($"No activities found with User id: {id}");
 
                 return activity;
             }

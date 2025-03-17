@@ -10,7 +10,7 @@ import EmojiPicker from "@/components/EmojiPicker";
 import EmojiList from '@/components/EmojiList';
 import EmojiSticker from '@/components/EmojiSticker';
 
-const placeHolderImage = require('@/assets/images/background-image.png');
+const placeHolderImage = require('@/assets/images/welcome.png');
 
 export default function Index() {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(undefined);
@@ -71,8 +71,9 @@ export default function Index() {
         </View>
       ) : (
         <View style={Styles.footerContainer}>
-          <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
-          <Button label="Use this photo" onPress={()=>setShowAppOptions(true)} />
+          {/* <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} /> */}
+          <Button theme="primary" label="Welcome!" onPress={pickImageAsync} />
+          <Button label="Go to Devices to find the device!" onPress={()=>setShowAppOptions(true)} />
       </View>
       )}
       

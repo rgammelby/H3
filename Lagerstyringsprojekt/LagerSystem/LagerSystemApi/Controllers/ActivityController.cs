@@ -9,6 +9,7 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> Get(int id);
         Task<IActionResult> GetAll();
         Task<IActionResult> GetByDeviceId(int id);
+        Task<IActionResult> GetByUserId(int id);
         Task<IActionResult> Add(AddActivityDTO activity);
         Task Update(int id, UpdateActivityDTO activity);
 
@@ -36,7 +37,7 @@ namespace LagerSystemApi.Controllers
             }
         }
 
-        [HttpGet("GetDeviceById")]
+        [HttpGet("GetByDeviceId")]
         public async Task<IActionResult> GetByDeviceId(int id)
         {
             try
@@ -47,6 +48,19 @@ namespace LagerSystemApi.Controllers
             {
                 _logger.LogInformation(ex.Message);
                 return BadRequest($"Error getting activities by device id: {id}");
+            }
+        }
+        [HttpGet("GetByUserId")]
+        public async Task<IActionResult> GetByUserId(int id)
+        {
+            try
+            {
+                return Ok(await _activity.GetByUserId(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error getting activities by user id: {id}");
             }
         }
 

@@ -34,24 +34,24 @@ export default function TabLayout() {
             ),
         }} 
       />
-        <Tabs.Screen 
-         name="search" 
-         options={{ 
-             title: 'Search',
-             tabBarIcon:({ color, focused }) => (
-                 <Ionicons name={focused ? 'search' : 'search-outline'} size={24} color={color} />
-             ),
-         }} 
-       />
        <Tabs.Screen 
         name="device" 
         options={{ 
-            title: 'Devices',
-            tabBarIcon:({ color, focused }) => (
-                <Ionicons name={focused ? 'laptop-sharp' : 'laptop-outline'} size={24} color={color} />
-            ),
+          title: 'Devices',
+          tabBarIcon:({ color, focused }) => (
+            <Ionicons name={focused ? 'laptop-sharp' : 'laptop-outline'} size={24} color={color} />
+          ),
         }} 
       />
+        <Tabs.Screen 
+         name="camera" 
+         options={{ 
+             title: 'Scan & Borrow',
+             tabBarIcon:({ color, focused }) => (
+                 <Ionicons name={focused ? 'camera' : 'camera-outline'} size={24} color={color} />
+             ),
+         }} 
+       />
       <Tabs.Screen 
         name="myPage" 
         options={{ 

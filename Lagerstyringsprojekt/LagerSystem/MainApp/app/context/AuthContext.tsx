@@ -1,9 +1,9 @@
 // global state for user authentication
 
 import  React, { createContext, useContext, useEffect, useState } from 'react';
-import { loginUser, registerUser, getUserByEmail } from '../services/userService';
+import { loginUser, registerUser, getUserByEmail, editUser } from '../services/userService';
 import { User, UserLogin, UserLoginResponse , UserRegistration, UserUpdate } from '../types/userRelated';
-import { API_BASE_URL } from "../services/apiConfig";
+
 //  Used for securely saving sensitive info (token).
 import * as SecureStore from "expo-secure-store";
 
@@ -20,7 +20,7 @@ interface AuthContextType {
     register: (user: UserRegistration) => Promise<void>;
     logout: () => Promise<void>;
     // updateUser: (userUpdate: UserUpdate) => Promise<string | null>;
-    
+    updateUser: (userUpdate: UserUpdate) => Promise<boolean>; 
     // Function to refresh user data
     // fetchUser: () => void;
 }
@@ -36,7 +36,7 @@ const AuthContext = createContext<AuthContextType>({
     login: async () => false,
     register: async () => {},
     logout: async () => {},
-    
+    updateUser: async () => false, 
     // fetchUser: () => {}
 });
 
@@ -116,6 +116,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    const updateUser = async (userUpdate: UserUpdate): Promise<boolean> => {
+        if (!user) return false;
+    
+        try {
+            const updatedUser = await editUser(user.id, userUpdate);
+            setUser(updatedUser); // Refresh global user state
+    
+            // Save to SecureStore so it persists after app restart
+            await SecureStore.setItemAsync("user", JSON.stringify(updatedUser));
+            
+            return true; // Update success
+        } catch (error) {
+            console.error("Error updating user:", error);
+            return false; // Update failed
+        }
+    };
+
+    
     const logout = async () => {
         setUser(null);
         setToken(null);
@@ -124,7 +142,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, register, logout }}>
+        <AuthContext.Provider value={{ user, token, login, register, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
