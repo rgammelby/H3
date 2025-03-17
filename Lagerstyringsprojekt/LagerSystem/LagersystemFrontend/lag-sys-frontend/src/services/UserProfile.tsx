@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CheckLogin from './CheckLogin';
+import LogoutButton from './handleLogout';
 
 interface User {
     id: string;
@@ -158,16 +159,6 @@ const UserProfile: React.FC = () => {
         }
     };
 
-    const handleLogout = () => {
-        // Clear user-related data from local storage
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userEmail');
-
-        // Redirect to the home page ("/")
-        window.location.href = '/';
-    };
-
-
     return (
         <div className="profile-container">
             <CheckLogin />
@@ -238,7 +229,7 @@ const UserProfile: React.FC = () => {
                         </div>
                     )}
     
-                    <button onClick={() => { localStorage.clear(); window.location.href = '/'; }}>Log Out</button>
+                    <LogoutButton />
                 </>
             ) : (
                 <p>Loading user profile...</p>
