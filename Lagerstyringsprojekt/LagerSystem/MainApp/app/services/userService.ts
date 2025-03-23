@@ -29,8 +29,6 @@ export async function registerUser(newUser: UserRegistration): Promise<User> {
       telephone: newUser.telephone,
       is_active: "true",
       type: "user",
-      // user: newUser.user || "",
-      // salt: newUser.salt || "",
     });
   
     console.log(`Register user query params: ${queryParams.toString()}`);
@@ -38,8 +36,6 @@ export async function registerUser(newUser: UserRegistration): Promise<User> {
     // 2) Make the fetch call
     const response = await fetch(`${API_BASE_URL}AddUser?${queryParams.toString()}`, {
       method: "POST",
-      // If your server expects JSON body, you’d do method: "POST", body: JSON.stringify(...)
-      // but from your screenshot, it looks like it expects query params
     });
   
     // 3) Check for errors
@@ -55,7 +51,7 @@ export async function registerUser(newUser: UserRegistration): Promise<User> {
   // update user
   export async function editUser(userId: number, updatedData: UserUpdate): Promise<User> {
     const queryParams = new URLSearchParams({
-        id: userId.toString(), // ✅ Pass user ID separately
+        id: userId.toString(), //  Pass user ID separately
         ...(updatedData.first_name && { first_name: updatedData.first_name }),
         ...(updatedData.last_name && { last_name: updatedData.last_name }),
         ...(updatedData.telephone && { telephone: updatedData.telephone }),

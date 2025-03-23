@@ -30,7 +30,7 @@ export default function LoginScreen() {
   };
 
   const handleForgotPassword = () => {
-    Alert.alert("Forgot Password", "Implement your forgot password flow here!");
+    Alert.alert("Forgot Password", "Here is the forgot password flow here!");
   };
 
   const handleGoToRegister = () => {
@@ -74,7 +74,7 @@ export default function LoginScreen() {
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.customButton, { backgroundColor: "gray" }]}
-                onPress={handleLogin}
+                onPress={handleCancel}
             >
                 <Text style={styles.customButtonText}>CANCEL</Text>
             </TouchableOpacity>

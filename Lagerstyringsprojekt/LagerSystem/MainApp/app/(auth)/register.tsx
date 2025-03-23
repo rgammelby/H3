@@ -7,6 +7,7 @@ import { useRouter } from "expo-router"; // If you're using expo-router
 import { useAuth } from "../context/AuthContext"; // The same hook from your code
 
 export default function RegisterScreen() {
+  // Get the register function from AuthContext
   const { register } = useAuth();
   const router = useRouter();
 
@@ -48,7 +49,7 @@ export default function RegisterScreen() {
   }
 
   function handleCancel() {
-    // Clear fields or navigate away
+    // Clear fields and navigate away
     setFirstName("");
     setLastName("");
     setEmail("");
