@@ -12,6 +12,7 @@ namespace LagerSystemApi.Repository
         Task<ActivityDTO[]> GetAll();
         Task<ActivityDTO[]> GetByLifecycleId(int id);
         Task<ActivityDTO[]> GetByDeviceId(int id);
+        Task<ActivityDTO[]> GetByUserId(int id);
         /*
         Task<ActivityDTO[]> SearchByType(string key);
         */
@@ -173,6 +174,30 @@ namespace LagerSystemApi.Repository
             catch (Exception ex)
             {
                 throw new Exception($"Retrieving activities by device id: {id}, were not succesful.\nError: {ex.Message}");
+            }
+        }
+        public async Task<ActivityDTO[]> GetByUserId(int id)
+        {
+            try
+            {
+                ActivityDTO[] activities = await _context.Activities.Where(db => db.user_id == id).Select(db => new ActivityDTO
+                {
+                    id = db.id,
+                    notes = db.notes,
+                    activity_type = db.activity_type,
+                    created_at = db.created_on,
+                    start_date = db.start_date,
+                    end_date = db.end_date,
+                    lifecycle_id = db.lifecycle_id,
+                    device_id = db.device_id,
+                    user_id = db.user_id,
+
+                }).ToArrayAsync();
+                return activities;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Retrieving activities by User id: {id}, were not succesful.\nError: {ex.Message}");
             }
         }
 
