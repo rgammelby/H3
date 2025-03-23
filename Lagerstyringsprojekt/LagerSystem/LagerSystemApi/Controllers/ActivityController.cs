@@ -9,6 +9,7 @@ namespace LagerSystemApi.Controllers
         Task<IActionResult> Get(int id);
         Task<IActionResult> GetAll();
         Task<IActionResult> GetByDeviceId(int id);
+        Task<IActionResult> GetByUserId(int id);
         Task<IActionResult> Add(ActivityDTO activity);
         Task Update(int id, UpdateActivityDTO activity);
     }
@@ -48,6 +49,19 @@ namespace LagerSystemApi.Controllers
                 return BadRequest($"Error getting activities by device id: {id}");
             }
         }
+         [HttpGet("GetByUserId")]
+        public async Task<IActionResult> GetByUserId(int id)
+        {
+            try
+            {
+                return Ok(await _activity.GetByUserId(id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation(ex.Message);
+                return BadRequest($"Error getting activities by user id: {id}");
+            }
+        }
 
         [HttpGet("GetAllActivities")]
         public async Task<IActionResult> GetAll()
@@ -68,7 +82,24 @@ namespace LagerSystemApi.Controllers
         {
             try
             {
-                return Ok(await _activity.AddActivity(activity));
+                // return Ok(await _activity.AddActivity(activity));
+
+                 // We'll return the newly created (or updated) activity as a DTO
+                ActivityDTO result; 
+
+                if (activity.activity_type == 1)
+                {
+                    result = await _activity.BorrowDeviceAsync(activity);
+                }
+                else if (activity.activity_type == 2)
+                {
+                    result = await _activity.ReturnDeviceAsync(activity);
+                }
+                else
+                {
+                    return BadRequest("Invalid activity type. Must be 1 (borrow) or 2 (return).");
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
