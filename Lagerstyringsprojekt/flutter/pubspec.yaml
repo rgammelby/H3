@@ -1,0 +1,40 @@
+name: qr_scan
+description: "The pain never ends, infinite suffering, despair beyond oblivion with no help in sight..."
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  mobile_scanner: ^6.0.7
+  sql_conn: ^0.0.3
+  http: ^1.3.0
+  sensors_plus: ^6.1.1
+  xml: ^6.2.2
+  fluttertoast: ^8.2.1
+  cupertino_icons: ^1.0.8
+  intl: ^0.19.0
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  assets:
+    - assets/images/
+    - assets/audio/
+    - assets/lang/
+
+  uses-material-design: true
+
+  fonts:
+    - family: SCEPS3
+      fonts:
+        - asset: assets/fonts/SCE-PS3.TTF
